@@ -1,0 +1,14 @@
+cn\jmall\mapper\TbItemMapper.class
+cn\jmall\mapper\TbItemParamItemMapper.class
+META-INF\maven\cn.luojia\Jmall-manager-dao\pom.xml
+cn\jmall\mapper\TbItemParamMapper.class
+META-INF\MANIFEST.MF
+cn\jmall\mapper\TbOrderItemMapper.class
+cn\jmall\mapper\TbContentMapper.class
+cn\jmall\mapper\TbItemCatMapper.class
+cn\jmall\mapper\TbOrderShippingMapper.class
+META-INF\maven\cn.luojia\Jmall-manager-dao\pom.properties
+cn\jmall\mapper\TbUserMapper.class
+cn\jmall\mapper\TbContentCategoryMapper.class
+cn\jmall\mapper\TbItemDescMapper.class
+cn\jmall\mapper\TbOrderMapper.class
