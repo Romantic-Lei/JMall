@@ -11,7 +11,8 @@ import cn.jmall.pojo.TbItem;
  */
 public interface ItemService {
 	
-	public TbItem getItemById(long itemId);
-	public EasyUIDataGridResult getItemList(int page, int rows);
+	public TbItem getItemById(long itemId);							// 根据商品id获取商品信息
+	public EasyUIDataGridResult getItemList(int page, int rows);	// 分页获取商品信息
+	
 
 }
