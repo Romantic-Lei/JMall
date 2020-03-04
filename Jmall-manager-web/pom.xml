@@ -4,17 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>cn.luojia</groupId>
-		<artifactId>Jmall-manager</artifactId>
+		<artifactId>Jmall-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
+	<artifactId>Jmall-manager-web</artifactId>
 	<packaging>war</packaging>
-	<artifactId>Jmall-manager-service</artifactId>
 	<dependencies>
-		<dependency>
-			<groupId>cn.luojia</groupId>
-			<artifactId>Jmall-manager-dao</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
 		<dependency>
 			<groupId>cn.luojia</groupId>
 			<artifactId>Jmall-manager-interface</artifactId>
@@ -49,17 +44,30 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
 		</dependency>
+		<!-- JSP相关 -->
+		<dependency>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jsp-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
 		<!-- dubbo相关 -->
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>dubbo</artifactId>
 			<exclusions>
-				<!-- 排除dubbo对spring的依赖 -->
 				<exclusion>
 					<groupId>org.springframework</groupId>
 					<artifactId>spring</artifactId>
 				</exclusion>
-				<!-- 排除dubbo对netty的依赖 -->
 				<exclusion>
 					<groupId>org.jboss.netty</groupId>
 					<artifactId>netty</artifactId>
@@ -75,4 +83,17 @@
 			<artifactId>zkclient</artifactId>
 		</dependency>
 	</dependencies>
+	<!-- 配置tomcat插件,防止端口冲突 -->
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<configuration>
+					<path>/</path>
+					<port>8081</port>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

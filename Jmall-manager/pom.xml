@@ -23,7 +23,6 @@
 		<module>Jmall-manager-dao</module>
 		<module>Jmall-manager-interface</module>
 		<module>Jmall-manager-service</module>
-		<module>Jmall-manager-web</module>
 	</modules>
 	<!-- 配置tomcat插件 -->
 	<build>
