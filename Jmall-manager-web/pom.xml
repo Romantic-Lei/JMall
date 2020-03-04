@@ -82,6 +82,11 @@
 			<groupId>com.github.sgroschupf</groupId>
 			<artifactId>zkclient</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper</artifactId>
+		</dependency>
+		
 	</dependencies>
 	<!-- 配置tomcat插件,防止端口冲突 -->
 	<build>

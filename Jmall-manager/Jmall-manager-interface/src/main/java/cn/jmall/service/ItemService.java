@@ -1,5 +1,6 @@
 package cn.jmall.service;
 
+import cn.jmall.common.pojo.EasyUIDataGridResult;
 import cn.jmall.pojo.TbItem;
 
 /**
@@ -11,5 +12,6 @@ import cn.jmall.pojo.TbItem;
 public interface ItemService {
 	
 	public TbItem getItemById(long itemId);
+	public EasyUIDataGridResult getItemList(int page, int rows);
 
 }
