@@ -77,3 +77,13 @@ Jmall-manager/Jmall-manager-dao/target/classes/cn/jmall/mapper/TbContentCategory
 Jmall-manager/Jmall-manager-pojo/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
 Jmall-manager/Jmall-manager-pojo/target/classes/cn/jmall/pojo/TbUserExample.class
 Jmall-manager/Jmall-manager-pojo/target/classes/cn/jmall/pojo/TbUserExample$GeneratedCriteria.class
+Jmall-manager/Jmall-manager-service/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+Jmall-manager/Jmall-manager-pojo/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+Jmall-manager/Jmall-manager-interface/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+Jmall-manager/Jmall-manager-interface/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+Jmall-manager/Jmall-manager-dao/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+Jmall-manager-web/.settings/org.eclipse.wst.common.component
+Jmall-manager-web/.settings/org.eclipse.core.resources.prefs
+Jmall-manager/Jmall-manager-service/target/tomcat/conf/web.xml
+Jmall-manager/Jmall-manager-service/target/tomcat/conf/tomcat-users.xml
+Jmall-manager/Jmall-manager-service/target/tomcat/conf/logging.properties
