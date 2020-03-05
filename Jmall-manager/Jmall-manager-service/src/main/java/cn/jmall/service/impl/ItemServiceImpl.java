@@ -96,6 +96,12 @@ public class ItemServiceImpl implements ItemService {
 		return E3Result.ok();
 	}
 
+	@Override
+	public E3Result selectItemById(long itemId) {
+		TbItem itemById = this.getItemById(itemId);
+		return E3Result.ok(itemById);;
+	}
+	
 	// 获取商品描述
 	@Override
 	public TbItemDesc getTbItemDesc(long itemId) {

@@ -50,9 +50,9 @@ public class ItemController {
 	// 加载商品信息
 	@RequestMapping(value="/rest/item/param/item/query/{id}")
 	@ResponseBody
-	public TbItem getItemById(@PathVariable("id") long id) {
+	public E3Result getItemById(@PathVariable("id") long id) {
 		
-		return itemService.getItemById(id);
+		return itemService.selectItemById(id);
 	}
 	
 	// 加载商品描述

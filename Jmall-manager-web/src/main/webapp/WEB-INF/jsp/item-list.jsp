@@ -61,24 +61,26 @@
         			
         			// 加载商品描述
         			$.getJSON('/rest/item/query/item/desc/'+data.id,function(_data){
-        				if(_data.status == 200){
+        				console.log(_data)
+        				//if(_data.status == 200){
         					//UM.getEditor('itemeEditDescEditor').setContent(_data.data.itemDesc, false);
-        					itemEditEditor.html(_data.data.itemDesc);
-        				}
+        					itemEditEditor.html(_data.itemDesc);
+        				//}
         			});
         			
         			//加载商品规格
         			$.getJSON('/rest/item/param/item/query/'+data.id,function(_data){
-        				if(_data && _data.status == 200 && _data.data && _data.data.paramData){
+        				if(_data && _data.status == 200 && _data.data && _data.data){
         					$("#itemeEditForm .params").show();
         					$("#itemeEditForm [name=itemParams]").val(_data.data.paramData);
         					$("#itemeEditForm [name=itemParamId]").val(_data.data.id);
         					
         					//回显商品规格
-        					 var paramData = JSON.parse(_data.data.paramData);
+        					 var paramData = _data.data.paramData;
         					
         					 var html = "<ul>";
         					 for(var i in paramData){
+        						 console.log(i);
         						 var pd = paramData[i];
         						 html+="<li><table>";
         						 html+="<tr><td colspan=\"2\" class=\"group\">"+pd.group+"</td></tr>";
