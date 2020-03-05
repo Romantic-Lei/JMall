@@ -10,6 +10,7 @@ import cn.jmall.common.pojo.EasyUITreeNode;
 import cn.jmall.mapper.TbItemCatMapper;
 import cn.jmall.pojo.TbItemCat;
 import cn.jmall.pojo.TbItemCatExample;
+import cn.jmall.pojo.TbItemCatExample.Criteria;
 import cn.jmall.service.ItemCatService;
 
 /**
@@ -28,6 +29,10 @@ public class ItemCatServiceImpl implements ItemCatService {
 	public List<EasyUITreeNode> getItemCatlist(long parentId) {
 		// 根据parentId 查询子节点列表
 		TbItemCatExample example = new TbItemCatExample();
+		Criteria criteria = example.createCriteria();
+		//设置查询条件
+		criteria.andParentIdEqualTo(parentId);
+		//执行查询
 		List<TbItemCat> list = itemCatMapper.selectByExample(example);
 		// 创建返回结果list
 		List<EasyUITreeNode> resultList = new ArrayList<>();
