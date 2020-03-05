@@ -16,7 +16,7 @@ import cn.jmall.common.util.FastDFSClient;
 public class FastDfsTest {
 
 	// 文件上传
-	@Test
+//	@Test
 	public void testUpload() throws FileNotFoundException, IOException, MyException {
 		// 创建配置文件，文件名任意，内容是tracker服务器地址
 		// 使用全局对象加载配置文件
@@ -37,6 +37,7 @@ public class FastDfsTest {
 	}
 	
 	// 文件上传
+//	@Test
 	public void testFastDfsClient() throws Exception {
 		FastDFSClient fastDFSClient = new FastDFSClient("F:\\Eclipse\\eclipse-jee-oxygen-R-win32-x86_64\\eclipse\\workspace\\Jmall\\Jmall-manager-web\\src\\main\\resources\\conf\\client.conf");
 		String string = fastDFSClient.uploadFile("F:\\桌面美图\\58da2a0732b1f.jpg");
