@@ -3,6 +3,7 @@ package cn.jmall.service;
 import cn.jmall.common.pojo.EasyUIDataGridResult;
 import cn.jmall.common.util.E3Result;
 import cn.jmall.pojo.TbItem;
+import cn.jmall.pojo.TbItemDesc;
 
 /**
  * 
@@ -15,6 +16,6 @@ public interface ItemService {
 	public TbItem getItemById(long itemId);							// 根据商品id获取商品信息
 	public EasyUIDataGridResult getItemList(int page, int rows);	// 分页获取商品信息
 	public E3Result addItem(TbItem item, String desc);				// 商品添加
-	
+	public TbItemDesc selectTbItemDesc(long itemId);				// 根据商品id获取商品描述
 
 }

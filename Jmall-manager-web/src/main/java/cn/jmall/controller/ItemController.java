@@ -46,5 +46,20 @@ public class ItemController {
 		return result;
 	}
 	
+	// 加载商品信息
+	@RequestMapping(value="/rest/item/param/item/query/{id}")
+	@ResponseBody
+	public TbItem getItemById(@PathVariable("id") long id) {
+		
+		return itemService.getItemById(id);
+	}
+	
+	// 加载商品描述
+	@RequestMapping(value="/rest/item/query/item/desc/{id}")
+	@ResponseBody
+	public TbItem getItemDescById(@PathVariable("id") long id) {
+		
+		return itemService.getItemById(id);
+	}
 
 }
