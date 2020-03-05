@@ -98,7 +98,7 @@ public class ItemServiceImpl implements ItemService {
 
 	// 获取商品描述
 	@Override
-	public TbItemDesc selectTbItemDesc(long itemId) {
+	public TbItemDesc getTbItemDesc(long itemId) {
 		
 		return tbItemDescMapper.selectByPrimaryKey(itemId);
 	}

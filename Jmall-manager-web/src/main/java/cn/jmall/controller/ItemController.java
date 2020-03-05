@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cn.jmall.common.pojo.EasyUIDataGridResult;
 import cn.jmall.common.util.E3Result;
 import cn.jmall.pojo.TbItem;
+import cn.jmall.pojo.TbItemDesc;
 import cn.jmall.service.ItemService;
 
 /**
@@ -57,9 +58,9 @@ public class ItemController {
 	// 加载商品描述
 	@RequestMapping(value="/rest/item/query/item/desc/{id}")
 	@ResponseBody
-	public TbItem getItemDescById(@PathVariable("id") long id) {
+	public TbItemDesc getItemDescById(@PathVariable("id") long id) {
 		
-		return itemService.getItemById(id);
+		return itemService.getTbItemDesc(id);
 	}
 
 }
