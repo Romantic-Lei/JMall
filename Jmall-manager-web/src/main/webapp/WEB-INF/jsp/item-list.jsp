@@ -56,12 +56,11 @@
         		onLoad :function(){
         			//回显数据
         			var data = $("#itemList").datagrid("getSelections")[0];
-        			data.priceView = E3.formatPrice(data.price);
+        			data.priceView = E3.formatPrice(data.price, 0);
         			$("#itemeEditForm").form("load",data);
         			
         			// 加载商品描述
         			$.getJSON('/rest/item/query/item/desc/'+data.id,function(_data){
-        				console.log(_data)
         				if(_data.status == 200){
         					//UM.getEditor('itemeEditDescEditor').setContent(_data.data.itemDesc, false);
         					itemEditEditor.html(_data.data.itemDesc);
