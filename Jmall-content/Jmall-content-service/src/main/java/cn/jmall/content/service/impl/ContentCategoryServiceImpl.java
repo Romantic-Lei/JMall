@@ -1,12 +1,14 @@
 package cn.jmall.content.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.jmall.common.pojo.EasyUITreeNode;
+import cn.jmall.common.util.E3Result;
 import cn.jmall.content.service.ContentCategoryService;
 import cn.jmall.mapper.TbContentCategoryMapper;
 import cn.jmall.pojo.TbContentCategory;
@@ -46,6 +48,36 @@ public class ContentCategoryServiceImpl implements ContentCategoryService {
 		}
 		
 		return nodeList;
+	}
+
+	@Override
+	public E3Result addContentCategory(long parentId, String name) {
+		// 创建一个 tb_content_category表对应的POJO对象
+		TbContentCategory tbContentCategory = new TbContentCategory();
+		// 设置poji的属性
+		tbContentCategory.setParentId(parentId);
+		tbContentCategory.setName(name);
+		// 1-正常， 2-删除
+		tbContentCategory.setStatus(1);
+		// 默认了排序就是1
+		tbContentCategory.setSortOrder(1);
+		// 新插入的结点一定是叶子结点
+		tbContentCategory.setIsParent(false);
+		Date date = new Date();
+		tbContentCategory.setCreated(date);
+		tbContentCategory.setUpdated(date);
+		// 插入到数据库
+		contentCategoryMapper.insert(tbContentCategory);
+		// 插入父节点的isparent属性。如果不是true就改为true
+		// 根据 parentId查询父节点
+		TbContentCategory parent = contentCategoryMapper.selectByPrimaryKey(parentId);
+		if(!parent.getIsParent()) {
+			parent.setIsParent(true);
+			// 更新到数据库
+			contentCategoryMapper.updateByPrimaryKeySelective(parent);
+		}
+		// 返回结果，返回一个 E3Result 对象，包含POJO
+		return E3Result.ok();
 	}
 
 }
