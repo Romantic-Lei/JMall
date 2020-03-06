@@ -126,4 +126,13 @@ public class ItemServiceImpl implements ItemService {
 		return E3Result.ok();
 	}
 
+	@Override
+	public E3Result deleteBatchItem(String[] ids) {
+		for (String id : ids) {
+			tbItemMapper.deleteByPrimaryKey(Long.valueOf(id));
+			tbItemDescMapper.deleteByPrimaryKey(Long.valueOf(id));
+		}
+		return E3Result.ok();
+	}
+
 }

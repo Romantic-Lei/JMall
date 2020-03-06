@@ -19,5 +19,6 @@ public interface ItemService {
 	public E3Result selectItemById(long itemId);					// 根据商品id获取商品信息
 	public E3Result getTbItemDesc(long itemId);						// 根据商品id获取商品描述
 	public E3Result updateItem(TbItem item, String desc);			// 商品信息修改
+	public E3Result deleteBatchItem(String[] ids);						// 商品信息删除
 
 }

@@ -70,5 +70,14 @@ public class ItemController {
 		
 		return itemService.updateItem(item, desc);
 	}
+	
+	// 批量删除商品信息
+	@RequestMapping(value="/rest/item/delete")
+	@ResponseBody
+	public E3Result deleteBatchItem(String[] ids) {
+		
+		return itemService.deleteBatchItem(ids);
+	}
+	
 
 }
