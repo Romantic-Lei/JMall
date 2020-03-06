@@ -91,3 +91,4 @@ Jmall-manager/Jmall-manager-service/target/test-classes/cm/jmall/pagehelper/page
 Jmall-manager/Jmall-manager-service/.settings/org.eclipse.wst.common.component
 Jmall-manager/Jmall-manager-service/target/classes/cn/jmall/service/impl/ItemCatServiceImpl.class
 Jmall-manager/Jmall-manager-interface/target/classes/cn/jmall/service/ItemCatService.class
+Jmall-manager/Jmall-manager-service/target/tomcat/logs/access_log.2020-03-06

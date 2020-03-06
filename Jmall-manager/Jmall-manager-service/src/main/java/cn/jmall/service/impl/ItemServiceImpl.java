@@ -99,14 +99,15 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public E3Result selectItemById(long itemId) {
 		TbItem itemById = this.getItemById(itemId);
-		return E3Result.ok(itemById);;
+		return E3Result.ok(itemById);
 	}
 	
 	// 获取商品描述
 	@Override
-	public TbItemDesc getTbItemDesc(long itemId) {
+	public E3Result getTbItemDesc(long itemId) {
+		TbItemDesc tbItemDesc = tbItemDescMapper.selectByPrimaryKey(itemId);
 		
-		return tbItemDescMapper.selectByPrimaryKey(itemId);
+		return E3Result.ok(tbItemDesc);
 	}
 
 }

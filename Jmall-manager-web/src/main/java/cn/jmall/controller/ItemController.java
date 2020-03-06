@@ -58,7 +58,7 @@ public class ItemController {
 	// 加载商品描述
 	@RequestMapping(value="/rest/item/query/item/desc/{id}")
 	@ResponseBody
-	public TbItemDesc getItemDescById(@PathVariable("id") long id) {
+	public E3Result getItemDescById(@PathVariable("id") long id) {
 		
 		return itemService.getTbItemDesc(id);
 	}

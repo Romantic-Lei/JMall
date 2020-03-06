@@ -62,10 +62,10 @@
         			// 加载商品描述
         			$.getJSON('/rest/item/query/item/desc/'+data.id,function(_data){
         				console.log(_data)
-        				//if(_data.status == 200){
+        				if(_data.status == 200){
         					//UM.getEditor('itemeEditDescEditor').setContent(_data.data.itemDesc, false);
-        					itemEditEditor.html(_data.itemDesc);
-        				//}
+        					itemEditEditor.html(_data.data.itemDesc);
+        				}
         			});
         			
         			//加载商品规格
