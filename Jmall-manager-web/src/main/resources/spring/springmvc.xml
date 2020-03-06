@@ -39,4 +39,5 @@
 	<!-- 引用服务 -->
 	<dubbo:reference interface="cn.jmall.service.ItemService" id="itemService" />
 	<dubbo:reference interface="cn.jmall.service.ItemCatService" id="itemCatService" />
+	<dubbo:reference interface="cn.jmall.content.service.ContentCategoryService" id="contentCategoryService" />
 </beans>
