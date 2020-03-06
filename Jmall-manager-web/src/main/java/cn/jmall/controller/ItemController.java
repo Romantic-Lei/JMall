@@ -72,11 +72,27 @@ public class ItemController {
 	}
 	
 	// 批量删除商品信息
-	@RequestMapping(value="/rest/item/delete")
+	@RequestMapping(value="/rest/item/delete", method=RequestMethod.POST)
 	@ResponseBody
 	public E3Result deleteBatchItem(String[] ids) {
 		
 		return itemService.deleteBatchItem(ids);
+	}
+	
+	// 批量商品上架
+	@RequestMapping(value="/rest/item/reshelf", method=RequestMethod.POST)
+	@ResponseBody
+	public E3Result productOnShelves(String[] ids) {
+		
+		return itemService.productOnShelves(ids);
+	}
+	
+	// 批量商品下架
+	@RequestMapping(value="/rest/item/instock", method=RequestMethod.POST)
+	@ResponseBody
+	public E3Result productOffShelves(String[] ids) {
+		
+		return itemService.productOffShelves(ids);
 	}
 	
 

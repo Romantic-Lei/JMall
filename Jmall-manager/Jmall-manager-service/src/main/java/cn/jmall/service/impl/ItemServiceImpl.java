@@ -129,8 +129,34 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public E3Result deleteBatchItem(String[] ids) {
 		for (String id : ids) {
+			// 删除商品信息
 			tbItemMapper.deleteByPrimaryKey(Long.valueOf(id));
+			// 删除商品描述
 			tbItemDescMapper.deleteByPrimaryKey(Long.valueOf(id));
+		}
+		return E3Result.ok();
+	}
+
+	// 商品上架
+	@Override
+	public E3Result productOnShelves(String[] ids) {
+		for (String id : ids) {
+			TbItem tbItem = tbItemMapper.selectByPrimaryKey(Long.valueOf(id));
+			// 1：上架
+			tbItem.setStatus((byte)1);
+			tbItemMapper.updateByPrimaryKeySelective(tbItem);
+		}
+		return E3Result.ok();
+	}
+
+	// 商品下架
+	@Override
+	public E3Result productOffShelves(String[] ids) {
+		for (String id : ids) {
+			TbItem tbItem = tbItemMapper.selectByPrimaryKey(Long.valueOf(id));
+			// 2：下架
+			tbItem.setStatus((byte)2);
+			tbItemMapper.updateByPrimaryKeySelective(tbItem);
 		}
 		return E3Result.ok();
 	}
