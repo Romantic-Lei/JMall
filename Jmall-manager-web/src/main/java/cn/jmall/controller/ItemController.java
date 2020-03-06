@@ -62,5 +62,13 @@ public class ItemController {
 		
 		return itemService.getTbItemDesc(id);
 	}
+	
+	// 商品信息修改保存
+	@RequestMapping(value="/rest/item/update")
+	@ResponseBody
+	public E3Result updateItem(TbItem item, String desc) {
+		
+		return itemService.updateItem(item, desc);
+	}
 
 }

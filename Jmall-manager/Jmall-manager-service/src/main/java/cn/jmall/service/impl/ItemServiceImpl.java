@@ -110,4 +110,20 @@ public class ItemServiceImpl implements ItemService {
 		return E3Result.ok(tbItemDesc);
 	}
 
+	@Override
+	public E3Result updateItem(TbItem item, String desc) {
+		// 更新商品信息
+		Date date = new Date();
+		item.setUpdated(date);
+		tbItemMapper.updateByPrimaryKeySelective(item);
+		// 设置商品对应的id来更新商品描述
+		TbItemDesc itemDesc = new TbItemDesc();
+		itemDesc.setItemId(item.getId());
+		itemDesc.setItemDesc(desc);
+		itemDesc.setUpdated(date);
+		tbItemDescMapper.updateByPrimaryKeySelective(itemDesc);
+		// 更新商品描述
+		return E3Result.ok();
+	}
+
 }
