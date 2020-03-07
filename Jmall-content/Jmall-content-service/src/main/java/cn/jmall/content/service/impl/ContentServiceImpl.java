@@ -70,4 +70,12 @@ public class ContentServiceImpl implements ContentService {
 		return E3Result.ok();
 	}
 
+	@Override
+	public E3Result deleteBatchContent(String[] ids) {
+		for (String id : ids) {
+			tbContentMapper.deleteByPrimaryKey(Long.valueOf(id));
+		}
+		return E3Result.ok();
+	}
+
 }

@@ -47,4 +47,11 @@ public class ContentController {
 		return contentService.updateContent(content);
 	}
 	
+	// 批量删除内容信息
+	@RequestMapping("/content/delete")
+	@ResponseBody
+	public E3Result deleteBatchContent(String[] ids) {
+		
+		return contentService.deleteBatchContent(ids);
+	}
 }
