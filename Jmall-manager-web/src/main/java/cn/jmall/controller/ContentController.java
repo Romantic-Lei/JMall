@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cn.jmall.common.pojo.EasyUIDataGridResult;
 import cn.jmall.common.util.E3Result;
 import cn.jmall.content.service.ContentService;
 import cn.jmall.pojo.TbContent;
@@ -28,6 +29,14 @@ public class ContentController {
 		// 调用读物把内容保存到数据库
 		
 		return contentService.addContent(content);
+	}
+	
+	@RequestMapping("/content/query/list")
+	@ResponseBody
+	public EasyUIDataGridResult listContent(long categoryId, int page, int rows) {
+		// 调用读物把内容保存到数据库
+		
+		return contentService.listContent(categoryId, page, rows);
 	}
 	
 }

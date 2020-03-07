@@ -6,7 +6,7 @@ import java.util.List;
 public class EasyUIDataGridResult implements Serializable {
 
 	private long total; // 总条数
-	private List rows; // 每页显示数
+	private List rows; // 查询到的数据集合
 
 	public long getTotal() {
 		return total;

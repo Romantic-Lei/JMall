@@ -1,5 +1,6 @@
 package cn.jmall.content.service;
 
+import cn.jmall.common.pojo.EasyUIDataGridResult;
 import cn.jmall.common.util.E3Result;
 import cn.jmall.pojo.TbContent;
 
@@ -11,6 +12,7 @@ import cn.jmall.pojo.TbContent;
  */
 public interface ContentService {
 
-	public E3Result addContent(TbContent content);		// 新增内容管理
+	public E3Result addContent(TbContent content);										// 新增内容管理
+	public EasyUIDataGridResult listContent(long categoryId, int page, int rows);		// 内容显示
 	
 }
