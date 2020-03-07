@@ -78,4 +78,17 @@ public class ContentServiceImpl implements ContentService {
 		return E3Result.ok();
 	}
 
+	// 根据内容分类id查询内容列表
+	@Override
+	public List<TbContent> getContentListByCid(long cid) {
+		TbContentExample example = new TbContentExample();
+		Criteria criteria = example.createCriteria();
+		// 设置查询条件
+		criteria.andCategoryIdEqualTo(cid);
+		// 执行查询
+		List<TbContent> list = tbContentMapper.selectByExampleWithBLOBs(example);
+		
+		return list;
+	}
+
 }
