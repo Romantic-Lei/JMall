@@ -114,3 +114,8 @@ Jmall-content/Jmall-content-service/.settings/org.eclipse.jdt.core.prefs
 Jmall-content/Jmall-content-service/.settings/org.eclipse.core.resources.prefs
 Jmall-content/Jmall-content-interface/.settings/org.eclipse.wst.common.project.facet.core.xml
 Jmall-content/Jmall-content-interface/.settings/org.eclipse.wst.common.component
+Jmall-manager/Jmall-manager-service/target/m2e-wtp/web-resources/META-INF/maven/cn.luojia/Jmall-manager-service/pom.xml
+Jmall-manager/Jmall-manager-service/target/m2e-wtp/web-resources/META-INF/MANIFEST.MF
+Jmall-manager/Jmall-manager-dao/target/classes/META-INF/maven/cn.luojia/Jmall-manager-dao/pom.xml
+Jmall-manager/Jmall-manager-dao/target/classes/META-INF/MANIFEST.MF
+Jmall-manager/Jmall-manager-service/target/tomcat/logs/access_log.2020-03-07

@@ -9,6 +9,6 @@ public interface ContentCategoryService {
 
 	public List<EasyUITreeNode> getContentCatList(long parentId);	// 获取内容分类
 	public E3Result addContentCategory(long parentId, String name);	// 添加子节点
-	
+	public void updateContentCategory(long id, String name);		// 更新当前结点
 	
 }

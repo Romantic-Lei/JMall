@@ -43,4 +43,13 @@ public class ContentCatController {
 		return contentCategoryService.addContentCategory(parentId, name);
 	}
 	
+	// 修改分类结点名称
+	@RequestMapping(value="/content/category/update", method=RequestMethod.POST)
+	@ResponseBody
+	public void updateContentCategory(long id, String name){
+		// 调用服务更新结点
+		
+		contentCategoryService.updateContentCategory(id, name);
+	}
+	
 }

@@ -54,7 +54,7 @@ public class ContentCategoryServiceImpl implements ContentCategoryService {
 	public E3Result addContentCategory(long parentId, String name) {
 		// 创建一个 tb_content_category表对应的POJO对象
 		TbContentCategory tbContentCategory = new TbContentCategory();
-		// 设置poji的属性
+		// 设置pojo的属性
 		tbContentCategory.setParentId(parentId);
 		tbContentCategory.setName(name);
 		// 1-正常， 2-删除
@@ -77,7 +77,18 @@ public class ContentCategoryServiceImpl implements ContentCategoryService {
 			contentCategoryMapper.updateByPrimaryKeySelective(parent);
 		}
 		// 返回结果，返回一个 E3Result 对象，包含POJO
-		return E3Result.ok();
+		return E3Result.ok(tbContentCategory);
+	}
+
+	@Override
+	public void updateContentCategory(long id, String name) {
+		// 创建一个 tb_content_category表对应的POJO对象
+		TbContentCategory tbContentCategory = new TbContentCategory();
+		// 设置pojo的属性
+		tbContentCategory.setId(id);
+		tbContentCategory.setName(name);
+		// 更新到数据库
+		contentCategoryMapper.updateByPrimaryKeySelective(tbContentCategory);
 	}
 
 }
