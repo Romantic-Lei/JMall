@@ -14,5 +14,6 @@ public interface ContentService {
 
 	public E3Result addContent(TbContent content);										// 新增内容管理
 	public EasyUIDataGridResult listContent(long categoryId, int page, int rows);		// 内容显示
+	public E3Result updateContent(TbContent content);									// 内容管理更新
 	
 }

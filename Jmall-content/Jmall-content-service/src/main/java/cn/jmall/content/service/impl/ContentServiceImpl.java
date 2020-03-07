@@ -62,4 +62,12 @@ public class ContentServiceImpl implements ContentService {
 		return result;
 	}
 
+	// 内容更新
+	@Override
+	public E3Result updateContent(TbContent content) {
+		content.setUpdated(new Date());
+		tbContentMapper.updateByPrimaryKeySelective(content);
+		return E3Result.ok();
+	}
+
 }

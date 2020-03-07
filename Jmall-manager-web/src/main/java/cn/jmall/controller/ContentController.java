@@ -39,4 +39,12 @@ public class ContentController {
 		return contentService.listContent(categoryId, page, rows);
 	}
 	
+	// 内容管理更新
+	@RequestMapping("/rest/content/edit")
+	@ResponseBody
+	public E3Result updateContent(TbContent content) {
+		
+		return contentService.updateContent(content);
+	}
+	
 }
