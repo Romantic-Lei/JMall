@@ -52,4 +52,13 @@ public class ContentCatController {
 		contentCategoryService.updateContentCategory(id, name);
 	}
 	
+	// 删除分类结点
+	@RequestMapping(value="/content/category/delete/", method=RequestMethod.POST)
+	@ResponseBody
+	public E3Result deleteContentCategory(long id){
+		// 调用服务删除结点
+		
+		return contentCategoryService.deleteContentCategory(id);
+	}
+	
 }
