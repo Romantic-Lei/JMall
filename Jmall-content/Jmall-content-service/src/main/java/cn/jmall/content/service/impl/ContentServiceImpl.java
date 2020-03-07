@@ -48,7 +48,8 @@ public class ContentServiceImpl implements ContentService {
 		TbContentExample example = new TbContentExample();
 		Criteria criteria = example.createCriteria();
 		criteria.andCategoryIdEqualTo(categoryId);
-		List<TbContent> list = tbContentMapper.selectByExample(example);
+		// selectByExampleWithBLOBs 可以查询到text类型字段
+		List<TbContent> list = tbContentMapper.selectByExampleWithBLOBs(example);
 		// 创建返回值对象
 		EasyUIDataGridResult result = new EasyUIDataGridResult();
 		result.setRows(list);

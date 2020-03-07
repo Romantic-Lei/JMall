@@ -34,7 +34,7 @@ public class ContentController {
 	@RequestMapping("/content/query/list")
 	@ResponseBody
 	public EasyUIDataGridResult listContent(long categoryId, int page, int rows) {
-		// 调用读物把内容保存到数据库
+		// 分页查询
 		
 		return contentService.listContent(categoryId, page, rows);
 	}
