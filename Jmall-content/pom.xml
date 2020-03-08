@@ -14,13 +14,13 @@
   	<module>Jmall-content-service</module>
   </modules>
   <dependencies>
-  	<dependency>
-  		<groupId>cn.luojia</groupId>
+	<dependency>
+		<groupId>cn.luojia</groupId>
 		<artifactId>Jmall-common</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-  	</dependency>
-  </dependencies>
-  <!-- 配置tomcat插件 -->
+	</dependency>
+</dependencies>
+	<!-- 配置tomcat插件 -->
 	<build>
 		<plugins>
 			<plugin>

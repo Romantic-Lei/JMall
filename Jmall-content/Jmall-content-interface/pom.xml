@@ -7,10 +7,10 @@
   </parent>
   <artifactId>Jmall-content-interface</artifactId>
   <dependencies>
-  	<dependency>
-  		<groupId>cn.luojia</groupId>
-	    <artifactId>Jmall-manager-pojo</artifactId>
-	    <version>0.0.1-SNAPSHOT</version>
-  	</dependency>
-  </dependencies>
+	<dependency>
+		<groupId>cn.luojia</groupId>
+		<artifactId>Jmall-manager-pojo</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</dependency>
+</dependencies>
 </project>
