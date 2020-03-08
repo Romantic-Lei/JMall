@@ -47,6 +47,8 @@ public class ContentServiceImpl implements ContentService {
 		content.setUpdated(date);
 		// 插入到数据库
 		tbContentMapper.insert(content);
+		// 缓存同步，删除缓存中对应的数据
+		jedisClient.hdel(CONTENT_LIST, content.getCategoryId().toString());
 		return E3Result.ok();
 	}
 
@@ -77,14 +79,19 @@ public class ContentServiceImpl implements ContentService {
 	public E3Result updateContent(TbContent content) {
 		content.setUpdated(new Date());
 		tbContentMapper.updateByPrimaryKeySelective(content);
+		// 缓存同步，删除缓存中对应的数据
+		jedisClient.hdel(CONTENT_LIST, content.getCategoryId().toString());
 		return E3Result.ok();
 	}
 
 	@Override
 	public E3Result deleteBatchContent(String[] ids) {
 		for (String id : ids) {
+			TbContent content = tbContentMapper.selectByPrimaryKey(Long.valueOf(id));
 			tbContentMapper.deleteByPrimaryKey(Long.valueOf(id));
+			jedisClient.hdel(CONTENT_LIST, content.getCategoryId().toString());
 		}
+		// 缓存同步，删除缓存中对应的数据
 		return E3Result.ok();
 	}
 
