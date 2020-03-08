@@ -3,14 +3,18 @@ package cn.jmall.content.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import cn.jmall.common.jedis.JedisClient;
 import cn.jmall.common.pojo.EasyUIDataGridResult;
 import cn.jmall.common.util.E3Result;
+import cn.jmall.common.util.JsonUtils;
 import cn.jmall.content.service.ContentService;
 import cn.jmall.mapper.TbContentMapper;
 import cn.jmall.pojo.TbContent;
@@ -19,6 +23,7 @@ import cn.jmall.pojo.TbContentExample.Criteria;
 
 /**
  * 内容管理Service
+ * 
  * @author Jmall
  * @CreateDate 2020年3月7日
  * @Description
@@ -28,7 +33,12 @@ public class ContentServiceImpl implements ContentService {
 
 	@Autowired
 	private TbContentMapper tbContentMapper;
-	
+	@Autowired
+	private JedisClient jedisClient;
+
+	@Value("${CONTENT_LIST}")
+	private String CONTENT_LIST;
+
 	@Override
 	public E3Result addContent(TbContent content) {
 		// 将内容数据插入到内容表
@@ -58,7 +68,7 @@ public class ContentServiceImpl implements ContentService {
 		// 获取总结果数
 		long total = pageInfo.getTotal();
 		result.setTotal(total);
-		
+
 		return result;
 	}
 
@@ -81,13 +91,29 @@ public class ContentServiceImpl implements ContentService {
 	// 根据内容分类id查询内容列表
 	@Override
 	public List<TbContent> getContentListByCid(long cid) {
+		try {
+			// 查询缓存，若有直接响应结果。没有就直接查询缓存
+			String json = jedisClient.hget(CONTENT_LIST, cid + "");
+			if (StringUtils.isNotBlank(json)) {
+				List<TbContent> list = JsonUtils.jsonToList(json, TbContent.class);
+				return list;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		TbContentExample example = new TbContentExample();
 		Criteria criteria = example.createCriteria();
 		// 设置查询条件
 		criteria.andCategoryIdEqualTo(cid);
 		// 执行查询
 		List<TbContent> list = tbContentMapper.selectByExampleWithBLOBs(example);
-		
+		try {
+			// 把结果添加到缓存
+			jedisClient.hset(CONTENT_LIST, cid + "", JsonUtils.objectToJson(list));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return list;
 	}
 
