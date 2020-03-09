@@ -19,6 +19,7 @@
 	<!-- 用dubbo协议在20882端口暴露服务 -->
 	<dubbo:protocol name="dubbo" port="20882" />
 	<!-- 声明需要暴露的服务接口 -->
+	<!-- 后面的引用需要是前面接口的实现类 -->
 	<dubbo:service interface="cn.jmall.search.service.SearchItemService" ref="searchItemServiceImpl" timeout="600000"/>
 	
 </beans>

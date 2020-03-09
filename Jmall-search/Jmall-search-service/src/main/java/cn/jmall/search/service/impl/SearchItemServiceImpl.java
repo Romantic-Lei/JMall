@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.common.SolrInputDocument;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
 import cn.jmall.common.pojo.SearchItem;
@@ -20,7 +21,7 @@ import cn.jmall.search.service.SearchItemService;
  * @Description
  */
 @Service
-public class SearchServiceImpl implements SearchItemService {
+public class SearchItemServiceImpl implements SearchItemService {
 
 	@Autowired
 	private ItemMapper itemMapper;
