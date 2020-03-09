@@ -8,6 +8,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>Jmall-search-service</artifactId>
+	<packaging>war</packaging>
 	<dependencies>
 		<dependency>
 			<groupId>cn.luojia</groupId>

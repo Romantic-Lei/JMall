@@ -208,3 +208,6 @@ Jmall-search/Jmall-search-interface/.gitignore
 Jmall-search/Jmall-search-service/.settings/org.eclipse.m2e.core.prefs
 Jmall-search/Jmall-search-service/.settings/org.eclipse.jdt.core.prefs
 Jmall-search/Jmall-search-service/.settings/org.eclipse.core.resources.prefs
+Jmall-search/Jmall-search-interface/.settings/org.eclipse.wst.common.project.facet.core.xml
+Jmall-search/Jmall-search-interface/.settings/org.eclipse.wst.common.component
+Jmall-manager/Jmall-manager-service/target/tomcat/logs/access_log.2020-03-09

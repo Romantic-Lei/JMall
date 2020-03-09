@@ -41,4 +41,5 @@
 	<dubbo:reference interface="cn.jmall.service.ItemCatService" id="itemCatService" />
 	<dubbo:reference interface="cn.jmall.content.service.ContentCategoryService" id="contentCategoryService" />
 	<dubbo:reference interface="cn.jmall.content.service.ContentService" id="contentService" />
+	<dubbo:reference interface="cn.jmall.search.service.SearchItemService" id="searchItemService" />
 </beans>
