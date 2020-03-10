@@ -10,7 +10,7 @@
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.2.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
 	<!-- 配置包扫描器 -->
-	<context:component-scan base-package="cn.jmall.search.service"/>
+	<context:component-scan base-package="cn.jmall.search"/>
 	
 	<!-- 使用dubbo发布服务 -->
 	<!-- 提供方应用信息，用于计算依赖关系 -->
@@ -21,5 +21,6 @@
 	<!-- 声明需要暴露的服务接口 -->
 	<!-- 后面的引用需要是前面接口的实现类 -->
 	<dubbo:service interface="cn.jmall.search.service.SearchItemService" ref="searchItemServiceImpl" timeout="600000"/>
+	<dubbo:service interface="cn.jmall.search.service.SearchService" ref="searchServiceImpl" timeout="600000"/>
 	
 </beans>
