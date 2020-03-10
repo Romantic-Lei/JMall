@@ -20,6 +20,9 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 	
+	<!-- 全局异常处理器 -->
+	<bean class="cn.jmall.search.exception.GlobalExceptionResolver"/>
+		
 	<!-- 引用dubbo服务 -->
 	<dubbo:application name="jmall-search-web"/>
 	<dubbo:registry protocol="zookeeper" address="192.168.0.102:2181"/>	
