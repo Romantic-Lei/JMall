@@ -24,7 +24,7 @@ public class ActiveMqTest {
 	 * 当消息接受者未开启时，我们的消息就保存在队列中，如果消息接收到了就从队列中删除
 	 * @throws JMSException 
 	 */
-	@Test
+//	@Test
 	public void testQueueProduct() throws JMSException {
 //		1.创建一个连接工厂，需要指定服务的ip及端口
 		ConnectionFactory ConnectionFactory = new ActiveMQConnectionFactory("tcp://192.168.0.102:61616");
@@ -52,7 +52,7 @@ public class ActiveMqTest {
 		connection.close();
 	}
 	
-	@Test
+//	@Test
 	public void testQueueConsumer() throws JMSException, IOException {
 //		创建一个ConnectionFactory对象连接MQ服务器
 		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://192.168.0.102:61616");
@@ -94,7 +94,7 @@ public class ActiveMqTest {
 	/**
 	 * 广播,只有消息接收开启着才能接收到我们的广播，否则发送的消息接收不到
 	 */
-	@Test
+//	@Test
 	public void testTopicProduct() throws JMSException {
 //		1.创建一个连接工厂，需要指定服务的ip及端口
 		ConnectionFactory ConnectionFactory = new ActiveMQConnectionFactory("tcp://192.168.0.102:61616");
@@ -122,7 +122,7 @@ public class ActiveMqTest {
 		connection.close();
 	}
 	
-	@Test
+//	@Test
 	public void testTopicConsumer() throws JMSException, IOException {
 //		创建一个ConnectionFactory对象连接MQ服务器
 		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://192.168.0.102:61616");
