@@ -13,7 +13,7 @@ public class MyMessageListener implements MessageListener {
 		TextMessage textMessage = (TextMessage) message;
 		try {
 			String text = textMessage.getText();
-			System.out.println(textMessage);
+			System.out.println(text);
 		} catch (JMSException e) {
 			e.printStackTrace();
 		}

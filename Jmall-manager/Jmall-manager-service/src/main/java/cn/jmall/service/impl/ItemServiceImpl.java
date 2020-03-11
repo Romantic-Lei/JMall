@@ -106,7 +106,7 @@ public class ItemServiceImpl implements ItemService {
 		// 向商品描述表插入数据
 		tbItemDescMapper.insert(itemDesc);
 		// 发送商品添加信息
-		jmsTemplate.send("topicDestination", new MessageCreator() {
+		jmsTemplate.send(topicDestination, new MessageCreator() {
 			
 			@Override
 			public Message createMessage(Session session) throws JMSException {
