@@ -225,3 +225,5 @@ Jmall-search-web/.settings/org.eclipse.m2e.core.prefs
 Jmall-search-web/.settings/org.eclipse.jdt.core.prefs
 Jmall-manager/Jmall-manager-service/target/tomcat/logs/access_log.2020-03-10
 Jmall-manager/Jmall-manager-service/target/tomcat/logs/access_log.2020-03-11
+Jmall-manager/Jmall-manager-service/target/classes/spring/applicationContext-redis.xml
+Jmall-manager/Jmall-manager-service/target/classes/conf/resource.properties
