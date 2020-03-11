@@ -6,6 +6,7 @@ import cn.jmall.common.pojo.SearchItem;
 
 public interface ItemMapper {
 
-	List<SearchItem> getItemList();
+	public List<SearchItem> getItemList();
+	public SearchItem getItemById(long itemId);
 	
 }

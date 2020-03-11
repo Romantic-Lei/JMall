@@ -3,7 +3,15 @@ package cn.jmall.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Resource;
+import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
@@ -33,6 +41,10 @@ public class ItemServiceImpl implements ItemService {
 	private TbItemMapper tbItemMapper;
 	@Autowired
 	private TbItemDescMapper tbItemDescMapper;
+	@Autowired
+	private JmsTemplate jmsTemplate;
+	@Resource
+	private Destination destination;
 	
 	@Override
 	public TbItem getItemById(long itemId) {
@@ -92,6 +104,15 @@ public class ItemServiceImpl implements ItemService {
 		itemDesc.setUpdated(date);
 		// 向商品描述表插入数据
 		tbItemDescMapper.insert(itemDesc);
+		// 发送商品添加信息
+		jmsTemplate.send("topicDestination", new MessageCreator() {
+			
+			@Override
+			public Message createMessage(Session session) throws JMSException {
+				session.createTextMessage(itemId + "");
+				return null;
+			}
+		});
 		// 返回结构
 		return E3Result.ok();
 	}

@@ -44,10 +44,10 @@
 		<property name="messageListener" ref="myMessageListener" />
 	</bean>
 	<!-- 监听商品添加消息，同步索引库 -->
-<!-- 	<bean id="itemAddMessageListener" class="cn.e3mall.search.message.ItemAddMessageListener"/> -->
-<!-- 	<bean class="org.springframework.jms.listener.DefaultMessageListenerContainer"> -->
-<!-- 		<property name="connectionFactory" ref="connectionFactory" /> -->
-<!-- 		<property name="destination" ref="topicDestination" /> -->
-<!-- 		<property name="messageListener" ref="itemAddMessageListener" /> -->
-<!-- 	</bean> -->
+	<bean id="itemAddMessageListener" class="cn.jmall.search.message.ItemAddMessageListener"/>
+	<bean class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="destination" ref="topicDestination" />
+		<property name="messageListener" ref="itemAddMessageListener" />
+	</bean>
 </beans>
