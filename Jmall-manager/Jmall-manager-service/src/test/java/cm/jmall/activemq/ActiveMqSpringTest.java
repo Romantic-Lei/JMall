@@ -13,7 +13,7 @@ import org.springframework.jms.core.MessageCreator;
 
 public class ActiveMqSpringTest {
 
-	@Test
+//	@Test
 	public void sendMessage() {
 //		初始化spring容器
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring/applicationContext-activemq.xml");

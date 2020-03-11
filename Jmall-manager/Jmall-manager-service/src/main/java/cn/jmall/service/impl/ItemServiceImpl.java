@@ -8,6 +8,7 @@ import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Session;
+import javax.jms.TextMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
@@ -44,7 +45,7 @@ public class ItemServiceImpl implements ItemService {
 	@Autowired
 	private JmsTemplate jmsTemplate;
 	@Resource
-	private Destination destination;
+	private Destination topicDestination;
 	
 	@Override
 	public TbItem getItemById(long itemId) {
@@ -109,8 +110,8 @@ public class ItemServiceImpl implements ItemService {
 			
 			@Override
 			public Message createMessage(Session session) throws JMSException {
-				session.createTextMessage(itemId + "");
-				return null;
+				TextMessage textMessage = session.createTextMessage(itemId + "");
+				return textMessage;
 			}
 		});
 		// 返回结构
