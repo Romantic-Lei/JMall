@@ -1,4 +1,4 @@
-package cn.luojia.item.pojo;
+package cn.jmall.item.pojo;
 
 import cn.jmall.pojo.TbItem;
 

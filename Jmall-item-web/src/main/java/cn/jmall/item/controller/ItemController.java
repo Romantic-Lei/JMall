@@ -1,4 +1,4 @@
-package cn.luojia.item.controller;
+package cn.jmall.item.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -6,11 +6,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import cn.jmall.item.pojo.Item;
 import cn.jmall.pojo.TbItem;
 import cn.jmall.pojo.TbItemDesc;
 import cn.jmall.service.ItemService;
-import cn.luojia.item.pojo.Item;
-import net.sf.jsqlparser.schema.Table;
 
 /**
  * 商品详情页面展示Controller
