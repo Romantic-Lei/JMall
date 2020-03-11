@@ -22,5 +22,6 @@ public interface ItemService {
 	public E3Result deleteBatchItem(String[] ids);					// 商品信息删除
 	public E3Result productOnShelves(String[] ids);					// 商品上架
 	public E3Result productOffShelves(String[] ids);				// 商品下架
+	public TbItemDesc getItemDescById(long itemId);					// 根据商品id获取商品描述
 
 }
