@@ -53,7 +53,7 @@ public class HtmlGenListener implements MessageListener {
 			TbItemDesc itemDesc = itemService.getItemDescById(itemId);
 			// 创建一个数据集，把商品数据封装
 			Map data = new HashMap<>();
-			data.put("item", itemDesc);
+			data.put("item", item);
 			data.put("itemDesc", itemDesc);
 			// 加载模板对象
 			Configuration configuration = freeMarkerConfigurer.getConfiguration();
@@ -61,11 +61,12 @@ public class HtmlGenListener implements MessageListener {
 			// 创建一个输出流，指定输出目录及文件名
 			Writer out = new FileWriter(HTML_GEN_PATH + itemId + ".html");
 			// 生成静态页面
+			template.process(data, out);
+			// 关闭流
 			out.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		// 关闭流
 	}
 
 }

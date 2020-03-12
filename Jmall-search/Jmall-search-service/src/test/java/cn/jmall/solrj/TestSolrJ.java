@@ -40,7 +40,7 @@ public class TestSolrJ {
 		// 删除文档
 		// solrServer.deleteById("doc1");
 		// 和上面效果相同
-		solrServer.deleteByQuery("id:doc1");
+		solrServer.deleteByQuery("id:158401674254732");
 		// 提交
 		solrServer.commit();
 	}

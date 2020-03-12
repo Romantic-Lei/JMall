@@ -83,7 +83,7 @@ public class ItemServiceImpl implements ItemService {
 		criteria.andIdEqualTo(itemId);
 		// 执行查询
 		List<TbItem> list = tbItemMapper.selectByExample(example);
-		if (list != null && list.size() >= 0) {
+		if (list != null && list.size() > 0) {
 			// 把结果添加到缓存
 			try {
 				jedisClient.set(REDIS_ITEM_PRE + ":" + itemId + ":BASE", JsonUtils.objectToJson(list.get(0)));
