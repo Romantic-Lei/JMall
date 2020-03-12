@@ -35,12 +35,14 @@
 	<!-- 可以使用?date,?time,?datetime,?string(parten)-->
 	当前日期：${date?string("yyyy/MM/dd HH:mm:ss")}<br>
 	null值的处理：${val!"val的值为null"}<br>
+	
 	判断val的值是否为null：<br>
 	<#if val??>
 	val中有内容
 	<#else>
 	val的值为null
 	</#if>
+	
 	引用模板测试：<br>
 	<#include "hello.ftl">
 </body>

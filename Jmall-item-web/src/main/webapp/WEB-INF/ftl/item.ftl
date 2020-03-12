@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>${item.title } - 宜立方商城</title>
+	<title>${item.title } - 珞珈商城</title>
 	<script>
         var _SF_CFG = {
 	    www_url:'http://www.e3mall.cn',
@@ -251,7 +251,7 @@
 				style="background-color: #f5f5f5; padding: 4px 20px 4px 0; line-height: 20px; overflow: hidden; zoom: 1;">
 				<span style="float: left; width: 100px; text-align: right; padding-right: 6px; margin-right: 6px;">温馨提示：</span>
 				<span style="display: block; overflow: hidden; zoom: 1;">
-					宜立方商城所售商品均经过严格的供应商资质审查、商品审查、入库全检、出货全检流程。
+					珞珈商城所售商品均经过严格的供应商资质审查、商品审查、入库全检、出货全检流程。
 					由于部分商品存在厂家更换包装、不同批次、不同生产日期、不同生产工厂等情况，
 					导致商品实物与图片存在微小差异，因此请您以收到的商品实物为准，
 					同时我们会尽量做到及时更新，由此给您带来不便敬请谅解，谢谢！
