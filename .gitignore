@@ -230,3 +230,6 @@ Jmall-manager/Jmall-manager-service/target/classes/conf/resource.properties
 Jmall-manager/Jmall-manager-service/target/tomcat/logs/access_log.2020-03-12
 Jmall-manager/Jmall-manager-service/target/classes/spring/applicationContext-dao.xml
 Jmall-manager/Jmall-manager-service/target/classes/spring/applicationContext-activemq.xml
+Jmall-manager/Jmall-manager-service/target/classes/cn/jmall/service/impl/ItemServiceImpl$3.class
+Jmall-manager/Jmall-manager-service/target/classes/cn/jmall/service/impl/ItemServiceImpl$2.class
+Jmall-manager/Jmall-manager-service/target/classes/cn/jmall/service/impl/ItemServiceImpl$1.class

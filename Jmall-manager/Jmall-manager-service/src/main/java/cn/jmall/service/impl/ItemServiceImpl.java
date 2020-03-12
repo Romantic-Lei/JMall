@@ -172,10 +172,31 @@ public class ItemServiceImpl implements ItemService {
 		tbItemMapper.updateByPrimaryKeySelective(item);
 		// 设置商品对应的id来更新商品描述
 		TbItemDesc itemDesc = new TbItemDesc();
-		itemDesc.setItemId(item.getId());
+		Long itemId = item.getId();
+		itemDesc.setItemId(itemId);
 		itemDesc.setItemDesc(desc);
 		itemDesc.setUpdated(date);
 		tbItemDescMapper.updateByPrimaryKeySelective(itemDesc);
+		try {
+			// 更新缓存
+			jedisClient.set(REDIS_ITEM_PRE + ":" + itemId + ":BASE", JsonUtils.objectToJson(item));
+			jedisClient.set(REDIS_ITEM_PRE + ":" + itemId + ":DESC", JsonUtils.objectToJson(itemDesc));
+			// 设置过期时间一小时
+			jedisClient.expire(REDIS_ITEM_PRE + ":" + itemId + ":BASE", REDIS_CACHE_EXPIRE);
+			jedisClient.expire(REDIS_ITEM_PRE + ":" + itemId + ":DESC", REDIS_CACHE_EXPIRE);
+			
+			// 更新sorl索引库 发送商品添加信息
+			jmsTemplate.send(topicDestination, new MessageCreator() {
+
+				@Override
+				public Message createMessage(Session session) throws JMSException {
+					TextMessage textMessage = session.createTextMessage(itemId + "");
+					return textMessage;
+				}
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		// 更新商品描述
 		return E3Result.ok();
 	}
@@ -228,7 +249,7 @@ public class ItemServiceImpl implements ItemService {
 	public TbItemDesc getItemDescById(long itemId) {
 		// 添加缓存
 		try {
-			String json = jedisClient.get(REDIS_ITEM_PRE + ":" + itemId + ":Desc");
+			String json = jedisClient.get(REDIS_ITEM_PRE + ":" + itemId + ":DESC");
 			if (StringUtils.isNotBlank(json)) {
 				TbItemDesc tbItemDesc = JsonUtils.jsonToPojo(json, TbItemDesc.class);
 				return tbItemDesc;
@@ -239,9 +260,9 @@ public class ItemServiceImpl implements ItemService {
 		TbItemDesc itemDesc = tbItemDescMapper.selectByPrimaryKey(itemId);
 		// 把结果添加到缓存
 		try {
-			jedisClient.set(REDIS_ITEM_PRE + ":" + itemId + ":Desc", JsonUtils.objectToJson(itemDesc));
+			jedisClient.set(REDIS_ITEM_PRE + ":" + itemId + ":DESC", JsonUtils.objectToJson(itemDesc));
 			// 设置过期时间一小时
-			jedisClient.expire(REDIS_ITEM_PRE + ":" + itemId + ":Desc", REDIS_CACHE_EXPIRE);
+			jedisClient.expire(REDIS_ITEM_PRE + ":" + itemId + ":DESC", REDIS_CACHE_EXPIRE);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
