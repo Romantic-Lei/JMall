@@ -35,6 +35,10 @@
 	<bean id="topicDestination" class="org.apache.activemq.command.ActiveMQTopic">
 		<constructor-arg value="itemAddTopic" />
 	</bean>
+	<!--这个是主题目的地，一对多的 -->
+	<bean id="topicDeleteDestination" class="org.apache.activemq.command.ActiveMQTopic">
+		<constructor-arg value="itemDeleteTopic" />
+	</bean>
 	
 	<bean id="myMessageListener" class="cn.jmall.search.message.MyMessageListener"/>
 	<!-- 消息监听容器 -->
@@ -49,5 +53,12 @@
 		<property name="connectionFactory" ref="connectionFactory" />
 		<property name="destination" ref="topicDestination" />
 		<property name="messageListener" ref="itemAddMessageListener" />
+	</bean>
+	<!-- 监听商品删除消息，同步索引库 -->
+	<bean id="itemDeleteMessageListener" class="cn.jmall.search.message.ItemDeleteMessageListener"/>
+	<bean class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="destination" ref="topicDeleteDestination" />
+		<property name="messageListener" ref="itemDeleteMessageListener" />
 	</bean>
 </beans>

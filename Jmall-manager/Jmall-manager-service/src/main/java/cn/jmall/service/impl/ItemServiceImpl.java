@@ -49,8 +49,11 @@ public class ItemServiceImpl implements ItemService {
 	private TbItemDescMapper tbItemDescMapper;
 	@Autowired
 	private JmsTemplate jmsTemplate;
-	@Resource
+	// 注入相同类对象，我们必须根据id来区分，否则会报错
+	@Resource(name="topicDestination")
 	private Destination topicDestination;
+	@Resource(name="topicDeleteDestination")
+	private Destination topicDeleteDestination;
 	@Autowired
 	private JedisClient jedisClient;
 
@@ -180,6 +183,15 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public E3Result deleteBatchItem(String[] ids) {
 		for (String id : ids) {
+			// 发送商品删除信息
+			jmsTemplate.send(topicDeleteDestination, new MessageCreator() {
+				
+				@Override
+				public Message createMessage(Session session) throws JMSException {
+					TextMessage textMessage = session.createTextMessage(id + "");
+					return textMessage;
+				}
+			});
 			// 删除商品信息
 			tbItemMapper.deleteByPrimaryKey(Long.valueOf(id));
 			// 删除商品描述
