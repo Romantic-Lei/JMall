@@ -28,4 +28,5 @@
 	<dubbo:registry protocol="zookeeper" address="192.168.0.102:2181"/>	
 	<!-- 引用服务 -->
 	<dubbo:reference interface="cn.jmall.sso.service.RegistService" id="registService" />
+	<dubbo:reference interface="cn.jmall.sso.service.LoginService" id="loginService" />
 </beans>
