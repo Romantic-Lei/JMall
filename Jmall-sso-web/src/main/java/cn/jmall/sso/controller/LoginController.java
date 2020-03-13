@@ -16,6 +16,7 @@ import cn.jmall.sso.service.LoginService;
 
 /**
  * 用户登录处理Controller
+ * 
  * @author Jmall
  * @CreateDate 2020年3月13日
  * @Description
@@ -25,30 +26,28 @@ public class LoginController {
 
 	@Autowired
 	private LoginService loginService;
-	
+
 	@Value("${TOKEN_KEY}")
 	private String TOKEN_KEY;
-	
+
 	@RequestMapping("/page/login")
 	public String showLogin() {
-		
+
 		return "login";
 	}
-	
-	@RequestMapping(value="/user/login", method=RequestMethod.POST)
+
+	@RequestMapping(value = "/user/login", method = RequestMethod.POST)
 	@ResponseBody
-	public E3Result login(String username, String password, 
-			HttpServletRequest request, HttpServletResponse response) {
+	public E3Result login(String username, String password, HttpServletRequest request, HttpServletResponse response) {
 		E3Result e3Result = loginService.userLogin(username, password);
 		// 判断是否登录成功
-		if(e3Result.getStatus() == 200) {
+		if (e3Result.getStatus() == 200) {
 			String token = e3Result.getData().toString();
-//			如果登录成功需要把token写入到cookie
+			// 如果登录成功需要把token写入到cookie，设置cookie的作用是可以让其跨一级域和二级域
 			CookieUtils.setCookie(request, response, TOKEN_KEY, token);
 		}
-//		返回结果
+		// 返回结果
 		return e3Result;
 	}
-	
-	
+
 }
