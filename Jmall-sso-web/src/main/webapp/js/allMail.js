@@ -213,7 +213,7 @@ defaultArr[6]	='请输入您的优选单邀请码';
 defaultArr[7]	='';
 defaultArr[8]	='请输入您的用户名。可使用字母、数字、下划线。';
 defaultArr[9]	='此手机号已经被注册！';
-defaultArr[10]	='此手用户名已经被注册！请重新输入。';
+defaultArr[10]	='此用户名已经被注册！请重新输入。';
 /*--------------------------------------------------企业注册数据---------------------------------------------------------*/
 var cpyUserNameId 	= "cpyusername";
 var cpyUserNameErrId= "cpyusernameErr";
@@ -282,7 +282,7 @@ cpyAddressArr[1]		='请选择公司所在地';
 cpyAddressArr[2]		='请输入公司地址';
 cpyAddressArr[3]		='公司地址长度应在4-50位之间';
 cpyBuyuseArr[0]		='请选择购买用途';
-cpyWebsiteArr[0]		='公司网址格式不正确，应如: http://www.e3mall.cn/';
+cpyWebsiteArr[0]		='公司网址格式不正确，应如: http://www.Jmall.cn/';
 cpyAgreeArr[0]			='请勾选注册协议';
 cpyDefaultArr[0]		='请输入4-20位中、英文、数字、中划线和下划线';
 cpyDefaultArr[1]		='6-20位字符,可使用字母、数字、下划线。不建议使用纯数字或字母组合。';
