@@ -21,5 +21,6 @@
 	<!-- 声明需要暴露的服务接口 -->
 	<dubbo:service interface="cn.jmall.sso.service.RegistService" ref="registServiceImpl" timeout="600000"/>
 	<dubbo:service interface="cn.jmall.sso.service.LoginService" ref="loginServiceImpl" timeout="600000"/>
+	<dubbo:service interface="cn.jmall.sso.service.TokenService" ref="tokenServiceImpl" timeout="600000"/>
 	
 </beans>

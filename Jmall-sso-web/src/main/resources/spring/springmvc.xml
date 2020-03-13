@@ -29,4 +29,5 @@
 	<!-- 引用服务 -->
 	<dubbo:reference interface="cn.jmall.sso.service.RegistService" id="registService" />
 	<dubbo:reference interface="cn.jmall.sso.service.LoginService" id="loginService" />
+	<dubbo:reference interface="cn.jmall.sso.service.TokenService" id="tokenService" />
 </beans>
