@@ -45,3 +45,56 @@ private Destination topicDeleteDestination;
 方案一：直接做一个动态的jsp页面。当查询商品信息时，我们展示的是动态页面
 
 方案二：使用freemarker展示一个静态页面。通过一个模板，当我们查询到某个商品时，直接将查询的信息放到模板的对应位置，生成一个文件到指定目录，然后通过Nginx代理访问到此目录展示到页面。
+
+
+
+###SSO单点登陆
+
+​	在电商项目中，不同的模块可能部署于不同的服务器，这么我们session就在物理上被隔离了，无法共享，这时我们可以利用redis来解决session共享问题。因为redis中也可以存储键值对，设置键值过期时间，完全可以模拟session共享问题。
+
+**redis的设置key**：不能是用户的信息，比如id，用户名等。因为当我们在不同机器上登录，一台长时间没有操作，另一台一直在操作，那么长时间没操作的机器实际再次操作时需要登录，但是另一台机器一直在刷新session。两台机器相同的key无法满足我们要求。所以我们的**key可以设计成固定前缀+UUID避免了重复**。
+
+
+
+### 跨域问题
+
+##### 什么是跨域？
+
+​	跨域指的是访问与自己ip不同的机器或者是ip相同但是端口不同，这就是跨域
+
+​	js本身无法处理跨域问题的。我们可以其“漏洞”来处理跨域问题，我们处理跨域问题需要控制层和页面共同处理，在jQuery发送请求时，我们的请求类型应该为**dataType : "jsonp",**在控制层，我们有两种方法处理请求：
+
+```java
+//	解决json跨域问题方法一：
+	@RequestMapping(value = "/user/token/{token}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE/*"application/json;charset=utf-8"*/)
+	@ResponseBody
+	public String getUserByToken(@PathVariable String token, String callback) {
+		E3Result result = tokenService.getUserByToken(token);
+		// 响应结果这前，判断是否是jsonp请求
+		if (StringUtils.isNotBlank(callback)) {
+			// 把结果封装成一个js语句响应,必须是这样的格式
+			return callback + "(" + JsonUtils.objectToJson(result) + ");";
+		}
+		return JsonUtils.objectToJson(result);
+	}
+	
+//	解决json跨域问题方法二：此方法在spring4.1之后可用
+	@RequestMapping(value = "/user/token/{token}")
+	@ResponseBody
+	public Object getUserByToken(@PathVariable String token, String callback) {
+		E3Result result = tokenService.getUserByToken(token);
+		// 响应结果这前，判断是否是jsonp请求
+		if (StringUtils.isNotBlank(callback)) {
+			// 把结果封装成一个js语句响应
+			MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(result);
+			mappingJacksonValue.setJsonpFunction(callback);
+			return mappingJacksonValue;
+		}
+		return result;
+	}
+```
+
+
+
+
+
