@@ -31,6 +31,6 @@
 	<!-- 切面 -->
 	<aop:config>
 		<aop:advisor advice-ref="txAdvice"
-			pointcut="execution(* cn.jmall.content.service..*.*(..))" />
+			pointcut="execution(* cn.jmall.sso.service..*.*(..))" />
 	</aop:config>
 </beans>
