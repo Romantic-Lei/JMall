@@ -1,5 +1,8 @@
 package cn.jmall.cart.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,7 +49,7 @@ public class CartServiceImpl implements CartService {
 			jedisClient.hset(REDIS_CART_PRE + ":" + userId, itemId + "", JsonUtils.objectToJson(item));
 			return E3Result.ok();
 		}
-		
+
 		// 如果不存在，根据商品id取商品信息
 		TbItem item = itemMapper.selectByPrimaryKey(itemId);
 		// 设置购物车数量
@@ -61,6 +64,35 @@ public class CartServiceImpl implements CartService {
 		jedisClient.hset(REDIS_CART_PRE + ":" + userId, itemId + "", JsonUtils.objectToJson(item));
 		// 返回成功
 		return E3Result.ok();
+	}
+
+	@Override
+	public E3Result mergeCart(long userId, List<TbItem> itemList) {
+		// 建立商品列表
+		// 把列表添加到购物车
+		// 判断购物车是否有此商品
+		// 如果有，数量相加
+		// 如果没有，添加新商品
+		for (TbItem tbItem : itemList) {
+			addCart(userId, tbItem.getId(), tbItem.getNum());
+		}
+		// 返回成功
+		return E3Result.ok();
+	}
+
+	@Override
+	public List<TbItem> getCartList(long userId) {
+		// 根据用户id查询购物车列表
+		List<String> jsonList = jedisClient.hvals(REDIS_CART_PRE + ":" + userId);
+		List<TbItem> itemList = new ArrayList<TbItem>();
+		for (String str : jsonList) {
+			// 创建一个TBItem对象
+			TbItem item = JsonUtils.jsonToPojo(str, TbItem.class);
+			// 添加都列表
+			itemList.add(item);
+		}
+
+		return itemList;
 	}
 
 }

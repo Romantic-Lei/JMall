@@ -37,7 +37,7 @@ public class cartController {
 	private ItemService itemService;
 	@Autowired
 	private CartService cartService;
-	
+
 	@Value("${COOKIE_CART_EXPIRE}")
 	private Integer COOKIE_CART_EXPIRE;
 
@@ -93,9 +93,23 @@ public class cartController {
 	 * @return
 	 */
 	@RequestMapping("/cart/cart")
-	public String showCatList(HttpServletRequest request) {
+	public String showCatList(HttpServletRequest request, HttpServletResponse response) {
 		// 从cookie中取购物车列表
 		List<TbItem> cartList = getCartListFromCookie(request);
+		// 判断用户是否登录
+		TbUser user = (TbUser)request.getAttribute("user");
+		// 如果是登录状态
+		if(user != null) {
+			// 如果不为空，把cookie中的购物车商品和服务端的购物车合并。
+			cartService.mergeCart(user.getId(), cartList);
+			// 把cookie中购物车删除
+			CookieUtils.deleteCookie(request, response, "cart");
+			// 从服务端取购物车列表
+			cartList = cartService.getCartList(user.getId());
+			
+		}
+
+		// 未登录状态
 		// 把列表传递给页面
 		request.setAttribute("cartList", cartList);
 		// 返回逻辑视图

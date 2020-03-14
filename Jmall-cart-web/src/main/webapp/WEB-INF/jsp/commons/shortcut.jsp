@@ -102,6 +102,6 @@
     </ul>
     <span class="clear"></span>
   </div>
-  <script type="text/javascript" src="/js/e3mall.js"></script>
+  <script type="text/javascript" src="/js/jmall.js"></script>
   <script type="text/javascript" src="/js/jquery.cookie.js"></script>
 </div>
