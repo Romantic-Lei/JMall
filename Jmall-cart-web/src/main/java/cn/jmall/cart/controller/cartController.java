@@ -14,8 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.jmall.common.util.CookieUtils;
+import cn.jmall.common.util.E3Result;
 import cn.jmall.common.util.JsonUtils;
 import cn.jmall.pojo.TbItem;
 import cn.jmall.service.ItemService;
@@ -72,6 +74,11 @@ public class cartController {
 		return "cartSuccess";
 	}
 
+	/**
+	 * 展示购物车列表
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/cart/cart")
 	public String showCatList(HttpServletRequest request) {
 //		从cookie中取购物车列表
@@ -80,6 +87,26 @@ public class cartController {
 		request.setAttribute("cartList", cartList);
 //		返回逻辑视图
 		return "cart";
+	}
+	
+	@RequestMapping("/cart/update/num/{itemId}/{num}")
+	@ResponseBody
+	public E3Result updateCartNum(@PathVariable Long itemId, @PathVariable Integer num, 
+			HttpServletRequest request, HttpServletResponse response) {
+//		从cookie中取购物车列表
+		List<TbItem> cartList = getCartListFromCookie(request);
+//		遍历商品列表找到对应的商品
+		for (TbItem tbItem : cartList) {
+			if(tbItem.getId().longValue() == itemId) {
+//				更新数量
+				tbItem.setNum(num);
+				break;
+			}
+		}
+//		把购物车列表写回cookie
+		CookieUtils.setCookie(request, response, "cart", JsonUtils.objectToJson(cartList), COOKIE_CART_EXPIRE, true);
+//		返回成功
+		return E3Result.ok();
 	}
 	
 	/**
