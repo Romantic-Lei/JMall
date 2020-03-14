@@ -20,10 +20,19 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 	
+	<!-- 拦截器配置 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean class="cn.jmall.cart.interceptor.LoginInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
 	<!-- 引用dubbo服务 -->
 	<dubbo:application name="jmall-cart-web" />
 	<dubbo:registry protocol="zookeeper" address="192.168.0.102:2181" />
 	<!-- 引用服务 -->
 	<dubbo:reference interface="cn.jmall.service.ItemService" id="itemService" />
 	<dubbo:reference interface="cn.jmall.sso.service.TokenService" id="tokenService" />
+	<dubbo:reference interface="cn.jmall.cart.service.CartService" id="cartService" />
 </beans>

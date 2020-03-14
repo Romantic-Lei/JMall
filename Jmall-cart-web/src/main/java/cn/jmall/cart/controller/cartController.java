@@ -3,7 +3,6 @@ package cn.jmall.cart.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cn.jmall.cart.service.CartService;
 import cn.jmall.common.util.CookieUtils;
 import cn.jmall.common.util.E3Result;
 import cn.jmall.common.util.JsonUtils;
 import cn.jmall.pojo.TbItem;
+import cn.jmall.pojo.TbUser;
 import cn.jmall.service.ItemService;
 
 /**
@@ -34,12 +35,23 @@ public class cartController {
 
 	@Autowired
 	private ItemService itemService;
+	@Autowired
+	private CartService cartService;
+	
 	@Value("${COOKIE_CART_EXPIRE}")
 	private Integer COOKIE_CART_EXPIRE;
 
 	@RequestMapping("cart/add/{itemId}")
 	public String addCart(@PathVariable Long itemId, @RequestParam(defaultValue = "1") Integer num,
 			HttpServletRequest request, HttpServletResponse response) {
+		// 判断用户是否登录
+		TbUser user = (TbUser) request.getAttribute("user");
+		if (user != null) {
+			// 用户登录，保存到服务端
+			cartService.addCart(user.getId(), itemId, num);
+			// 保存逻辑视图
+			return "cartSuccess";
+		}
 		// 从cookie中取购物车列表
 		List<TbItem> cartList = getCartListFromCookie(request);
 		boolean flag = false;
@@ -132,7 +144,7 @@ public class cartController {
 		}
 		// 把购物车列表更新到cookie信息
 		CookieUtils.setCookie(request, response, "cart", JsonUtils.objectToJson(cartList), COOKIE_CART_EXPIRE, true);
-		
+
 		// 返回逻辑视图
 		return "redirect:/cart/cart.html";
 	}
