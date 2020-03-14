@@ -97,16 +97,16 @@ public class cartController {
 		// 从cookie中取购物车列表
 		List<TbItem> cartList = getCartListFromCookie(request);
 		// 判断用户是否登录
-		TbUser user = (TbUser)request.getAttribute("user");
+		TbUser user = (TbUser) request.getAttribute("user");
 		// 如果是登录状态
-		if(user != null) {
+		if (user != null) {
 			// 如果不为空，把cookie中的购物车商品和服务端的购物车合并。
 			cartService.mergeCart(user.getId(), cartList);
 			// 把cookie中购物车删除
 			CookieUtils.deleteCookie(request, response, "cart");
 			// 从服务端取购物车列表
 			cartList = cartService.getCartList(user.getId());
-			
+
 		}
 
 		// 未登录状态
@@ -125,6 +125,14 @@ public class cartController {
 	@ResponseBody
 	public E3Result updateCartNum(@PathVariable Long itemId, @PathVariable Integer num, HttpServletRequest request,
 			HttpServletResponse response) {
+		// 判断用户是否为登录状态
+		TbUser user = (TbUser) request.getAttribute("user");
+		if (user != null) {
+			cartService.updateCartNum(user.getId(), itemId, num);
+			return E3Result.ok();
+		}
+
+		// 用户没有登录
 		// 从cookie中取购物车列表
 		List<TbItem> cartList = getCartListFromCookie(request);
 		// 遍历商品列表找到对应的商品
@@ -146,6 +154,14 @@ public class cartController {
 	 */
 	@RequestMapping("/cart/delete/{itemId}")
 	public String deleteCartItem(@PathVariable Long itemId, HttpServletRequest request, HttpServletResponse response) {
+		// 判断用户是否为登录状态
+		TbUser user = (TbUser) request.getAttribute("user");
+		if (user != null) {
+			cartService.deleteCartNum(user.getId(), itemId);
+			return "redirect:/cart/cart.html";
+		}
+
+		// 用户没有登录
 		// 从cookie中取购物车列表
 		List<TbItem> cartList = getCartListFromCookie(request);
 		// 遍历商品列表找到对应的商品

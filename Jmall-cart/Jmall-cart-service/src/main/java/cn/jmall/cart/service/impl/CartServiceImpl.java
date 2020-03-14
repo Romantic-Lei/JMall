@@ -95,4 +95,23 @@ public class CartServiceImpl implements CartService {
 		return itemList;
 	}
 
+	@Override
+	public E3Result updateCartNum(long userId, long itemId, int num) {
+		// 从redis中获取商品信息
+		String json = jedisClient.hget(REDIS_CART_PRE + ":" + userId, itemId + "");
+		// 更新商品数量
+		TbItem tbItem = JsonUtils.jsonToPojo(json, TbItem.class);
+		tbItem.setNum(num);
+		// 写入redis
+		jedisClient.hset(REDIS_CART_PRE + ":" + userId, itemId + "", JsonUtils.objectToJson(tbItem));
+		return E3Result.ok();
+	}
+
+	@Override
+	public E3Result deleteCartNum(long userId, long itemId) {
+		// 删除购物车商品
+		jedisClient.hdel(REDIS_CART_PRE + ":" + userId, itemId + "");
+		return E3Result.ok();
+	}
+
 }
