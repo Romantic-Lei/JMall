@@ -1,5 +1,7 @@
 package cn.jmall.common.jedis;
 
+import java.util.List;
+
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
@@ -83,6 +85,30 @@ public class JedisClientPool implements JedisClient {
 	public Long hdel(String key, String... field) {
 		Jedis jedis = jedisPool.getResource();
 		Long result = jedis.hdel(key, field);
+		jedis.close();
+		return result;
+	}
+
+	@Override
+	public Boolean hexists(String key, String field) {
+		Jedis jedis = jedisPool.getResource();
+		Boolean result = jedis.hexists(key, field);
+		jedis.close();
+		return result;
+	}
+
+	@Override
+	public List<String> hvals(String key) {
+		Jedis jedis = jedisPool.getResource();
+		List<String> result = jedis.hvals(key);
+		jedis.close();
+		return result;
+	}
+
+	@Override
+	public Long del(String key) {
+		Jedis jedis = jedisPool.getResource();
+		Long result = jedis.del(key);
 		jedis.close();
 		return result;
 	}
