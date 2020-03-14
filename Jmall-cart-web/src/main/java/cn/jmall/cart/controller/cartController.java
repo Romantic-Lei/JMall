@@ -62,7 +62,7 @@ public class cartController {
 			tbItem.setNum(num);
 			// 取一张图片
 			String image = tbItem.getImage();
-			if(StringUtils.isNotBlank(image)) {
+			if (StringUtils.isNotBlank(image)) {
 				tbItem.setImage(image.split(",")[0]);
 			}
 			// 把商品调价到商品列表
@@ -76,41 +76,70 @@ public class cartController {
 
 	/**
 	 * 展示购物车列表
+	 * 
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping("/cart/cart")
 	public String showCatList(HttpServletRequest request) {
-//		从cookie中取购物车列表
+		// 从cookie中取购物车列表
 		List<TbItem> cartList = getCartListFromCookie(request);
-//		把列表传递给页面
+		// 把列表传递给页面
 		request.setAttribute("cartList", cartList);
-//		返回逻辑视图
+		// 返回逻辑视图
 		return "cart";
 	}
-	
+
+	/**
+	 * 更新购物车商品数量信息
+	 * 
+	 * @return
+	 */
 	@RequestMapping("/cart/update/num/{itemId}/{num}")
 	@ResponseBody
-	public E3Result updateCartNum(@PathVariable Long itemId, @PathVariable Integer num, 
-			HttpServletRequest request, HttpServletResponse response) {
-//		从cookie中取购物车列表
+	public E3Result updateCartNum(@PathVariable Long itemId, @PathVariable Integer num, HttpServletRequest request,
+			HttpServletResponse response) {
+		// 从cookie中取购物车列表
 		List<TbItem> cartList = getCartListFromCookie(request);
-//		遍历商品列表找到对应的商品
+		// 遍历商品列表找到对应的商品
 		for (TbItem tbItem : cartList) {
-			if(tbItem.getId().longValue() == itemId) {
-//				更新数量
+			if (tbItem.getId().longValue() == itemId) {
+				// 更新数量
 				tbItem.setNum(num);
 				break;
 			}
 		}
-//		把购物车列表写回cookie
+		// 把购物车列表写回cookie
 		CookieUtils.setCookie(request, response, "cart", JsonUtils.objectToJson(cartList), COOKIE_CART_EXPIRE, true);
-//		返回成功
+		// 返回成功
 		return E3Result.ok();
 	}
-	
+
+	/**
+	 * 删除购物车商品牌
+	 */
+	@RequestMapping("/cart/delete/{itemId}")
+	public String deleteCartItem(@PathVariable Long itemId, HttpServletRequest request, HttpServletResponse response) {
+		// 从cookie中取购物车列表
+		List<TbItem> cartList = getCartListFromCookie(request);
+		// 遍历商品列表找到对应的商品
+		for (TbItem tbItem : cartList) {
+			if (tbItem.getId().longValue() == itemId) {
+				// 遍历列表，找到要删除的商品
+				cartList.remove(tbItem);
+				break;
+			}
+		}
+		// 把购物车列表更新到cookie信息
+		CookieUtils.setCookie(request, response, "cart", JsonUtils.objectToJson(cartList), COOKIE_CART_EXPIRE, true);
+		
+		// 返回逻辑视图
+		return "redirect:/cart/cart.html";
+	}
+
 	/**
 	 * 从cookie中取得购物车列表的处理
+	 * 
 	 * @param request
 	 * @return
 	 */
