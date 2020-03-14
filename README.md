@@ -1,5 +1,7 @@
-# JMall
-珞珈商贸系统
+# JMall  珞珈商城
+---
+
+
 
 ###缓存过期
 
@@ -96,5 +98,65 @@ private Destination topicDeleteDestination;
 
 
 
+### cookie
+
+####	用户登陆保存cookie	
+
+​	用户登录时，将cookie保存，默认cookie失效时间为用户关闭浏览器。设置cookie的作用是可以让其跨一级域和二级域，我们在商品首页转到商品搜索，商品详情等页面时，这是跨域请求，可以使用浏览器的cookie+json来处理跨域问题，在js文件中，获取用户登录的cookie信息,然后发送ajax请求:
+
+```js
+checkLogin : function(){
+		var _ticket = $.cookie("token");
+		if(!_ticket){
+			return ;
+		}
+		$.ajax({
+			url : "http://localhost:8088/user/token/" + _ticket,
+			dataType : "jsonp",
+			type : "GET",
+			success : function(data){
+				if(data.status == 200){
+					var username = data.data.username;
+					var html = username + "，欢迎来到珞珈购物网！";
+					$("#loginbar").html(html);
+				}
+			}
+		});
+	}
+```
+
+在表现层Controller接受到请求后（见跨域问题代码），就去服务层取token。完成跨域。
+
+####	cookie保存购物车信息
+
+​	为了用户更好的购物体验，我们商品加入购物车不需要用户登录，那么我们商品加入购物车只能放在用户浏览器的cookie中，注意在cookie中在添加商品数量时，我们要更新cookie信息
 
 
+
+###406(Not Acceptable) 错误问题解决方法
+
+出现406错误超高概率是没有引入处理json的包，引入即可
+
+```xml
+<dependency>
+　　<groupId>com.fasterxml.jackson.core</groupId>
+　　<artifactId>jackson-core</artifactId>
+　　<version>2.7.3</version>
+</dependency>
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.7.3</version>
+</dependency>
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-annotations</artifactId>
+    <version>2.7.3</version>
+</dependency>
+```
+
+还有一种可能是  对应请求的后缀是.html的
+
+如果是以html为后缀的，返回的默认类型是text/html，而请求的是application/json的类型，浏览器无法解析，就会报错。
+
+   **这里可以将请求的后缀改成如 .action等  也可以 就不会报错了** 
