@@ -91,7 +91,7 @@
 						</div>
 						<div class="pItem pWeight">0.05kg<br></div>
 						<div class="pItem pSubtotal">
-							<span id="total_price" class="totalprice">¥<fmt:formatNumber groupingUsed="false" value="${cart.price / 100 * cart.num}" maxFractionDigits="2" minFractionDigits="2"/></span>
+							<span id="${cart.id }" class="totalprice ">¥<fmt:formatNumber groupingUsed="false" value="${cart.price / 100 * cart.num}" maxFractionDigits="2" minFractionDigits="2"/></span>
 						</div>
 						<div class="pItem pInventory">现货</div>
 						<div class="pItem pOperator">
