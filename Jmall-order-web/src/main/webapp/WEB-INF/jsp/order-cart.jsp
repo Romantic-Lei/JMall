@@ -12,7 +12,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" /> 
 <meta name="format-detection" content="telephone=no" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>订单结算页 -宜立方商城</title>
+<title>订单结算页 -珞珈商城</title>
 <!--结算页面样式-->	
 <link rel="stylesheet" type="text/css" href="/css/jquery.alerts.css?v=20160713" />
 <link rel="stylesheet" type="text/css" href="/css/head.css?v=20160713" />
@@ -40,7 +40,7 @@
 		<input type="hidden" name="orderItems[${status.index}].price" value="${cart.price}"/>
 		<input type="hidden" name="orderItems[${status.index}].totalFee" value="${cart.price * cart.num}"/>
 		<input type="hidden" name="orderItems[${status.index}].title" value="${cart.title}"/>
-		<input type="hidden" name="orderItems[${status.index}].picPath" value="${cart.images[0]}"/>
+		<input type="hidden" name="orderItems[${status.index}].picPath" value="${cart.image}"/>
 	</c:forEach>
 	<input type="hidden" name="orderShipping.receiverName" value="入云龙"/>
 	<input type="hidden" name="orderShipping.receiverMobile" value="15800888888"/>
@@ -73,7 +73,7 @@
 					<span class="tOrder" na="chai1">订单1</span>
 					<div class="sOrders">
 						<div class="scon">
-							<strong>宜立方速运</strong>负责配送。<br>商品下单后尽快为您发货
+							<strong>珞珈速运</strong>负责配送。<br>商品下单后尽快为您发货
 						</div>
 					</div>
 					<span class="clear"></span>
@@ -122,7 +122,7 @@
 				<div class="orderPInfo">
 					<div class="pItem">
 						<a href="http://localhost:8086/item/${cart.id}.html" target="_blank">
-						<img src="${cart.images[0] }" style="width: 60px;height: 60px;"/>
+						<img src="${cart.image }" style="width: 60px;height: 60px;"/>
 						</a>
 					</div>
 					<div class="pItem pGoods">
