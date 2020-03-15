@@ -19,6 +19,6 @@
 	<!-- 用dubbo协议在20885端口暴露服务 -->
 	<dubbo:protocol name="dubbo" port="20885" />
 	<!-- 声明需要暴露的服务接口 -->
-<!-- 	<dubbo:service interface="cn.jmall.content.service.ContentCategoryService" ref="contentCategoryServiceImpl" timeout="600000"/> -->
+	<dubbo:service interface="cn.jmall.order.service.OrderService" ref="orderServiceImpl" timeout="600000"/>
 	
 </beans>
