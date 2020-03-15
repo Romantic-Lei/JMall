@@ -12,6 +12,14 @@
 	<!-- 加载配置文件 -->
 	<context:property-placeholder location="classpath:conf/resource.properties" />
 	
+	<!-- 配置拦截器 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean class="cn.jmall.order.interceptor.LoginInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
 	<context:component-scan base-package="cn.jmall.order.controller" />
 	<mvc:annotation-driven />
 	<bean
@@ -25,4 +33,5 @@
 	<dubbo:registry protocol="zookeeper" address="192.168.0.102:2181"/>	
 	<!-- 引用服务 -->
 	<dubbo:reference interface="cn.jmall.cart.service.CartService" id="cartService" />
+	<dubbo:reference interface="cn.jmall.sso.service.TokenService" id="tokenService" />
 </beans>

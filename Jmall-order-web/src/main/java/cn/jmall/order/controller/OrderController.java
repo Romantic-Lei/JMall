@@ -31,7 +31,7 @@ public class OrderController {
 //		根据用户id取收货地址列表  目前使用静态数据
 //		取支付方式 目前使用静态数据
 //		根据用户id取购物车列表
-		List<TbItem> cartList = cartService.getCartList(6);
+		List<TbItem> cartList = cartService.getCartList(user.getId());
 //		把购物车列表传递给jsp
 		request.setAttribute("cartList", cartList);
 		return "order-cart";

@@ -140,7 +140,7 @@
 							if (redirectUrl == "") {
 								location.href = "http://localhost:8082";
 							} else {
-								location.href = redirectUrl;
+								location.href = redirectUrl; // 其他页面传递归来的URL
 							}
 						});
 						
