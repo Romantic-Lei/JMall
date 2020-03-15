@@ -157,7 +157,7 @@ public class cartController {
 		// 判断用户是否为登录状态
 		TbUser user = (TbUser) request.getAttribute("user");
 		if (user != null) {
-			cartService.deleteCartNum(user.getId(), itemId);
+			cartService.deleteCartItem(user.getId(), itemId);
 			return "redirect:/cart/cart.html";
 		}
 

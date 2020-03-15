@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import cn.jmall.common.jedis.JedisClient;
 import cn.jmall.common.util.E3Result;
@@ -16,6 +17,13 @@ import cn.jmall.order.service.OrderService;
 import cn.jmall.pojo.TbOrderItem;
 import cn.jmall.pojo.TbOrderShipping;
 
+/**
+ * 订单处理服务
+ * @author Jmall
+ * @CreateDate 2020年3月15日
+ * @Description
+ */
+@Service
 public class OrderServiceImpl implements OrderService {
 
 	@Autowired
@@ -68,7 +76,7 @@ public class OrderServiceImpl implements OrderService {
 		orderShipping.setUpdated(date);
 		orderShippingMapper.insert(orderShipping);
 		// 返回E3Result，包含订单号
-		return E3Result.ok();
+		return E3Result.ok(orderId);
 	}
 
 }

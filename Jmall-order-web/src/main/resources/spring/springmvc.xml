@@ -34,4 +34,5 @@
 	<!-- 引用服务 -->
 	<dubbo:reference interface="cn.jmall.cart.service.CartService" id="cartService" />
 	<dubbo:reference interface="cn.jmall.sso.service.TokenService" id="tokenService" />
+	<dubbo:reference interface="cn.jmall.order.service.OrderService" id="orderService" />
 </beans>
