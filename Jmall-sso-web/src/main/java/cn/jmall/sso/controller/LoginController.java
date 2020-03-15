@@ -51,5 +51,13 @@ public class LoginController {
 		// 返回结果
 		return e3Result;
 	}
+	
+	@RequestMapping("/user/logout")
+	public String loginOut(HttpServletRequest request) {
+		String token = CookieUtils.getCookieValue(request, TOKEN_KEY, true);
+		loginService.userLoginOut(token);
+		
+		return "redirect:/page/login";
+	}
 
 }

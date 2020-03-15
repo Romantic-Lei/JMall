@@ -16,4 +16,5 @@ public interface LoginService {
 	 */
 	// 返回值：E3Result，其中包括token信息
 	public E3Result userLogin(String username, String password);
+	public E3Result userLoginOut(String token);
 }
