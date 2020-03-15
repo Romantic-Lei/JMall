@@ -161,6 +161,49 @@ checkLogin : function(){
 
    **这里可以将请求的后缀改成如 .action等  也可以 就不会报错了** 
 
+### 购物车结算
+
+​	用户可以不登录浏览商品，可以不用登陆将商品加入购物车，可以不用登陆浏自己cookie中保存的商品信息，但是点击结算时，我们会使用登陆拦截器判断用户是否登陆，如果登录，则直接结算，如果没有登录，我们会跳转到登录页，那么cookie中的购物车商品也会加入到用户实际的购物车中。
+
+​	当用户没有登录点击结算时，我们来到了登录页，登录之后会跳转到商城首页，不符合用户习惯，我们需要的是在什么页面登录的就来到什么页面。所以在购物车结算页面登录我们需要回到结算页面。这时我们在结算登录页通过url传参方式传递当前页面给登录页 **?redirect=URL**
+
+```java
+response.sendRedirect(SSO_URL + "/page/login?redirect=" + request.getRequestURL());
+```
+
+然后在SSO系统的登录方法中，加上相对应的参数:
+
+```java
+@RequestMapping("/page/login")
+public String showLogin(String redirect, Model model) {
+    model.addAttribute("redirect", redirect);
+    return "login";
+}
+```
+
+然后在登录页login.jsp中判断 ，参数redirect是否有值：
+
+```js
+var redirectUrl = "${redirect}";
+doLogin:function() {
+    $.post("/user/login", $("#formlogin").serialize(),function(data){
+        if (data.status == 200) {
+            jAlert('登录成功！',"提示", function(){
+                if (redirectUrl == "") {
+                    location.href = "http://localhost:8082";
+                } else {
+                    location.href = redirectUrl; // 其他页面传递归来的URL
+                }
+            });
+
+        } else {
+            jAlert("登录失败，原因是：" + data.msg,"失败");
+        }
+    });
+}
+}
+```
+
 
 
 
