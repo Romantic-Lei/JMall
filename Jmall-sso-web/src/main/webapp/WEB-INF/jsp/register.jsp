@@ -12,6 +12,7 @@
 <link rel="stylesheet" type="text/css" href="/css/headerfooterindex.css" />
 <script type="text/javascript" src="/js/jquery-1.5.1.min.js"></script>
 <script type="text/javascript" src="/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="/js/reg.js"></script>
 <script type="text/javascript" src="/js/passport.common.js?v20140531"></script>
 <script type="text/javascript" src="/js/jquery.alerts.js"></script>
 <script type="text/javascript" src="/js/png.js?v20140521"></script>

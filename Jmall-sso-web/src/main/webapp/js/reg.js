@@ -284,7 +284,7 @@ var showStrong=function(errid,rankid,rank){
 
 //check password
 var ckpwd=function(isCk,keyup){
-    var val =$.trim( $("#"+PwdId).val() );
+    var val =$.trim( $("#pwd").val() );
     if(val.length<6&&keyup==1){
         showStrong(PwdErrId,pwdStrong,0);
         showRestore(PwdId,PwdErrId);
