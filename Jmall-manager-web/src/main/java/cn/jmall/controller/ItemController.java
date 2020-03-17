@@ -76,14 +76,7 @@ public class ItemController {
 	@RequestMapping(value="/rest/item/delete", method=RequestMethod.POST)
 	@ResponseBody
 	public E3Result deleteBatchItem(String[] ids) throws Exception {
-		FastDFSClient fastDFSClient = new FastDFSClient("classpath:conf/client.conf");
-		E3Result selectItemById = itemService.selectItemById(Long.valueOf(ids[0]));
-		TbItem item = (TbItem) selectItemById.getData();
-		String image = item.getImage();
-		image = image.replace("//", "-");
-		int indexOf = image.indexOf("/");
-		String str = image.substring(indexOf + 1);
-		this.deleteFile(fastDFSClient, str);
+		
 		return itemService.deleteBatchItem(ids);
 	}
 	
@@ -101,9 +94,6 @@ public class ItemController {
 	public E3Result productOffShelves(String[] ids) {
 		
 		return itemService.productOffShelves(ids);
-	}
-	public void  deleteFile(FastDFSClient fastDFSClient, String path) {
-		fastDFSClient.delete_file(path);
 	}
 
 }

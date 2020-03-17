@@ -214,6 +214,21 @@ public class ItemServiceImpl implements ItemService {
 					return textMessage;
 				}
 			});
+			FastDFSClient fastDFSClient = null;
+			try {
+				fastDFSClient = new FastDFSClient("classpath:conf/client.conf");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			E3Result selectItemById = this.selectItemById(Long.valueOf(id));
+			TbItem item = (TbItem) selectItemById.getData();
+			String image = item.getImage();
+			for (String str : image.split(",")) {
+				str = str.replace("//", "-");
+				int indexOf = str.indexOf("/");
+				str = str.substring(indexOf + 1);
+				this.deleteFile(fastDFSClient, str);
+			}
 			// 删除商品信息
 			tbItemMapper.deleteByPrimaryKey(Long.valueOf(id));
 			// 删除商品描述
@@ -269,5 +284,8 @@ public class ItemServiceImpl implements ItemService {
 		}
 		return itemDesc;
 	}
-
+	
+	public void  deleteFile(FastDFSClient fastDFSClient, String path) {
+		fastDFSClient.delete_file(path);
+	}
 }
