@@ -15,18 +15,19 @@ import cn.jmall.common.util.JsonUtils;
 
 /**
  * 图片上传处理Controller
+ * 
  * @author Jmall
  * @CreateDate 2020年3月5日
  * @Description
  */
 @Controller
 public class PictureController {
-	
+
 	// 从属性文件中获取值
 	@Value("${IMAGE_SERVER_URL}")
 	private String IMAGE_SERVER_URL;
-	
-	@RequestMapping(value="/pic/upload", produces=MediaType.TEXT_PLAIN_VALUE+";charset=utf-8")
+
+	@RequestMapping(value = "/pic/upload", produces = MediaType.TEXT_PLAIN_VALUE + ";charset=utf-8")
 	@ResponseBody
 	public String uploadFile(MultipartFile uploadFile) {
 		try {
@@ -34,7 +35,7 @@ public class PictureController {
 			FastDFSClient fastDFSClient = new FastDFSClient("classpath:conf/client.conf");
 			// 取文件扩展名
 			String originalFilename = uploadFile.getOriginalFilename();
-			String extName = originalFilename.substring(originalFilename.lastIndexOf(".")+1);
+			String extName = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
 			// 得到图片地址和文件名
 			String url = fastDFSClient.uploadFile(uploadFile.getBytes(), extName);
 			// 补充为完成的url

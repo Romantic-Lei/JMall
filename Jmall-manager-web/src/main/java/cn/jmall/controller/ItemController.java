@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.jmall.common.pojo.EasyUIDataGridResult;
 import cn.jmall.common.util.E3Result;
+import cn.jmall.common.util.FastDFSClient;
 import cn.jmall.pojo.TbItem;
 import cn.jmall.pojo.TbItemDesc;
 import cn.jmall.service.ItemService;
@@ -74,8 +75,15 @@ public class ItemController {
 	// 批量删除商品信息
 	@RequestMapping(value="/rest/item/delete", method=RequestMethod.POST)
 	@ResponseBody
-	public E3Result deleteBatchItem(String[] ids) {
-		
+	public E3Result deleteBatchItem(String[] ids) throws Exception {
+		FastDFSClient fastDFSClient = new FastDFSClient("classpath:conf/client.conf");
+		E3Result selectItemById = itemService.selectItemById(Long.valueOf(ids[0]));
+		TbItem item = (TbItem) selectItemById.getData();
+		String image = item.getImage();
+		image = image.replace("//", "-");
+		int indexOf = image.indexOf("/");
+		String str = image.substring(indexOf + 1);
+		this.deleteFile(fastDFSClient, str);
 		return itemService.deleteBatchItem(ids);
 	}
 	
@@ -94,6 +102,8 @@ public class ItemController {
 		
 		return itemService.productOffShelves(ids);
 	}
-	
+	public void  deleteFile(FastDFSClient fastDFSClient, String path) {
+		fastDFSClient.delete_file(path);
+	}
 
 }

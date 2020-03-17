@@ -2,6 +2,7 @@ package cn.jmall.service;
 
 import cn.jmall.common.pojo.EasyUIDataGridResult;
 import cn.jmall.common.util.E3Result;
+import cn.jmall.common.util.FastDFSClient;
 import cn.jmall.pojo.TbItem;
 import cn.jmall.pojo.TbItemDesc;
 

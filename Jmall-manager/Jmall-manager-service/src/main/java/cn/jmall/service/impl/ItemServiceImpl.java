@@ -23,6 +23,7 @@ import com.github.pagehelper.PageInfo;
 import cn.jmall.common.jedis.JedisClient;
 import cn.jmall.common.pojo.EasyUIDataGridResult;
 import cn.jmall.common.util.E3Result;
+import cn.jmall.common.util.FastDFSClient;
 import cn.jmall.common.util.IDUtils;
 import cn.jmall.common.util.JsonUtils;
 import cn.jmall.mapper.TbItemDescMapper;

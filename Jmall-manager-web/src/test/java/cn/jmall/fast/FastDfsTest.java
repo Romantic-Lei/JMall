@@ -43,4 +43,14 @@ public class FastDfsTest {
 		String string = fastDFSClient.uploadFile("F:\\桌面美图\\58da2a0732b1f.jpg");
 		System.out.println(string);
 	}
+	
+	@Test
+	public void testDeletePic() throws Exception {
+		FastDFSClient fastDFSClient = new FastDFSClient("F:\\Eclipse\\eclipse-jee-oxygen-R-win32-x86_64\\eclipse\\workspace\\Jmall\\Jmall-manager-web\\src\\main\\resources\\conf\\client.conf");
+		
+		Integer delete_file = fastDFSClient.delete_file("group1/M00/00/00/wKgAZl5weluAftMXAANByEXRryw046.jpg");
+		
+		System.out.println(delete_file);
+	}
+	
 }
