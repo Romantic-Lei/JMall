@@ -1,6 +1,38 @@
 # JMall  珞珈商城
 ---
 
+### ssm整合dubbo
+
+SpringMVC在整合dubbo时，需要在服务层暴露需要提供服务的接口
+
+```xml
+<!-- 使用dubbo发布服务 -->
+	<!-- 提供方应用信息，用于计算依赖关系 -->
+	<dubbo:application name="jmall-content" />
+	<dubbo:registry protocol="zookeeper" address="ip:2181" />
+	<!-- 用dubbo协议在20881端口暴露服务 -->
+	<dubbo:protocol name="dubbo" port="20881" />
+	<!-- 声明需要暴露的服务接口 -->
+<!--
+	<dubbo:service interface="接口的全类名]" ref="实现类对象" timeout="毫秒" />
+-->
+
+	<dubbo:service interface="cn.jmall.content.service.ContentCategoryService" ref="contentCategoryServiceImpl" timeout="600000"/>
+	<dubbo:service interface="cn.jmall.content.service.ContentService" ref="contentServiceImpl" timeout="600000"/>
+```
+
+然后需要在表现层的配置文件中引用服务
+
+```xml
+<!-- 引用dubbo服务 -->
+	<dubbo:application name="jmall-portal-web"/>
+	<dubbo:registry protocol="zookeeper" address="ip:2181"/>	
+	<!-- 引用服务 -->
+	<dubbo:reference interface="cn.jmall.content.service.ContentService" id="contentService" />
+```
+
+
+
 
 
 ###缓存过期
