@@ -9,18 +9,18 @@ import org.csource.fastdfs.StorageClient;
 import org.csource.fastdfs.StorageServer;
 import org.csource.fastdfs.TrackerClient;
 import org.csource.fastdfs.TrackerServer;
-import org.junit.Test;
 
 import cn.jmall.common.util.FastDFSClient;
 
 public class FastDfsTest {
 
 	// 文件上传
-//	@Test
+	// @Test
 	public void testUpload() throws FileNotFoundException, IOException, MyException {
 		// 创建配置文件，文件名任意，内容是tracker服务器地址
 		// 使用全局对象加载配置文件
-		ClientGlobal.init("F:\\Eclipse\\eclipse-jee-oxygen-R-win32-x86_64\\eclipse\\workspace\\Jmall\\Jmall-manager-web\\src\\main\\resources\\conf\\client.conf");
+		ClientGlobal.init(
+				"F:\\Eclipse\\eclipse-jee-oxygen-R-win32-x86_64\\eclipse\\workspace\\Jmall\\Jmall-manager-web\\src\\main\\resources\\conf\\client.conf");
 		// 创建一个TrackerClient对象
 		TrackerClient trackerClient = new TrackerClient();
 		// 通过TrackerClient获取一个TrackerServer对象
@@ -35,16 +35,17 @@ public class FastDfsTest {
 			System.out.println(string);
 		}
 	}
-	
+
 	// 文件上传
-//	@Test
+	// @Test
 	public void testFastDfsClient() throws Exception {
-		FastDFSClient fastDFSClient = new FastDFSClient("F:\\Eclipse\\eclipse-jee-oxygen-R-win32-x86_64\\eclipse\\workspace\\Jmall\\Jmall-manager-web\\src\\main\\resources\\conf\\client.conf");
+		FastDFSClient fastDFSClient = new FastDFSClient(
+				"F:\\Eclipse\\eclipse-jee-oxygen-R-win32-x86_64\\eclipse\\workspace\\Jmall\\Jmall-manager-web\\src\\main\\resources\\conf\\client.conf");
 		String string = fastDFSClient.uploadFile("F:\\桌面美图\\58da2a0732b1f.jpg");
 		System.out.println(string);
 	}
-	
-	@Test
+
+	// @Test
 	public void testDeletePic() throws Exception {
 		FastDFSClient fastDFSClient = new FastDFSClient("F:\\Eclipse\\eclipse-jee-oxygen-R-win32-x86_64\\eclipse\\workspace\\Jmall\\Jmall-manager-web\\src\\main\\resources\\conf\\client.conf");
 		
@@ -52,5 +53,5 @@ public class FastDfsTest {
 		
 		System.out.println(delete_file);
 	}
-	
+
 }
