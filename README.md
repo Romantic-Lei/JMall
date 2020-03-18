@@ -31,6 +31,83 @@ SpringMVC在整合dubbo时，需要在服务层暴露需要提供服务的接口
 	<dubbo:reference interface="cn.jmall.content.service.ContentService" id="contentService" />
 ```
 
+#### sorl索引库
+
+需要配置sorl和Tomcat整合。
+
+在使用sorl索引库时，需要有商品一键导入和商品单独导入的功能。在商品一键导入功能中，我们需要查询到所有商品，然后利用SolrInputDocument对象把文档添加到索引库里
+
+```java
+public E3Result importAllItems() {
+    try {
+        // 查询商品列表
+        List<SearchItem> itemList = itemMapper.getItemList();
+        // 遍历商品列表
+        for (SearchItem searchItem : itemList) {
+            // 创建文档对象
+            SolrInputDocument document = new SolrInputDocument();
+            // 向文档中添加作用域
+            document.addField("id", searchItem.getId());
+            // 把文档对象写入索引库
+            solrServer.add(document);
+        }
+        // 提交
+        solrServer.commit();
+        // 返回导入成功
+        return Result.ok();
+    } catch (Exception e) {
+        e.printStackTrace();
+        return Result.build(500, "数据导入时发生异常");
+    }
+}
+```
+
+**若是自动同步到索引库我们就需要使用Activemq来监听商品添加 修改和删除同步索引库**
+
+即我们在商品管理页面，在增删改时，都需要整合activemq的消息发送
+
+```java
+public Result deleteBatchItem(String[] ids) {
+    for (String id : ids) {
+        // 发送商品删除信息
+        jmsTemplate.send(topicDeleteDestination, new MessageCreator() {
+
+            @Override
+            public Message createMessage(Session session) throws JMSException {
+                TextMessage textMessage = session.createTextMessage(id + "");
+                return textMessage;
+            }
+        });
+    }
+}
+```
+
+在消息监听方法上需要实现MessageListener方法
+
+```java
+public class ItemDeleteMessageListener implements MessageListener {
+    @Autowired
+    private SolrServer solrServer;
+
+    @Override
+    public void onMessage(Message message) {
+        try {
+            // 从消息中取商品id
+            TextMessage textMessage = (TextMessage) message;
+            String text = textMessage.getText();
+            Long itemId = new Long(text);
+            solrServer.deleteById(itemId.toString());
+            // 提交
+            solrServer.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+
+
 
 
 
