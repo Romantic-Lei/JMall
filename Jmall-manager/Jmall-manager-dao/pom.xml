@@ -42,4 +42,18 @@
 			<artifactId>druid</artifactId>
 		</dependency>
 	</dependencies>
+	<!-- 如果不添加此节点mybatis的mapper.xml文件都会被漏掉。 -->
+	<!-- 不加此配置那么我们dao中mapper映射文件就需要写到src/main/resources,路径名必须和实体名路径一致 -->
+	<build>
+		<resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+	</build>
 </project>
