@@ -10,13 +10,12 @@ import com.easybuy.pojo.TbBrand;
 import com.easybuy.sellergoods.service.BrandService;
 
 @RestController
-@RequestMapping("/brand")
 public class BrandController {
 	
 	@Reference
 	private BrandService brandService;
 	
-	@RequestMapping("/findAll")
+	@RequestMapping("/brand/findAll")
 	public List<TbBrand> findAll(){
 		
 		return brandService.findAll();
