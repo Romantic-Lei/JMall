@@ -18,116 +18,14 @@
 	<link rel="stylesheet" href="../plugins/angularjs/pagination.css">
 	<!-- 分页组件结束 -->
     
-    <script type="text/javascript">
-	    var app=angular.module('easybuy',['pagination']);//定义品优购模块
-		app.controller('brandController',function($scope,$http){
-			
-			$scope.findAll=function(){
-				$http.get('../brand/findAll.do').success(
-					function(response){
-						$scope.list=response;//给列表变量赋值 
-					}
-				);				
-			}
-			
-			//分页控件配置   currentPage:当前页   totalItems:总记录数   
-			//itemsPerPage:每页显示记录数   perPageOptions：分页选项   onChange :当你更改页码的时候出发的事件  
-			$scope.paginationConf = {
-				currentPage: 1,
-				totalItems: 10,
-				itemsPerPage: 10,
-				perPageOptions: [10, 20, 30, 40, 50],
-				onChange: function(){
-					$scope.reloadList(); 
-				}
-			};
-			
-			//刷新列表 
-			$scope.reloadList=function(){
-				$scope.search( $scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage);				
-			};
-			
-			$scope.searchEntity={};//定义搜索对象 
-			//分页方法 
-			$scope.findPage=function(page,rows){
-				$http.get('../brand/findPage.do?page='+page+"&rows="+rows).success(
-					function(response){
-						$scope.paginationConf.totalItems=response.total;//总记录数 
-						$scope.list=response.rows;//给列表变量赋值 
-					}
-				);				
-			}
-			
-			//查询实体 
-			$scope.findOne=function(id){
-				$http.get('../brand/findOne.do?id='+id).success(
-					function(response){
-						$scope.entity=response;
-					}		
-				);				
-			}
-			
-			$scope.save=function(){
-				var methodName="add";
-				if($scope.entity.id != null){
-					methodName="update";
-				}
-				
-				$http.post('../brand/'+ methodName +'.do', $scope.entity).success(
-					function(response){
-						if(response.success){
-							$scope.reloadList();
-						}else {
-							alert(response.message);
-						}
-					}
-				);
-			}
-			
-			$scope.selectIds=[];//用户选定复选的ID集合 
-			//更新数组 
-			$scope.updateSelection=function($event,id){
-				
-				if($event.target.checked){
-					$scope.selectIds.push(id);			
-				}else{
-					
-					var index= $scope.selectIds.indexOf(id);//在数组中查找指定值的位置 
-					$scope.selectIds.splice(index,1);//从数组中移除元素  参数1：从哪开始移除  参数2：移除元素个数 
-				}					
-			}
-			
-			//批量删除 
-			$scope.dele=function(){
-				
-				$http.get('../brand/delete.do?ids='+$scope.selectIds).success(
-					function(response){
-						if(response.success){//如果成功
-							$scope.reloadList();//刷新列表 
-						}else{
-							alert(response.message);//提示错误 
-						}						
-					}			
-				);				
-			}
-			
-			$scope.searchEntity={};//定义搜索对象 
-			//条件查询 
-			$scope.search=function(page,rows){
-				$http.post('../brand/search.do?page='+page+"&rows="+rows, $scope.searchEntity).success(
-					function(response){
-						$scope.paginationConf.totalItems=response.total;//总记录数 
-						$scope.list=response.rows;//给列表变量赋值 
-					}		
-				);				
-			}
-			
-		});
-	    
-    </script>
-    
+    <script type="text/javascript" src="../js/base_pagination.js"></script>	
+	<script type="text/javascript" src="../js/service/brandService.js"></script>
+	<script type="text/javascript" src="../js/controller/baseController.js"></script>
+
+	<script type="text/javascript" src="../js/controller/brandController.js"></script>
+	
 </head>
-<body class="hold-transition skin-red sidebar-mini" ng-app="easybuy" ng-controller="brandController" ng-init="reloadList()">
+<body class="hold-transition skin-red sidebar-mini" ng-app="easybuy" ng-controller="brandController">
   <!-- .box-body -->
                     <div class="box-header with-border">
                         <h3 class="box-title">品牌管理</h3>
