@@ -15,7 +15,7 @@
     <script type="text/javascript" src="../plugins/angularjs/angular.min.js"></script>
     
     <script type="text/javascript">
-	    var app=angular.module('easybuy',[]);//定义品优购模块
+	    var app=angular.module('easybuy',['pagination']);//定义品优购模块
 		app.controller('brandController',function($scope,$http){
 			
 			$scope.findAll=function(){
@@ -25,11 +25,43 @@
 					}
 				);				
 			}
+			
+			//分页控件配置   currentPage:当前页   totalItems:总记录数   
+			//itemsPerPage:每页显示记录数   perPageOptions：分页选项   onChange :当你更改页码的时候出发的事件  
+			$scope.paginationConf = {
+				currentPage: 1,
+				totalItems: 10,
+				itemsPerPage: 10,
+				perPageOptions: [10, 20, 30, 40, 50],
+				onChange: function(){
+					$scope.reloadList();
+				}
+			};
+			
+			//刷新列表 
+			$scope.reloadList=function(){
+				$scope.search( $scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage);				
+			}
+			
+			//分页方法 
+			$scope.findPage=function(page,rows){
+				$http.get('../brand/findPage.do?page='+page+"&rows="+rows).success(
+					function(response){
+						$scope.paginationConf.totalItems=response.total;//总记录数 
+						$scope.list=response.rows;//给列表变量赋值 
+					}
+				);				
+			}	
+			
 		});
     </script>
+    <!-- 分页组件开始 -->
+	<script src="../plugins/angularjs/pagination.js"></script>
+	<link rel="stylesheet" href="../plugins/angularjs/pagination.css">
+	<!-- 分页组件结束 -->
     
 </head>
-<body class="hold-transition skin-red sidebar-mini" ng-app="easybuy" ng-controller="brandController" ng-init="findAll()">
+<body class="hold-transition skin-red sidebar-mini" ng-app="easybuy" ng-controller="brandController" ng-init="reloadList()">
   <!-- .box-body -->
                     <div class="box-header with-border">
                         <h3 class="box-title">品牌管理</h3>
@@ -83,7 +115,7 @@
 			                      </tbody>
 			                  </table>
 			                  <!--数据列表/-->                        
-							  
+							  <tm-pagination conf="paginationConf"></tm-pagination>
 							 
                         </div>
                         <!-- 数据表格 /-->
