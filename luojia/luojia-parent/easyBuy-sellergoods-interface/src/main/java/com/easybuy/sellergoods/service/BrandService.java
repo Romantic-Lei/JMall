@@ -14,4 +14,5 @@ import com.easybuy.pojo.TbBrand;
 public interface BrandService {
 	public List<TbBrand> findAll();								// 返回全部列表
 	public PageResult findPage(int pageNum, int pageSize);		// 分页
+	public void add(TbBrand brand);								// 品牌新增
 }
