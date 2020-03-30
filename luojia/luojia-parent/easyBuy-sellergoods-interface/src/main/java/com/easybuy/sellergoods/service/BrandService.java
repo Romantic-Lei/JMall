@@ -18,4 +18,5 @@ public interface BrandService {
 	public TbBrand findOne(Long id);							// 根据id查询实体
 	public void update(TbBrand brand);							// 更新实体
 	public void delete(Long[] ids);								// 删除品牌
+	public PageResult findPage(TbBrand brand,int pageNum, int pageSize);		//带条件分页
 }

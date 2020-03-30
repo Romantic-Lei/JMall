@@ -44,9 +44,10 @@
 			
 			//刷新列表 
 			$scope.reloadList=function(){
-				$scope.findPage( $scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage);				
+				$scope.search( $scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage);				
 			};
 			
+			$scope.searchEntity={};//定义搜索对象 
 			//分页方法 
 			$scope.findPage=function(page,rows){
 				$http.get('../brand/findPage.do?page='+page+"&rows="+rows).success(
@@ -110,6 +111,17 @@
 				);				
 			}
 			
+			$scope.searchEntity={};//定义搜索对象 
+			//条件查询 
+			$scope.search=function(page,rows){
+				$http.post('../brand/search.do?page='+page+"&rows="+rows, $scope.searchEntity).success(
+					function(response){
+						$scope.paginationConf.totalItems=response.total;//总记录数 
+						$scope.list=response.rows;//给列表变量赋值 
+					}		
+				);				
+			}
+			
 		});
 	    
     </script>
@@ -131,14 +143,16 @@
                                 <div class="form-group form-inline">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-default" title="新建" data-toggle="modal" data-target="#editModal" ng-click="entity={}" ><i class="fa fa-file-o"></i> 新建</button>
-                                        <button type="button" class="btn btn-default" title="删除" ><i class="fa fa-trash-o"></i> 删除</button>           
+                                        <button type="button" class="btn btn-default" title="删除" ng-click="dele()"><i class="fa fa-trash-o"></i> 删除</button>           
                                         <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
                                     </div>
                                 </div>
                             </div>
                             <div class="box-tools pull-right">
                                 <div class="has-feedback">
-							                                         
+							        品牌名称：<input ng-model="searchEntity.name">                                 
+							        首字母：<input ng-model="searchEntity.firstChar">                                 
+                              <button type="button" class="btn btn-default" ng-click="search(paginationConf.currentPage,paginationConf.itemsPerPage)"><i class="fa fa-file-o"></i> 查询</button>
                                 </div>
                             </div>
                             <!--工具栏/-->

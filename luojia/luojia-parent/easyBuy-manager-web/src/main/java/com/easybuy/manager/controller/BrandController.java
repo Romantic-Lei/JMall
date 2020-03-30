@@ -69,4 +69,17 @@ public class BrandController {
 		}
 	}
 	
+	/**
+	 * 查询加分页
+	 * @param brand
+	 * @param page
+	 * @param rows
+	 * @return
+	 */
+	@RequestMapping("/brand/search")
+	public PageResult search(@RequestBody TbBrand brand, int page, int rows) {
+		
+		return brandService.findPage(brand, page, rows);
+	}
+	
 }
