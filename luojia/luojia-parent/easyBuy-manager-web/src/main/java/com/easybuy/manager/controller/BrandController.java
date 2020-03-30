@@ -48,13 +48,24 @@ public class BrandController {
 	}
 	
 	@RequestMapping("/brand/update")
-	public Result update(TbBrand brand) {
+	public Result update(@RequestBody TbBrand brand) {
 		
 		try {
 			brandService.update(brand);
 			return new Result(true, "更新成功");
 		} catch (Exception e) {
 			return new Result(false, "更新失败");
+		}
+	}
+	
+	@RequestMapping("/brand/delete")
+	public Result delete(Long[] ids) {
+		
+		try {
+			brandService.delete(ids);
+			return new Result(true, "删除成功");
+		} catch (Exception e) {
+			return new Result(false, "删除失败");
 		}
 	}
 	

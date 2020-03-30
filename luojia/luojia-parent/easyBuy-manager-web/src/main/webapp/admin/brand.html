@@ -57,6 +57,15 @@
 				);				
 			}
 			
+			//查询实体 
+			$scope.findOne=function(id){
+				$http.get('../brand/findOne.do?id='+id).success(
+					function(response){
+						$scope.entity=response;
+					}		
+				);				
+			}
+			
 			$scope.save=function(){
 				var methodName="add";
 				if($scope.entity.id != null){
@@ -65,7 +74,7 @@
 				
 				$http.post('../brand/'+ methodName +'.do', $scope.entity).success(
 					function(response){
-						if(response.successs){
+						if(response.success){
 							$scope.reloadList();
 						}else {
 							alert(response.message);
@@ -73,16 +82,36 @@
 					}
 				);
 			}
+			
+			$scope.selectIds=[];//用户选定复选的ID集合 
+			//更新数组 
+			$scope.updateSelection=function($event,id){
+				
+				if($event.target.checked){
+					$scope.selectIds.push(id);			
+				}else{
+					
+					var index= $scope.selectIds.indexOf(id);//在数组中查找指定值的位置 
+					$scope.selectIds.splice(index,1);//从数组中移除元素  参数1：从哪开始移除  参数2：移除元素个数 
+				}					
+			}
+			
+			//批量删除 
+			$scope.dele=function(){
+				
+				$http.get('../brand/delete.do?ids='+$scope.selectIds).success(
+					function(response){
+						if(response.success){//如果成功
+							$scope.reloadList();//刷新列表 
+						}else{
+							alert(response.message);//提示错误 
+						}						
+					}			
+				);				
+			}
+			
 		});
 	    
-		//查询实体 
-		$scope.findOne=function(id){
-			$http.get('../brand/findOne.do?id='+id).success(
-				function(response){
-					$scope.entity=response;
-				}		
-			);				
-		}
     </script>
     
 </head>
@@ -163,11 +192,11 @@
 			<table class="table table-bordered table-striped"  width="800px">
 		      	<tr>
 		      		<td>品牌名称</td>
-		      		<td><input  class="form-control" ng-model="etity.name" placeholder="品牌名称" >  </td>
+		      		<td><input  class="form-control" ng-model="entity.name" placeholder="品牌名称" >  </td>
 		      	</tr>		      	
 		      	<tr>
 		      		<td>首字母</td>
-		      		<td><input  class="form-control" ng-model="etity.firstChar" placeholder="首字母">  </td>
+		      		<td><input  class="form-control" ng-model="entity.firstChar" placeholder="首字母">  </td>
 		      	</tr>		      	
 			 </table>				
 		</div>

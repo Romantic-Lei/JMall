@@ -17,4 +17,5 @@ public interface BrandService {
 	public void add(TbBrand brand);								// 品牌新增
 	public TbBrand findOne(Long id);							// 根据id查询实体
 	public void update(TbBrand brand);							// 更新实体
+	public void delete(Long[] ids);								// 删除品牌
 }
