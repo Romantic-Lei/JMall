@@ -14,9 +14,21 @@
 	<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
     
+    <script type="text/javascript" src="../plugins/angularjs/angular.min.js"></script>
+    <!-- 分页组件开始 -->
+	<script src="../plugins/angularjs/pagination.js"></script>
+	<link rel="stylesheet" href="../plugins/angularjs/pagination.css">
+	<!-- 分页组件结束 -->
+    
+    <script type="text/javascript" src="../js/base_pagination.js"></script>	
+	<script type="text/javascript" src="../js/service/specificationService.js"></script>
+
+	<script type="text/javascript" src="../js/controller/baseController.js"></script>
+	<script type="text/javascript" src="../js/controller/specificationController.js"></script>
+	
 </head>
 
-<body class="hold-transition skin-red sidebar-mini" >
+<body class="hold-transition skin-red sidebar-mini" ng-app="easybuy" ng-controller="specificationController">
   <!-- .box-body -->                
                     <div class="box-header with-border">
                         <h3 class="box-title">规格管理</h3>
@@ -56,18 +68,10 @@
 			                          </tr>
 			                      </thead>
 			                      <tbody>
-			                          <tr >
+			                          <tr ng-repeat="entity in list">
 			                              <td><input  type="checkbox" ></td>			                              
-				                          <td>1</td>
-									      <td>网络制式</td>
-		                                  <td class="text-center">                                           
-		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal">修改</button>                                           
-		                                  </td>
-			                          </tr>
-									  <tr >
-			                              <td><input  type="checkbox" ></td>			                              
-				                          <td>2</td>
-									      <td>服装尺码</td>
+				                          <td>{{entity.id}}</td>
+									      <td>{{entity.specName}}</td>
 		                                  <td class="text-center">                                           
 		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal">修改</button>                                           
 		                                  </td>
@@ -77,6 +81,8 @@
 			                  <!--数据列表/-->    
                         </div>
                         <!-- 数据表格 /--> 
+                        <tm-pagination conf="paginationConf"></tm-pagination>
+                        
                      </div>
                     <!-- /.box-body -->                    
 	          		    
