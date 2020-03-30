@@ -104,6 +104,11 @@
 
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper</artifactId>
+			<version>3.4.2-fix</version>
+		</dependency>
 
 	</dependencies>
 
