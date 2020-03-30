@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.easybuy.entity.PageResult;
 import com.easybuy.pojo.TbBrand;
 import com.easybuy.sellergoods.service.BrandService;
 
@@ -19,5 +20,11 @@ public class BrandController {
 	public List<TbBrand> findAll(){
 		
 		return brandService.findAll();
+	}
+	
+	@RequestMapping("/brand/findPage")
+	public PageResult findPage(int page, int rows) {
+		
+		return brandService.findPage(page, rows);
 	}
 }
