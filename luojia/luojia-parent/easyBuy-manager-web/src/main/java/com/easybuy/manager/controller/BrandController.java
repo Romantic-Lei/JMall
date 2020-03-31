@@ -1,6 +1,7 @@
 package com.easybuy.manager.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -80,6 +81,12 @@ public class BrandController {
 	public PageResult search(@RequestBody TbBrand brand, int page, int rows) {
 		
 		return brandService.findPage(brand, page, rows);
+	}
+	
+	@RequestMapping("/brand/selectOptionList")
+	public List<Map> selectOptionList() {
+		
+		return brandService.selectOptionList();
 	}
 	
 }

@@ -1,6 +1,7 @@
 package com.easybuy.sellergoods.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.easybuy.entity.PageResult;
 import com.easybuy.pojo.TbBrand;
@@ -19,4 +20,5 @@ public interface BrandService {
 	public void update(TbBrand brand);							// 更新实体
 	public void delete(Long[] ids);								// 删除品牌
 	public PageResult findPage(TbBrand brand,int pageNum, int pageSize);		//带条件分页
+	public List<Map> selectOptionList();								// 下拉列表数据
 }

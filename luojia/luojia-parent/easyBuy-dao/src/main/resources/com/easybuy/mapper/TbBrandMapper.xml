@@ -67,6 +67,9 @@
   <sql id="Base_Column_List" >
     id, name, first_char
   </sql>
+  <select id="selectOptionList" resultType="java.util.Map">
+  	select id, name as text from tb_brand
+  </select>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.easybuy.pojo.TbBrandExample" >
     select
     <if test="distinct" >

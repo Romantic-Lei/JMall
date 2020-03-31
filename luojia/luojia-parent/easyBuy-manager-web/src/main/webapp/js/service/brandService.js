@@ -33,4 +33,8 @@
 				return $http.get('../brand/selectOptionList.do');
 			}
 			
+			this.selectOptionList=function(){
+				return $http.get('../brand/selectOptionList.do');
+			}
+			
 		});
