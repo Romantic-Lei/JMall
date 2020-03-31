@@ -86,5 +86,16 @@ app.controller('specificationController' ,function($scope,$controller   ,specifi
 	$scope.deleTableRow=function(index){
 		$scope.entity.specificationOptionList.splice( index,1 );
 	}
+	
+	// 增加表格行
+    $scope.addTableRow=function(){
+    	$scope.entity.specificationOptionList.push({});
+    }
     
+    // 删除表格行
+    $scope.deleTableRow=function(index){
+    	$scope.entity.specificationOptionList.splice(index, 1);
+    }
+	
+	
 });	
