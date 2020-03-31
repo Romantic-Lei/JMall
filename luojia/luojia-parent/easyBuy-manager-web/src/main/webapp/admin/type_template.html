@@ -36,7 +36,7 @@
 	
 </head>
 
-<body class="hold-transition skin-red sidebar-mini" ng-app="easybuy" ng-controller="typeTemplateController" ng-init="findBrandList()">
+<body class="hold-transition skin-red sidebar-mini" ng-app="easybuy" ng-controller="typeTemplateController" ng-init="findBrandList();findSpecificationList()">
   <!-- .box-body -->
                 
                     <div class="box-header with-border">
@@ -135,7 +135,7 @@
 		      	<tr>
 		      		<td>关联规格</td>
 		      		<td>
-		<input select2 select2-model="entity.specIds" config="options['specification']" multiple placeholder="选择规格（可多选）" class="form-control" type="text"/>
+						<input select2 select2-model="entity.specIds" config="specificationList" multiple placeholder="选择规格（可多选）" class="form-control" type="text"/>
 		      		</td>
 		      	</tr>	
 		      	
