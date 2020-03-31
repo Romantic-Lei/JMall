@@ -73,7 +73,7 @@ public class SpecificationServiceImpl implements SpecificationService {
 	public void update(Specification specification){
 		//更新规格
 		specificationMapper.updateByPrimaryKey(specification.getSpecification());
-				
+		
 		//删除规格选项
 		
 		TbSpecificationOptionExample example=new TbSpecificationOptionExample();
@@ -123,14 +123,13 @@ public class SpecificationServiceImpl implements SpecificationService {
 	@Override
 	public void delete(Long[] ids) {
 		for(Long id:ids){
-			specificationMapper.deleteByPrimaryKey(id);
-			
 			//删除规格选项	
-			
 			TbSpecificationOptionExample example=new TbSpecificationOptionExample();
 			com.easybuy.pojo.TbSpecificationOptionExample.Criteria criteria = example.createCriteria();
 			criteria.andSpecIdEqualTo(id);//删除条件
 			specificationOptionMapper.deleteByExample(example);
+			
+			specificationMapper.deleteByPrimaryKey(id);
 		}		
 	}
 	

@@ -12,7 +12,7 @@
     
 	<dubbo:application name="easybuy-sellergoods-service"/>  
     <dubbo:registry address="zookeeper://192.168.1.7:2181"/> 
-    <dubbo:provider timeout="500000" retries="0"/>
+    <dubbo:provider timeout="300000" retries="0"/>
     <dubbo:annotation package="com.easybuy.sellergoods.service.impl"/>  
    
    
