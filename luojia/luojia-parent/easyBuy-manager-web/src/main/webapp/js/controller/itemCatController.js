@@ -76,6 +76,12 @@ app.controller('itemCatController' ,function($scope,$controller   ,itemCatServic
 		);
 	}
 	
+	$scope.grade=1; //当前分类级别
+	$scope.setGrade=function(value){
+		$scope.grade=value;
+	}
+	
+	//根据上级Id查询分类级别
 	$scope.findByParentId=function(parentId){
 		itemCatService.findByParentId(parentId).success(
 			function(response){
