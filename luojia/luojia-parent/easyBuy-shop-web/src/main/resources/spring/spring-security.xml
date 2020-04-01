@@ -39,7 +39,9 @@
 	
 	<!-- 认证管理器 -->
 	<authentication-manager>
-		<authentication-provider user-service-ref="userDetailService"></authentication-provider>
+		<authentication-provider user-service-ref="userDetailService">
+			<password-encoder ref="passwordEncoder"/>
+		</authentication-provider>
 	</authentication-manager>
 	
 	<!-- 认证类 -->
@@ -51,5 +53,7 @@
 	<dubbo:application name="easybuy-shop-web" />
 	<dubbo:registry address="zookeeper://192.168.1.7:2181"/>
 	<dubbo:reference id="sellerService" interface="com.easybuy.sellergoods.service.SellerService" timeout="300000"></dubbo:reference>
+	
+	<bean:bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean:bean>
 	
 </bean:beans>
