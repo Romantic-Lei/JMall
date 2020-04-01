@@ -35,13 +35,13 @@
                     <div class="box-body">
                   			 <ol class="breadcrumb">	                        	
                         		<li>
-		                        	<a href="#" >顶级分类列表</a> 
+		                        	<a href="#" ng-click="setGrade(1); selectList({id:0})">顶级分类列表</a> 
 		                        </li>
 		                        <li>
-		                       		<a href="#" >珠宝</a>
+		                       		<a href="#" ng-click="setGrade(2); selectList(entity_1)">{{entity_1.name}}</a>
 		                        </li>
 		                        <li>
-		                        	<a href="#" >银饰</a>
+		                        	<a href="#" ng-click="setGrade(3); selectList(entity_2)">{{entity_2.name}}</a>
 		                        </li>
 	                        </ol>
 
@@ -85,7 +85,7 @@
 									      </td>									      
 		                                  <td class="text-center">		
 		                                  	  <span ng-if=grade<3>                                    
-		                                     	 <button type="button" class="btn bg-olive btn-xs" ng-click="setGrade(grade+1); findByParentId(entity.id)" >查询下级</button> 		                                     
+		                                     	 <button type="button" class="btn bg-olive btn-xs" ng-click="setGrade(grade+1); selectList(entity)" >查询下级</button> 		                                     
 		                                      </span> 
 		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal" >修改</button>                                           
 		                                  </td>
