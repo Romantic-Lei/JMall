@@ -87,7 +87,7 @@
 		                                  	  <span ng-if=grade<3>                                    
 		                                     	 <button type="button" class="btn bg-olive btn-xs" ng-click="setGrade(grade+1); selectList(entity)" >查询下级</button> 		                                     
 		                                      </span> 
-		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal" >修改</button>                                           
+		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal" ng-click="findOne(entity.id)">修改</button>                                           
 		                                  </td>
 			                          </tr>
 			                      </tbody>
@@ -118,24 +118,24 @@
 				<tr>
 		      		<td>上级商品分类</td>
 		      		<td>
-		      		   珠宝 >>  银饰
+		      		   {{entity_1.name}} >>  {{entity_2.name}}
 		      		</td>
 		      	</tr>
 		      	<tr>
 		      		<td>商品分类名称</td>
-		      		<td><input  class="form-control" placeholder="商品分类名称">  </td>
+		      		<td><input  class="form-control" ng-model="entity.name" placeholder="商品分类名称">  </td>
 		      	</tr>			  
 		      	<tr>
 		      		<td>类型模板</td>
 		      		<td>	      		
-		      			<input select2 config="options['type_template']" placeholder="商品类型模板" class="form-control" type="text"/>
+		      			<input select2 config="options['type_template']"  ng-model="entity.typeId" placeholder="商品类型模板" class="form-control" type="text"/>
 		      		</td>		      		      		
 		      	</tr>		      	
 			 </table>				
 			
 		</div>
 		<div class="modal-footer">						
-			<button class="btn btn-success" data-dismiss="modal" aria-hidden="true">保存</button>
+			<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" ng-click="save()">保存</button>
 			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
 		</div>
 	  </div>

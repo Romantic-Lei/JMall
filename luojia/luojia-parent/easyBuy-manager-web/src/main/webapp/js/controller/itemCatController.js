@@ -32,7 +32,9 @@ app.controller('itemCatController' ,function($scope,$controller   ,itemCatServic
 	}
 	
 	//保存 
-	$scope.save=function(){				
+	$scope.save=function(){		
+		$scope.entity.parentId=$scope.parentId;
+		
 		var serviceObject;//服务层对象  				
 		if($scope.entity.id!=null){//如果有ID
 			serviceObject=itemCatService.update( $scope.entity ); //修改  
@@ -43,7 +45,7 @@ app.controller('itemCatController' ,function($scope,$controller   ,itemCatServic
 			function(response){
 				if(response.success){
 					//重新查询 
-		        	$scope.reloadList();//重新加载
+		        	$scope.findByParentId($scope.parentId);
 				}else{
 					alert(response.message);
 				}
@@ -83,6 +85,7 @@ app.controller('itemCatController' ,function($scope,$controller   ,itemCatServic
 	
 	//根据上级Id查询分类级别
 	$scope.findByParentId=function(parentId){
+		$scope.parentId=parentId;
 		itemCatService.findByParentId(parentId).success(
 			function(response){
 				$scope.list=response;	
@@ -90,6 +93,7 @@ app.controller('itemCatController' ,function($scope,$controller   ,itemCatServic
 		);
 	}
 	
+	$scope.parentId=0; //上级id
 	$scope.selectList=function(p_entity){
 		if($scope.grade==1){
 			$scope.entity_1=null;
