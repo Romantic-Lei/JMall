@@ -30,6 +30,7 @@
 			<!-- 不拦截静态帧框架 -->
 			<frame-options policy="SAMEORIGIN"/>
 		</headers>
+		<logout/>
 	</http>
 	
 	<!-- 认证管理器 -->

@@ -1,4 +1,5 @@
 package com.easybuy.sellergoods.service.impl;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,8 @@ public class SellerServiceImpl implements SellerService {
 	 */
 	@Override
 	public void add(TbSeller seller) {
+		seller.setStatus("0"); // 设置状态0，已注册，等待审核通过
+		seller.setCreateTime(new Date()); // 填表申请日期
 		sellerMapper.insert(seller);		
 	}
 
