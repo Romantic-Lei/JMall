@@ -19,6 +19,7 @@
 	<!-- 页面的拦截规则  use-expressions:是否启用SPEL表达式，默认是true -->
 	<http use-expressions="false">
 		<!-- 当前用户必须有ROLE_ADMIN的角色才可以访问根目录及所属子目录的资源 -->
+		<!-- 如果use-expressions="true"，那么下面access="hasRole('ROLE_SELLER')" -->
 		<intercept-url pattern="/**" access="ROLE_SELLER"/>
 		<!-- 开启表单登录功能 -->
 		<!-- 
