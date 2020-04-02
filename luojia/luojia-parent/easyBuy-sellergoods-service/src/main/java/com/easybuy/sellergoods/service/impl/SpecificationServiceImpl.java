@@ -5,18 +5,18 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.easybuy.TbSpecification.Specification;
 import com.easybuy.entity.PageResult;
 import com.easybuy.mapper.TbSpecificationMapper;
 import com.easybuy.mapper.TbSpecificationOptionMapper;
 import com.easybuy.pojo.TbSpecification;
 import com.easybuy.pojo.TbSpecificationExample;
+import com.easybuy.pojo.TbSpecificationExample.Criteria;
 import com.easybuy.pojo.TbSpecificationOption;
 import com.easybuy.pojo.TbSpecificationOptionExample;
+import com.easybuy.pojogroup.Specification;
 import com.easybuy.sellergoods.service.SpecificationService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.easybuy.pojo.TbSpecificationExample.Criteria;
 
 /**
  * 服务实现层

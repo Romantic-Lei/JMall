@@ -3,6 +3,7 @@ import java.util.List;
 
 import com.easybuy.entity.PageResult;
 import com.easybuy.pojo.TbGoods;
+import com.easybuy.pojogroup.Goods;
 /**
  * 服务层接口
  * @author Administrator
@@ -27,7 +28,7 @@ public interface GoodsService {
 	/**
 	 * 增加
 	*/
-	public void add(TbGoods goods);
+	public void add(Goods goods);
 	
 	
 	/**

@@ -1,6 +1,7 @@
 package com.easybuy.manager.controller;
 import java.util.List;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,6 +10,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.easybuy.entity.PageResult;
 import com.easybuy.entity.Result;
 import com.easybuy.pojo.TbGoods;
+import com.easybuy.pojogroup.Goods;
 import com.easybuy.sellergoods.service.GoodsService;
 /**
  * controller
@@ -47,7 +49,7 @@ public class GoodsController {
 	 * @return
 	 */
 	@RequestMapping("/add")
-	public Result add(@RequestBody TbGoods goods){
+	public Result add(@RequestBody Goods goods){
 		try {
 			goodsService.add(goods);
 			return new Result(true, "增加成功");

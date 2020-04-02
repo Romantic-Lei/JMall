@@ -2,9 +2,9 @@ package com.easybuy.sellergoods.service;
 import java.util.List;
 import java.util.Map;
 
-import com.easybuy.TbSpecification.Specification;
 import com.easybuy.entity.PageResult;
 import com.easybuy.pojo.TbSpecification;
+import com.easybuy.pojogroup.Specification;
 /**
  * 服务层接口
  * @author Administrator

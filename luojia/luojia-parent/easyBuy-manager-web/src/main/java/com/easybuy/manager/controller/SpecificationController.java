@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.easybuy.TbSpecification.Specification;
 import com.easybuy.entity.PageResult;
 import com.easybuy.entity.Result;
 import com.easybuy.pojo.TbSpecification;
+import com.easybuy.pojogroup.Specification;
 import com.easybuy.sellergoods.service.SpecificationService;
 
 /**

@@ -1,4 +1,4 @@
-package com.easybuy.TbSpecification;
+package com.easybuy.pojogroup;
 import java.io.Serializable;
 import java.util.List;
 

@@ -5,10 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.easybuy.entity.PageResult;
+import com.easybuy.mapper.TbGoodsDescMapper;
 import com.easybuy.mapper.TbGoodsMapper;
 import com.easybuy.pojo.TbGoods;
 import com.easybuy.pojo.TbGoodsExample;
 import com.easybuy.pojo.TbGoodsExample.Criteria;
+import com.easybuy.pojogroup.Goods;
 import com.easybuy.sellergoods.service.GoodsService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -23,6 +25,8 @@ public class GoodsServiceImpl implements GoodsService {
 
 	@Autowired
 	private TbGoodsMapper goodsMapper;
+	@Autowired
+	private TbGoodsDescMapper GoodsDescMapper;
 	
 	/**
 	 * 查询全部
@@ -46,8 +50,15 @@ public class GoodsServiceImpl implements GoodsService {
 	 * 增加
 	 */
 	@Override
-	public void add(TbGoods goods) {
-		goodsMapper.insert(goods);		
+	public void add(Goods goods) {
+		
+		goods.getGoods().setAuditStatus("0"); // 设置初始化状态，商品未上架
+		// 添加商品
+		goodsMapper.insert(goods.getGoods());	
+		
+		// 添加商品描述
+		goods.getGoodsDesc().setGoodsId(goods.getGoods().getId()); // 设置商品描述id
+		GoodsDescMapper.insert(goods.getGoodsDesc());
 	}
 
 	
