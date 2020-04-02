@@ -25,6 +25,7 @@
     
     <script type="text/javascript" src="../js/base.js"></script>	
 	<script type="text/javascript" src="../js/service/goodsService.js"></script>
+	<script type="text/javascript" src="../js/service/itemCatService.js"></script>
 
 	<script type="text/javascript" src="../js/controller/baseController.js"></script>
 	<script type="text/javascript" src="../js/controller/goodsController.js"></script>
@@ -34,7 +35,7 @@
     
 </head>
 
-<body class="hold-transition skin-red sidebar-mini" ng-app="easybuy" ng-controller="goodsController" >
+<body class="hold-transition skin-red sidebar-mini" ng-app="easybuy" ng-controller="goodsController" ng-init="selectItemCat1List()" >
 
             <!-- 正文区域 -->
             <section class="content">
@@ -73,7 +74,7 @@
 		                           	  	<table>
 		                           	  		<tr>
 		                           	  			<td>
-		                           	  				<select class="form-control" >														
+		                           	  				<select class="form-control" ng-model="entity.goods.category1Id" ng-options="item.id as item.name  for item in itemCat1List">														
 		                           	  				</select>
 		                              			</td>
 		                              			<td>
