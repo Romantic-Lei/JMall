@@ -6,4 +6,16 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>easyBuy-common</artifactId>
+  <dependencies>
+  	<!-- 文件上传组件 -->
+	<dependency>
+		<groupId>org.csource.fastdfs</groupId>
+		<artifactId>fastdfs</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>commons-fileupload</groupId>
+		<artifactId>commons-fileupload</artifactId>
+	</dependency>
+  
+  </dependencies>
 </project>
