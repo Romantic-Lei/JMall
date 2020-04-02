@@ -71,11 +71,23 @@ public class ItemCatServiceImpl implements ItemCatService {
 
 	/**
 	 * 批量删除
+	 * @throws Exception 
 	 */
 	@Override
-	public void delete(Long[] ids) {
+	public void delete(Long[] ids) throws Exception {
 		for(Long id:ids){
-			itemCatMapper.deleteByPrimaryKey(id);
+			TbItemCatExample example = new TbItemCatExample();
+			Criteria criteria = example.createCriteria();
+			criteria.andParentIdEqualTo(id);
+			
+			List<TbItemCat> itemCat = itemCatMapper.selectByExample(example);
+			if(itemCat == null || itemCat.size() == 0) {
+				// 当前结点不是父节点，可以删除
+				itemCatMapper.deleteByPrimaryKey(id);
+			}else {
+				throw new Exception();
+			}
+			
 		}		
 	}
 	
