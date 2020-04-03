@@ -7,7 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.easybuy.entity.Result;
 
-import cn.jmall.common.util.FastDFSClient;
+import util.FastDFSClient;
+
 
 @RestController
 public class UploadController {

@@ -143,7 +143,7 @@
 								 <!-- 颜色图片 -->
 								 <div class="btn-group">
 					                 <button type="button" class="btn btn-default" title="新建" data-target="#uploadModal"  data-toggle="modal" ng-click="imageEntity={}" ><i class="fa fa-file-o"></i> 新建</button>
-                             		 <button type="button" class="btn btn-default" title="删除" ><i class="fa fa-trash-o"></i> 删除</button>                 
+                             		                  
 					             </div>
 								 
 								 <table class="table table-bordered table-striped table-hover dataTable">
@@ -154,6 +154,7 @@
 					                            </th>
 											    <th class="sorting">颜色</th>
 											    <th class="sorting">图片</th>
+											    <th class="sorting">操作</th>
 							            </thead>
 					                    <tbody>
 					                      <tr ng-repeat="imageEntity in entity.goodsDesc.itemImages">
@@ -163,6 +164,9 @@
 									            </td>
 									            <td>
 									           		<img alt="" src="{{imageEntity.url}}" width="100px" height="100px">	            	 
+									            </td>
+									            <td>
+									            	<button type="button" class="btn btn-default" title="删除" ng-click="removeImageEntity($index)"><i class="fa fa-trash-o"></i> 删除</button>
 									            </td>
 					                      </tr>
 					                    </tbody>
@@ -374,7 +378,7 @@
 			<table class="table table-bordered table-striped">
 		      	<tr>
 		      		<td>颜色</td>
-		      		<td><input  class="form-control" placeholder="颜色" ng-model="imageEentity.color">  </td>
+		      		<td><input  class="form-control" placeholder="颜色" ng-model="imageEntity.color">  </td>
 		      	</tr>			    
 		      	<tr>
 		      		<td>商品图片</td>

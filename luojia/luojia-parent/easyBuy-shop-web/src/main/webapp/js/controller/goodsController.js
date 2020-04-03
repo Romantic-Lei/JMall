@@ -162,4 +162,9 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService, i
 		$scope.entity.goodsDesc.itemImages.push($scope.imageEntity);
 	}
 	
+	//从图片列表中删除图片
+	$scope.removeImageEntity=function(index){
+		$scope.entity.goodsDesc.itemImages.splice(index, 1);
+	}
+	
 });	
