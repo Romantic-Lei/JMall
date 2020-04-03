@@ -81,7 +81,7 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService, i
 		);
 	}
     
-	// 查询以及分类列表
+	// 查询一级分类列表
 	$scope.selectItemCat1List=function(){
 		itemCatService.findByParentId(0).success(
 			function(response){
@@ -122,7 +122,6 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService, i
 		//读取品牌列表和扩展属性
 		typeTemplateService.findOne(newValue).success(
 			function(response){
-				alert();
 				$scope.typeTemplate=response;	//获取模板数据
 				$scope.typeTemplate.brandIds= JSON.parse($scope.typeTemplate.brandIds); //品牌列表类型转换
 				$scope.entity.goodsDesc.customAttributeItems = JSON.parse($scope.typeTemplate.customAttributeItems);//扩展属性

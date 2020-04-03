@@ -179,18 +179,12 @@
                             <!--扩展属性-->
                             <div class="tab-pane" id="customAttribute">
                                 <div class="row data-type">                                
-	                                <div>
-		                                <div class="col-md-2 title">扩展属性1</div>
+	                                <div ng-repeat="pojo in entity.goodsDesc.customAttributeItems">
+		                                <div class="col-md-2 title">{{pojo.text}}</div>
 				                        <div class="col-md-10 data">
-				                              <input class="form-control" placeholder="扩展属性1">	            	 
+				                              <input class="form-control" ng-model="pojo.value" placeholder="{{pojo.text}}">	            	 
 				                        </div>
 	                                </div>       
-									<div>
-		                                <div class="col-md-2 title">扩展属性2</div>
-				                        <div class="col-md-10 data">
-				                              <input class="form-control" placeholder="扩展属性2">	            	 
-				                        </div>
-	                                </div>  									
                                 </div>
                             </div>
                       
@@ -209,37 +203,16 @@
                             	
 	                                <div class="row data-type">
 	                                
-		                                <div>
-			                                <div class="col-md-2 title">屏幕尺寸</div>
+		                                <div ng-repeat="pojo in specList">
+			                                <div class="col-md-2 title">{{pojo.text}}</div>
 					                        <div class="col-md-10 data">
 					                               
-					                            <span>
-					                            	<input  type="checkbox" >4.0					                            				                            	
+					                            <span ng-repeat="p in pojo.options">
+					                            	<input  type="checkbox" >{{p.options}}				                            				                            	
 					                            </span>  	
-												<span>
-					                            	<input  type="checkbox" >4.5					                            				                            	
-					                            </span>
-												<span>
-					                            	<input  type="checkbox" >5.0					                            				                            	
-					                            </span>												
-					                            	
 					                        </div>
 		                                </div>   
-										<div>
-			                                <div class="col-md-2 title">网络制式</div>
-					                        <div class="col-md-10 data">
-					                               
-					                            <span>
-					                            	<input  type="checkbox" >2G					                            				                            	
-					                            </span>  	
-												<span>
-					                            	<input  type="checkbox" >3G					                            				                            	
-					                            </span>
-												<span>
-					                            	<input  type="checkbox" >4G					                            				                            	
-					                            </span>												
-					                            	
-					                        </div>
+										
 		                                </div>  
 		                                                                                  
 	                                </div>

@@ -1,5 +1,6 @@
 package com.easybuy.sellergoods.service;
 import java.util.List;
+import java.util.Map;
 
 import com.easybuy.entity.PageResult;
 import com.easybuy.pojo.TbTypeTemplate;
@@ -57,5 +58,12 @@ public interface TypeTemplateService {
 	 * @return
 	 */
 	public PageResult findPage(TbTypeTemplate typeTemplate, int pageNum,int pageSize);
+	
+	/**
+	 * 查询规格列表
+	 * @param id
+	 * @return
+	 */
+	public List<Map> findSpecList(Long id);
 	
 }

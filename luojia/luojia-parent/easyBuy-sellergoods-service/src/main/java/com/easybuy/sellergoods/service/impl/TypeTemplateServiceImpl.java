@@ -1,17 +1,22 @@
 package com.easybuy.sellergoods.service.impl;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.alibaba.fastjson.JSON;
 import com.easybuy.entity.PageResult;
+import com.easybuy.mapper.TbSpecificationOptionMapper;
 import com.easybuy.mapper.TbTypeTemplateMapper;
+import com.easybuy.pojo.TbSpecificationOption;
+import com.easybuy.pojo.TbSpecificationOptionExample;
 import com.easybuy.pojo.TbTypeTemplate;
 import com.easybuy.pojo.TbTypeTemplateExample;
+import com.easybuy.pojo.TbTypeTemplateExample.Criteria;
 import com.easybuy.sellergoods.service.TypeTemplateService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.easybuy.pojo.TbTypeTemplateExample.Criteria;
 
 /**
  * 服务实现层
@@ -23,6 +28,9 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
 
 	@Autowired
 	private TbTypeTemplateMapper typeTemplateMapper;
+	@Autowired
+	private TbSpecificationOptionMapper specificationOptionMapper;
+	
 	
 	/**
 	 * 查询全部
@@ -106,5 +114,22 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
 		Page<TbTypeTemplate> page= (Page<TbTypeTemplate>)typeTemplateMapper.selectByExample(example);		
 		return new PageResult(page.getTotal(), page.getResult());
 	}
+
+		@Override
+		public List<Map> findSpecList(Long id) {
+			//根据ID查询模板 
+			TbTypeTemplate typeTemplate = typeTemplateMapper.selectByPrimaryKey(id);
+			List<Map> list = JSON.parseArray(typeTemplate.getSpecIds(), Map.class) ;
+			for(Map map:list) {
+				//查询规格选项列表
+				TbSpecificationOptionExample example=new TbSpecificationOptionExample();
+				com.easybuy.pojo.TbSpecificationOptionExample.Criteria criteria = example.createCriteria();
+				criteria.andSpecIdEqualTo( new Long((Integer )map.get("id")));
+				List<TbSpecificationOption> options = specificationOptionMapper.selectByExample(example);
+				map.put("options", options);
+			}
+			
+			return list;
+		}
 	
 }
