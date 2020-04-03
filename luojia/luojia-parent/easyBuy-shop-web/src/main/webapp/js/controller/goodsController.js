@@ -139,7 +139,19 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService, i
 	});
 	// 上传文件
 	$scope.uploadFile=function(){
-		
+		uploadService.uploadFile().success(
+			function(response){
+				if(response.success){
+					$scope.imageUrl=response.message;
+				} else {
+					alert(response.message);
+				}
+			}
+		).error(
+			function(){
+				alert("上传出错");
+			}
+		);
 	}
 	
 });	
