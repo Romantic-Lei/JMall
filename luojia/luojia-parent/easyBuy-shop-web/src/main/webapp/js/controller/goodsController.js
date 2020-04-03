@@ -137,12 +137,13 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService, i
 		);
 		
 	});
+	
 	// 上传文件
 	$scope.uploadFile=function(){
 		uploadService.uploadFile().success(
 			function(response){
 				if(response.success){
-					$scope.imageUrl=response.message;
+					$scope.imageEntity.url=response.message;
 				} else {
 					alert(response.message);
 				}
@@ -152,6 +153,13 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService, i
 				alert("上传出错");
 			}
 		);
+	}
+	
+	$scope.entity={goods:{}, goodsDesc:{itemImages:[]}};// 定义实体结构
+	//向图片服务器添加图片
+	$scope.addImageEntity=function(){
+		
+		$scope.entity.goodsDesc.itemImages.push($scope.imageEntity);
 	}
 	
 });	
