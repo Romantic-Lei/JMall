@@ -189,17 +189,18 @@
                             </div>
                       
                             <!--规格-->
+                            
                             <div class="tab-pane" id="spec">
                             	<div class="row data-type">
 	                            	<div class="col-md-2 title">是否启用规格</div>
 			                        <div class="col-md-10 data">
-			                        	<input type="checkbox" >
+			                        	<input type="checkbox" ng-model="entity.goods.isEnableSpec" ng-true-value="1" ng-false-value="0">
 			                            <button type="button" class="btn btn-default" title="自定义规格" data-target="#mySpecModal"  data-toggle="modal"  ><i class="fa fa-file-o"></i> 自定义规格</button>               
 			                        </div>
                             	</div>
                             	<p>
                             	
-                            	<div>
+                            	<div ng-if="entity.goods.isEnableSpec==1">
                             	
 	                                <div class="row data-type">
 	                                
