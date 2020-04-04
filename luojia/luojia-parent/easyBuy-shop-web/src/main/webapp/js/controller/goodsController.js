@@ -220,4 +220,19 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService, i
 		return newList;
 	}
 	
+	// 定义状态
+	$scope.status=['未审核','已审核', '已驳回', '已关闭'];
+	
+	$scope.itemCatList=[]; // 商品分类数据
+	$scope.findItemCatList=function(){
+		itemCatService.findAll().success(
+			function(response){
+				//$scope.findItemCatList=response;
+				for(var i=0; i<response.length;i++){
+					$scope.itemCatList[response[i].id]=response[i].name;
+				}
+			}
+		);
+	}
+	
 });	
