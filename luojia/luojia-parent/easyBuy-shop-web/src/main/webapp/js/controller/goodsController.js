@@ -174,16 +174,50 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService, i
 		
 		var specList=$scope.entity.goodsDesc.specificationItems;	
 		for(var i=0; i<specList.length;i++){
-			if($event.target.checked){//如果是选中
-				specList[i].attributeValue.push(value);		
-			}else{//如果取消选中
-				specList[i].attributeValue.splice(specList[i].attributeValue.indexOf(value),1);
-			}
-			
-			return ;
+			if(specList[i].attributeName==name){//如果存在规格
+				if($event.target.checked){//如果是选中
+					specList[i].attributeValue.push(value);		
+				}else{//如果取消选中
+					specList[i].attributeValue.splice(specList[i].attributeValue.indexOf(value),1);
+				}
+				
+				return ;
+			}			
 		}
 		//如果不存在
 		specList.push({attributeName:name,attributeValue:[value]});
+	}
+	
+	//构建sku表格
+	$scope.createSKUTable=function(){
+		
+		var list=[{spec:{},price:0,stockCount:99999  }];//初始化集合
+		
+		var specList=$scope.entity.goodsDesc.specificationItems;
+		
+		for(var i=0;i< specList.length;i++ ){//循环规格
+			
+			list=addColumns(list, specList[i].attributeName, specList[i].attributeValue );
+		}
+		
+		$scope.entity.skuList=list;//SKU商品列表
+		
+	}
+	
+	//向sku表添加列
+	addColumns=function(list,columName,columValues){
+		
+		var newList=[];//最后生成的记录个数=  原来的记录个数* 规格选项的个数
+		
+		for(var i=0;i<list.length;i++){
+						
+			for(var j=0;j<columValues.length;j++){  
+				var newRow = JSON.parse(JSON.stringify( list[i]));//深克隆
+				newRow.spec[columName]=columValues[j];
+				newList.push(newRow);
+			}				
+		}		
+		return newList;
 	}
 	
 });	
