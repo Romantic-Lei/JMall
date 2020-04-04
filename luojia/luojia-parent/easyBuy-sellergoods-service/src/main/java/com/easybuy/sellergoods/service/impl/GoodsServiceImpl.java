@@ -18,6 +18,7 @@ import com.easybuy.mapper.TbItemMapper;
 import com.easybuy.mapper.TbSellerMapper;
 import com.easybuy.pojo.TbBrand;
 import com.easybuy.pojo.TbGoods;
+import com.easybuy.pojo.TbGoodsDesc;
 import com.easybuy.pojo.TbGoodsExample;
 import com.easybuy.pojo.TbGoodsExample.Criteria;
 import com.easybuy.pojo.TbItem;
@@ -168,8 +169,16 @@ public class GoodsServiceImpl implements GoodsService {
 	 * @return
 	 */
 	@Override
-	public TbGoods findOne(Long id) {
-		return goodsMapper.selectByPrimaryKey(id);
+	public Goods findOne(Long id) {
+		// 查询商品信息
+		TbGoods tbGoods = goodsMapper.selectByPrimaryKey(id);
+		// 查询商品扩展信息
+		TbGoodsDesc tbGoodsDesc = GoodsDescMapper.selectByPrimaryKey(id);
+		Goods goods = new Goods();
+		goods.setGoods(tbGoods);
+		goods.setGoodsDesc(tbGoodsDesc);
+		
+		return goods;
 	}
 
 	/**
