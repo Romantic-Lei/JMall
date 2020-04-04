@@ -191,7 +191,7 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService, i
 	//构建sku表格
 	$scope.createSKUTable=function(){
 		
-		var list=[{spec:{},price:0,stockCount:99999  }];//初始化集合
+		var list=[{spec:{},price:0,num:99999,status:'0', isDefault:'0'  }];//初始化集合
 		
 		var specList=$scope.entity.goodsDesc.specificationItems;
 		
@@ -205,15 +205,15 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService, i
 	}
 	
 	//向sku表添加列
-	addColumns=function(list,columName,columValues){
+	addColumns=function(list,columnName,columnValues){
 		
 		var newList=[];//最后生成的记录个数=  原来的记录个数* 规格选项的个数
 		
 		for(var i=0;i<list.length;i++){
 						
-			for(var j=0;j<columValues.length;j++){  
+			for(var j=0;j<columnValues.length;j++){  
 				var newRow = JSON.parse(JSON.stringify( list[i]));//深克隆
-				newRow.spec[columName]=columValues[j];
+				newRow.spec[columnName]=columnValues[j];
 				newList.push(newRow);
 			}				
 		}		

@@ -2,6 +2,7 @@ package com.easybuy.pojogroup;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import com.easybuy.pojo.TbGoods;
 import com.easybuy.pojo.TbGoodsDesc;
@@ -19,6 +20,15 @@ public class Goods implements Serializable {
 	private TbGoods goods;
 	private TbGoodsDesc goodsDesc;
 	private List<TbItem> itemList;
+	private List<Map> skuList;// SKU商品列表
+
+	public List<Map> getSkuList() {
+		return skuList;
+	}
+
+	public void setSkuList(List<Map> skuList) {
+		this.skuList = skuList;
+	}
 
 	public TbGoods getGoods() {
 		return goods;

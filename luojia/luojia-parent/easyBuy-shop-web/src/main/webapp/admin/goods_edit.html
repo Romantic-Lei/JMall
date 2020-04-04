@@ -240,7 +240,7 @@
 										           		<input class="form-control" ng-model="pojo.price" placeholder="价格">
 										            </td>
 										            <td>
-										            	<input class="form-control" ng-model="pojo.stockCount" placeholder="库存数量">
+										            	<input class="form-control" ng-model="pojo.num" placeholder="库存数量">
 										            </td>
 										            <td>
 										             	<input type="checkbox" ng-model="pojo.status" ng-true-value="1" ng-false-value="0">
@@ -335,12 +335,12 @@
 			<table class="table table-bordered table-striped">
 		      	<tr>
 		      		<td>规格名称</td>
-		      		<td><input  class="form-control" placeholder="规格名称" ng-model="spec_entity.text">  </td>
+		      		<td><input  class="form-control" placeholder="规格名称" ng-model="spec_entity.text" ng-model="spec_entity.text">  </td>
 		      	</tr>			    
 		      	<tr>
 		      		<td>规格选项(用逗号分隔)</td>
 		      		<td>
-						<input  class="form-control" placeholder="规格选项" ng-model="spec_entity.values">
+						<input  class="form-control" placeholder="规格选项" ng-model="spec_entity.values" ng-model="spec_entity.values">
 		      		</td>
 		      	</tr>		      	
 			 </table>				

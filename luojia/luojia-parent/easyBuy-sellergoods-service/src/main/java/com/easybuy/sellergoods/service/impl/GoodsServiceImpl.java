@@ -1,15 +1,26 @@
 package com.easybuy.sellergoods.service.impl;
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.easybuy.entity.PageResult;
+import com.easybuy.mapper.TbBrandMapper;
 import com.easybuy.mapper.TbGoodsDescMapper;
 import com.easybuy.mapper.TbGoodsMapper;
+import com.easybuy.mapper.TbItemCatMapper;
+import com.easybuy.mapper.TbItemMapper;
+import com.easybuy.mapper.TbSellerMapper;
+import com.easybuy.pojo.TbBrand;
 import com.easybuy.pojo.TbGoods;
 import com.easybuy.pojo.TbGoodsExample;
 import com.easybuy.pojo.TbGoodsExample.Criteria;
+import com.easybuy.pojo.TbItem;
+import com.easybuy.pojo.TbItemCat;
+import com.easybuy.pojo.TbSeller;
 import com.easybuy.pojogroup.Goods;
 import com.easybuy.sellergoods.service.GoodsService;
 import com.github.pagehelper.Page;
@@ -27,6 +38,14 @@ public class GoodsServiceImpl implements GoodsService {
 	private TbGoodsMapper goodsMapper;
 	@Autowired
 	private TbGoodsDescMapper GoodsDescMapper;
+	@Autowired
+	private TbItemMapper itemMapper;
+	@Autowired
+	private TbItemCatMapper itemCatMapper;
+	@Autowired
+	private TbBrandMapper brandMapper;
+	@Autowired
+	private TbSellerMapper sellerMapper;
 	
 	/**
 	 * 查询全部
@@ -59,6 +78,56 @@ public class GoodsServiceImpl implements GoodsService {
 		// 添加商品描述
 		goods.getGoodsDesc().setGoodsId(goods.getGoods().getId()); // 设置商品描述id
 		GoodsDescMapper.insert(goods.getGoodsDesc());
+		
+		//添加SKU商品信息
+		List<Map> skuList = goods.getSkuList();
+		for(Map map:skuList) {
+			TbItem item=new TbItem();
+			
+			// 构建标题 SPU名称+规格选项值
+			String title = goods.getGoods().getGoodsName();// SPU名称
+			Map<String, Object> specMap=(Map)map.get("spec") ;
+			for (String key : specMap.keySet()) {
+				title += " " + specMap.get(key);
+			}
+			
+			item.setTitle(title);// 标题
+			item.setPrice(new BigDecimal( (String)map.get("price")  ));//价格
+			
+			if( map.get("num") instanceof String ){
+				item.setNum(  Integer.parseInt( (String) map.get("num")));//库存
+				System.out.println("String...");
+			}
+			
+			if( map.get("num") instanceof Integer ){
+				item.setNum(  (Integer) map.get("num"));//库存
+				System.out.println("Integer...");
+			}
+			item.setStatus((String)map.get("status"));//状态
+			item.setIsDefault((String)map.get("isDefault"));//是否默认
+			
+			// 商品分类
+			item.setCategoryid(goods.getGoods().getCategory3Id()); // 三级分类id
+			item.setCreateTime(new Date());// 创建日期
+			item.setUpdateTime(new Date()); // 更新日期
+			
+			item.setGoodsId(goods.getGoods().getId()); // 商品id
+			item.setSellerId(goods.getGoods().getSellerId());// 商家id
+			
+			// 分类名称
+			TbItemCat itemCat = itemCatMapper.selectByPrimaryKey(goods.getGoods().getCategory3Id());
+			item.setCategory(itemCat.getName());
+			
+			// 品牌名称
+			TbBrand brand = brandMapper.selectByPrimaryKey(goods.getGoods().getBrandId());
+			item.setBrand(brand.getName());
+			
+			// 商家名称
+			TbSeller seller = sellerMapper.selectByPrimaryKey(goods.getGoods().getSellerId());
+			item.setSeller(seller.getNickName());
+			
+			itemMapper.insert(item);
+		}
 	}
 
 	
