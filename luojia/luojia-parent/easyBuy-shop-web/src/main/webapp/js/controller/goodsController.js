@@ -26,11 +26,18 @@ app.controller('goodsController' ,function($scope,$controller,$location   ,goods
 	$scope.findOne=function(id){	
 		
 		var id = $location.search()["id"];
-		alert(id);
+		
+		if(typeof(id)=='undefined'){
+			return ;
+		}
+		
 		goodsService.findOne(id).success(
 			function(response){
-				alert(JSON.stringify(response));
-				$scope.entity= response;					
+				$scope.entity= response;
+				// 操作富文本编辑器
+				editor.html($scope.entity.goodsDesc.introduction);// 商品介绍
+				$scope.entity.goodsDesc.itemImages=JSON.parse($scope.entity.goodsDesc.itemImages);
+				$scope.entity.goodsDesc.customAttributeItems=JSON.parse($scope.entity.goodsDesc.customAttributeItems);
 			}
 		);				
 	}
@@ -128,7 +135,10 @@ app.controller('goodsController' ,function($scope,$controller,$location   ,goods
 			function(response){
 				$scope.typeTemplate=response;	//获取模板数据
 				$scope.typeTemplate.brandIds= JSON.parse($scope.typeTemplate.brandIds); //品牌列表类型转换
-				$scope.entity.goodsDesc.customAttributeItems = JSON.parse($scope.typeTemplate.customAttributeItems);//扩展属性
+				// 判断是都有id参数
+				if( typeof($location.search()['id']) == 'undefined'){
+					$scope.entity.goodsDesc.customAttributeItems = JSON.parse($scope.typeTemplate.customAttributeItems);//扩展属性
+				}
 			}
 		);
 		
