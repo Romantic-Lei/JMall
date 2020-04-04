@@ -154,7 +154,8 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService, i
 		);
 	}
 	
-	$scope.entity={goods:{}, goodsDesc:{itemImages:[]}};// 定义实体结构
+	$scope.entity={goods:{}, goodsDesc:{itemImages:[], specificationItems:[]}};// 定义实体结构
+	
 	//向图片服务器添加图片
 	$scope.addImageEntity=function(){
 		
@@ -164,6 +165,25 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService, i
 	//从图片列表中删除图片
 	$scope.removeImageEntity=function(index){
 		$scope.entity.goodsDesc.itemImages.splice(index, 1);
+	}
+	
+	//更新规格选项
+	$scope.updateSpecAttribute=function($event,name,value){
+		// 判断当前操作的规格名称是否在你要添加的集合变量中
+		// 如果存在，直接添加值，如果不存在记录，添加记录
+		
+		var specList=$scope.entity.goodsDesc.specificationItems;	
+		for(var i=0; i<specList.length;i++){
+			if($event.target.checked){//如果是选中
+				specList[i].attributeValue.push(value);		
+			}else{//如果取消选中
+				specList[i].attributeValue.splice(specList[i].attributeValue.indexOf(value),1);
+			}
+			
+			return ;
+		}
+		//如果不存在
+		specList.push({attributeName:name,attributeValue:[value]});
 	}
 	
 });	

@@ -208,7 +208,7 @@
 					                        <div class="col-md-10 data">
 					                               
 					                            <span ng-repeat="p in pojo.options">
-					                            	<input  type="checkbox" >{{p.options}}				                            				                            	
+					                            	<input  type="checkbox" ng-click="updateSpecAttribute($event, pojo.text, p.optionName)">{{p.optionName}}				                            				                            	
 					                            </span>  	
 					                        </div>
 		                                </div>   
