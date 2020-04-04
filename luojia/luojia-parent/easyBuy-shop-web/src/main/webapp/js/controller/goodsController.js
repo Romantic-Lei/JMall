@@ -38,6 +38,8 @@ app.controller('goodsController' ,function($scope,$controller,$location   ,goods
 				editor.html($scope.entity.goodsDesc.introduction);// 商品介绍
 				$scope.entity.goodsDesc.itemImages=JSON.parse($scope.entity.goodsDesc.itemImages);
 				$scope.entity.goodsDesc.customAttributeItems=JSON.parse($scope.entity.goodsDesc.customAttributeItems);
+				
+				$scope.entity.goodsDesc.specificationItems=JSON.parse($scope.entity.goodsDesc.specificationItems);
 			}
 		);				
 	}
@@ -247,6 +249,19 @@ app.controller('goodsController' ,function($scope,$controller,$location   ,goods
 				}
 			}
 		);
+	}
+	
+	// 验证规格和规格选项是否被勾选
+	$scope.checkAttributeValue=function(specName, optionsName){
+		var specList = $scope.entity.goodsDesc.specificationItems;// 用户选择的规格列表
+		for(var i=0; i<specList.length; i++){
+			if(specList[i].attributeName==specName){
+				if(specList[i].attributeValue.indexOf(optionsName)>=0){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 });	
