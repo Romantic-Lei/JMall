@@ -150,6 +150,23 @@ public class GoodsServiceImpl implements GoodsService {
 			item.setIsDefault("1");// 设置为默认
 			item.setSellerId(goods.getGoods().getSellerId());// 商家ID
 			item.setGoodsId(goods.getGoods().getId());// 商品ID
+			// 分类名称
+			TbItemCat itemCat = itemCatMapper.selectByPrimaryKey(goods.getGoods().getCategory3Id());
+			item.setCategory(itemCat.getName());
+
+			// 品牌名称
+			TbBrand brand = brandMapper.selectByPrimaryKey(goods.getGoods().getBrandId());
+			item.setBrand(brand.getName());
+
+			// 商家名称
+			TbSeller seller = sellerMapper.selectByPrimaryKey(goods.getGoods().getSellerId());
+			item.setSeller(seller.getNickName());
+
+			// 图片
+			List<Map> imageList = JSON.parseArray(goods.getGoodsDesc().getItemImages(), Map.class);
+			if (imageList.size() > 0) {
+				item.setImage((String) imageList.get(0).get("url"));
+			}
 
 			itemMapper.insert(item);
 		}
@@ -290,6 +307,7 @@ public class GoodsServiceImpl implements GoodsService {
 				item.setIsDefault("1");// 设置为默认
 				item.setSellerId(goods.getGoods().getSellerId());// 商家ID
 				item.setGoodsId(goods.getGoods().getId());// 商品ID
+				
 
 				itemMapper.insert(item);
 			}
