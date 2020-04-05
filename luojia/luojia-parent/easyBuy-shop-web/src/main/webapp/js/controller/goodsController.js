@@ -52,7 +52,7 @@ app.controller('goodsController' ,function($scope,$controller,$location   ,goods
 		$scope.entity.goodsDesc.introduction=editor.html(); // 商品介绍
 		
 		var serviceObject;//服务层对象  				
-		if($scope.entity.id!=null){//如果有ID
+		if(typeof($location.search()['id']) != 'undefined'){//如果有ID
 			serviceObject=goodsService.update( $scope.entity ); //修改  
 		}else{
 			serviceObject=goodsService.add( $scope.entity  );//增加 

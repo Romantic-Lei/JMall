@@ -159,8 +159,144 @@ public class GoodsServiceImpl implements GoodsService {
 	 * 修改
 	 */
 	@Override
-	public void update(TbGoods goods) {
-		goodsMapper.updateByPrimaryKey(goods);
+	public void update(Goods goods) {
+		// 更新了商品信息就讲商品置为未审核状态
+		goods.getGoods().setAuditStatus("0");
+		// 保存商品数据
+		goodsMapper.updateByPrimaryKey(goods.getGoods());
+
+		// 保存商品扩展表数据
+		GoodsDescMapper.updateByPrimaryKey(goods.getGoodsDesc());
+		
+		if ("1".equals(goods.getGoods().getIsEnableSpec())) {// 如果启用规格
+			
+			List<Map> skuList = goods.getSkuList();
+			// 得到规格数据，根据规格查询item表，如果有则修改，如果没有则新增
+			for(Map map : skuList) {
+				Map<String,String> specMap = (Map) map.get("spec");
+				// 根据规格和商品查询item
+				TbItem item = getItemBySpecMap(specMap, goods.getGoods().getId());
+				if(item == null) {
+					item = new TbItem();
+					// 构建标题 SPU名称+规格选项值
+					String title = goods.getGoods().getGoodsName();// SPU名称
+					for (String key : specMap.keySet()) {
+						title += " " + specMap.get(key);
+					}
+					
+					item.setTitle(title);// 标题
+					if(map.get("price") instanceof String) {
+						item.setPrice(new BigDecimal((String) map.get("price")));// 价格
+					}
+					
+					if(map.get("price") instanceof BigDecimal) {
+						item.setPrice((BigDecimal) map.get("price"));// 价格
+					}
+
+					if (map.get("num") instanceof String) {
+						item.setNum(Integer.parseInt((String) map.get("num")));// 库存
+						System.out.println("String...");
+					}
+
+					if (map.get("num") instanceof Integer) {
+						item.setNum((Integer) map.get("num"));// 库存
+						System.out.println("Integer...");
+					}
+					item.setStatus((String) map.get("status"));// 状态
+					item.setIsDefault((String) map.get("isDefault"));// 是否默认
+
+					// 商品分类
+					item.setCategoryid(goods.getGoods().getCategory3Id()); // 三级分类id
+					item.setCreateTime(new Date());// 创建日期
+					item.setUpdateTime(new Date()); // 更新日期
+
+					item.setGoodsId(goods.getGoods().getId()); // 商品id
+					item.setSellerId(goods.getGoods().getSellerId());// 商家id
+
+					// 分类名称
+					TbItemCat itemCat = itemCatMapper.selectByPrimaryKey(goods.getGoods().getCategory3Id());
+					item.setCategory(itemCat.getName());
+
+					// 品牌名称
+					TbBrand brand = brandMapper.selectByPrimaryKey(goods.getGoods().getBrandId());
+					item.setBrand(brand.getName());
+
+					// 商家名称
+					TbSeller seller = sellerMapper.selectByPrimaryKey(goods.getGoods().getSellerId());
+					item.setSeller(seller.getNickName());
+
+					// 图片
+					List<Map> imageList = JSON.parseArray(goods.getGoodsDesc().getItemImages(), Map.class);
+					if (imageList.size() > 0) {
+						item.setImage((String) imageList.get(0).get("url"));
+					}
+
+					itemMapper.insert(item);
+				}else {
+					// 如果存在item，修改
+					if(map.get("price") instanceof String) {
+						item.setPrice(new BigDecimal((String) map.get("price")));// 价格
+					}
+					
+					if(map.get("price") instanceof BigDecimal) {
+						item.setPrice((BigDecimal) map.get("price"));// 价格
+					}
+
+					if (map.get("num") instanceof String) {
+						item.setNum(Integer.parseInt((String) map.get("num")));// 库存
+						System.out.println("String...");
+					}
+
+					if (map.get("num") instanceof Integer) {
+						item.setNum((Integer) map.get("num"));// 库存
+						System.out.println("Integer...");
+					}
+					item.setStatus((String) map.get("status"));// 状态
+					item.setIsDefault((String) map.get("isDefault"));// 是否默认
+					item.setUpdateTime(new Date()); // 更新日期
+					
+					itemMapper.updateByPrimaryKey(item); //保存修改
+				}
+				
+			}
+			
+		}else {
+			// 不启用规格
+			
+			// 关键在于查询有没有单一sku标准
+			TbItemExample example = new TbItemExample();
+			com.easybuy.pojo.TbItemExample.Criteria criteria = example.createCriteria();
+			criteria.andTitleEqualTo(goods.getGoods().getGoodsName());// 条件：商品名称
+			
+			List<TbItem> itemList = itemMapper.selectByExample(example);
+			if(itemList.size()>0) {
+				// 原数据是存在的
+				TbItem item = itemList.get(0);
+				item.setTitle(goods.getGoods().getGoodsName());// 商品名称
+				item.setPrice(goods.getGoods().getPrice());// 价格
+				item.setNum(99999);// 库存数
+				item.setStatus("1");// 有效状态
+				item.setIsDefault("1");// 设置为默认
+				item.setUpdateTime(new Date()); // 更新日期
+				itemMapper.updateByPrimaryKey(item);// 修改
+				
+			}else {
+				// 没有就插入
+				TbItem item = new TbItem();
+				item.setTitle(goods.getGoods().getGoodsName());// 商品名称
+				item.setPrice(goods.getGoods().getPrice());// 价格
+				item.setNum(99999);// 库存数
+				item.setStatus("1");// 有效状态
+				item.setIsDefault("1");// 设置为默认
+				item.setSellerId(goods.getGoods().getSellerId());// 商家ID
+				item.setGoodsId(goods.getGoods().getId());// 商品ID
+
+				itemMapper.insert(item);
+			}
+			
+			itemMapper.selectByExample(example);
+		}
+
 	}
 
 	/**
@@ -178,14 +314,14 @@ public class GoodsServiceImpl implements GoodsService {
 		Goods goods = new Goods();
 		goods.setGoods(tbGoods);
 		goods.setGoodsDesc(tbGoodsDesc);
-		
+
 		// 查询商品明细
 		TbItemExample example = new TbItemExample();
 		com.easybuy.pojo.TbItemExample.Criteria createCriteria = example.createCriteria();
 		createCriteria.andGoodsIdEqualTo(id);// 商品id
 		List<TbItem> itemList = itemMapper.selectByExample(example);
 		goods.setItemList(itemList);
-		
+
 		return goods;
 	}
 
@@ -237,6 +373,32 @@ public class GoodsServiceImpl implements GoodsService {
 
 		Page<TbGoods> page = (Page<TbGoods>) goodsMapper.selectByExample(example);
 		return new PageResult(page.getTotal(), page.getResult());
+	}
+	
+	/**
+	 * 根据规格查询item表
+	 * @param specMap
+	 * @param goodsId
+	 * @return
+	 */
+	private TbItem getItemBySpecMap(Map<String,String> specMap, Long goodsId) {
+		
+		TbItemExample example = new TbItemExample();
+		com.easybuy.pojo.TbItemExample.Criteria criteria = example.createCriteria();
+		criteria.andGoodsIdEqualTo(goodsId);// 条件是商品ID
+		
+		for(String specKey : specMap.keySet()) {
+			criteria.andTitleLike("% " + specMap.get(specKey) + "%");
+			
+		}
+		
+		
+		List<TbItem> itemList = itemMapper.selectByExample(example );
+		if(itemList.size() > 0) {
+			return itemList.get(0);
+		}
+		
+		return null;
 	}
 
 }
