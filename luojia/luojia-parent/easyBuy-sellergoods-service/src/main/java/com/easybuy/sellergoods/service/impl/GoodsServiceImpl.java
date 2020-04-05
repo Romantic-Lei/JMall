@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
@@ -37,6 +39,7 @@ import com.github.pagehelper.PageHelper;
  *
  */
 @Service
+@Transactional(propagation = Propagation.REQUIRED)
 public class GoodsServiceImpl implements GoodsService {
 
 	@Autowired
@@ -343,12 +346,14 @@ public class GoodsServiceImpl implements GoodsService {
 	}
 
 	/**
-	 * 批量删除
+	 * 批量删除(并非物理上删除，相当于将数据放到了回收站中)
 	 */
 	@Override
 	public void delete(Long[] ids) {
 		for (Long id : ids) {
-			goodsMapper.deleteByPrimaryKey(id);
+			TbGoods goods = goodsMapper.selectByPrimaryKey(id);
+			goods.setIsDelete("1");
+			goodsMapper.updateByPrimaryKey(goods);
 		}
 	}
 
@@ -358,6 +363,7 @@ public class GoodsServiceImpl implements GoodsService {
 
 		TbGoodsExample example = new TbGoodsExample();
 		Criteria criteria = example.createCriteria();
+		criteria.andIsDeleteIsNull();// isDelete指定条件未逻辑删除才查询
 
 		if (goods != null) {
 			if (goods.getSellerId() != null && goods.getSellerId().length() > 0) {

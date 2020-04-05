@@ -102,6 +102,7 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService,it
 				}
 			}
 		);
+		// 清空勾选框，避免前面数据存在于数组中，后面提交影响前面的数据
 		$scope.selectIds=[];
 	}
     
