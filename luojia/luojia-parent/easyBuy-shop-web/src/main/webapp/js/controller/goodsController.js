@@ -64,6 +64,7 @@ app.controller('goodsController' ,function($scope,$controller,$location   ,goods
 					alert(response.message);
 					$scope.entity={};
 					editor.html(""); // 清空富文本框
+					$scope.goListPage();// 跳转到商品列表页
 				}else{
 					alert(response.message);
 				}
@@ -300,6 +301,9 @@ app.controller('goodsController' ,function($scope,$controller,$location   ,goods
 		return true;
 	}
 	
-	
+	// 跳转到商品列表页面
+	$scope.goListPage=function(){
+		location.href='goods.html';
+	}
 	
 });	

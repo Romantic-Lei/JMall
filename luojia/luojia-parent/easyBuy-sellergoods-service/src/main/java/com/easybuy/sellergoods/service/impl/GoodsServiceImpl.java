@@ -308,7 +308,6 @@ public class GoodsServiceImpl implements GoodsService {
 				item.setSellerId(goods.getGoods().getSellerId());// 商家ID
 				item.setGoodsId(goods.getGoods().getId());// 商品ID
 				
-
 				itemMapper.insert(item);
 			}
 			
