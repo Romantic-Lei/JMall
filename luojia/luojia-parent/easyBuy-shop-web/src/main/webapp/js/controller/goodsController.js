@@ -40,6 +40,8 @@ app.controller('goodsController' ,function($scope,$controller,$location   ,goods
 				$scope.entity.goodsDesc.customAttributeItems=JSON.parse($scope.entity.goodsDesc.customAttributeItems);
 				
 				$scope.entity.goodsDesc.specificationItems=JSON.parse($scope.entity.goodsDesc.specificationItems);
+				
+				$scope.createSKUTable();// 创建表格
 			}
 		);				
 	}
@@ -217,7 +219,9 @@ app.controller('goodsController' ,function($scope,$controller,$location   ,goods
 		}
 		
 		$scope.entity.skuList=list;//SKU商品列表
-		
+		if(typeof($location.search()['id']) != 'undefined'){
+			loadSkuData(); //加载数据
+		}
 	}
 	
 	//向sku表添加列
@@ -263,5 +267,39 @@ app.controller('goodsController' ,function($scope,$controller,$location   ,goods
 		}
 		return false;
 	}
+	
+	// 加载SKU数据
+	loadSkuData=function(){
+		var skuList=$scope.entity.skuList;// SKU 列表
+		var itemList=$scope.entity.itemList;// itemList列表
+		
+		for(var i=0; i<skuList.length; i++){
+			
+			for(var j=0; j<itemList.length; j++){
+				// 匹配skuList[i].spec 与 itemList[j].title 是否一致
+				if(compareSpec(skuList[i].spec, itemList[j].title)){
+					skuList[i].price=itemList[j].price;
+					skuList[i].num=itemList[j].num;
+					skuList[i].status=itemList[j].status;
+					skuList[i].isDefault=itemList[j].isDefault;
+				}
+			}
+		}
+		
+	}
+	
+	// 判断：当spec的所有规格都出现在title中出现
+	compareSpec=function(spec, title){
+		
+		for(var k in spec){
+			// 只要有一个和title中不匹配就没必要在进行比较了
+			if(title.indexOf(spec[k]) == -1){
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	
 	
 });	

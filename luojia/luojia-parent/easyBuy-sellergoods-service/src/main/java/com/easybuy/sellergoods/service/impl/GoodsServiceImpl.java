@@ -23,6 +23,7 @@ import com.easybuy.pojo.TbGoodsExample;
 import com.easybuy.pojo.TbGoodsExample.Criteria;
 import com.easybuy.pojo.TbItem;
 import com.easybuy.pojo.TbItemCat;
+import com.easybuy.pojo.TbItemExample;
 import com.easybuy.pojo.TbSeller;
 import com.easybuy.pojogroup.Goods;
 import com.easybuy.sellergoods.service.GoodsService;
@@ -177,6 +178,13 @@ public class GoodsServiceImpl implements GoodsService {
 		Goods goods = new Goods();
 		goods.setGoods(tbGoods);
 		goods.setGoodsDesc(tbGoodsDesc);
+		
+		// 查询商品明细
+		TbItemExample example = new TbItemExample();
+		com.easybuy.pojo.TbItemExample.Criteria createCriteria = example.createCriteria();
+		createCriteria.andGoodsIdEqualTo(id);// 商品id
+		List<TbItem> itemList = itemMapper.selectByExample(example);
+		goods.setItemList(itemList);
 		
 		return goods;
 	}
