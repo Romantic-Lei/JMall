@@ -101,5 +101,24 @@
 			<artifactId>easyBuy-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>com.luojia</groupId>
+			<artifactId>easyBuy-dao</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
   </dependencies>
+  <build>  
+	  <plugins>
+	      <plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<configuration>
+					<!-- 指定端口 -->
+					<port>9002</port>
+					<!-- 请求路径 -->
+					<path>/</path>
+				</configuration>
+	  	  </plugin>
+	  </plugins>  
+    </build>
 </project>
