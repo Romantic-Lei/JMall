@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.easybuy.content.service.ContentService;
@@ -27,6 +28,8 @@ public class ContentServiceImpl implements ContentService {
 
 	@Autowired
 	private TbContentMapper contentMapper;
+	@Autowired
+	private TbContentCategoryMapper contentCategoryMapper;
 	
 	/**
 	 * 查询全部
@@ -123,46 +126,30 @@ public class ContentServiceImpl implements ContentService {
 		return new PageResult(page.getTotal(), page.getResult());
 	}
 
+
+	
+	
 	@Autowired
-	private TbContentCategoryMapper contentCategoryMapper;
-	
-	
-//	@Autowired
-//	private RedisTemplate<String, TbContent>  redisTemplate;
+	private RedisTemplate<String, TbContent>  redisTemplate;
 		
 	@Override
 	public List<TbContent> findByCategoryKey(String key) {
+		TbContentCategoryExample example = new TbContentCategoryExample();
+		com.easybuy.pojo.TbContentCategoryExample.Criteria criteria = example.createCriteria();
+		criteria.andContentKeyEqualTo(key);
+		// 返回分类列表
+		List<TbContentCategory> categoryList = contentCategoryMapper.selectByExample(example);
+		if(categoryList.size() == 0) {
+			return new ArrayList();
+		}
 		
-//		//获取广告
-//		List<TbContent> contentList = (List<TbContent>) redisTemplate.boundHashOps("content").get(key);
-//		
-//		if(contentList==null){//如果缓存中没有 
-//			TbContentCategoryExample example=new TbContentCategoryExample();
-//			com.pinyougou.pojo.TbContentCategoryExample.Criteria criteria = example.createCriteria();
-//			criteria.andContentKeyEqualTo(key);
-//			criteria.andStatusEqualTo("1");
-//			//返回分类列表
-//			List<TbContentCategory> categotyList = contentCategoryMapper.selectByExample(example);
-//			if(categotyList.size()==0){
-//				return new ArrayList();
-//			}
-//			
-//			//查询广告列表
-//			TbContentExample example2=new TbContentExample();
-//			Criteria criteria2 = example2.createCriteria();
-//			criteria2.andCategoryIdEqualTo(categotyList.get(0).getId());
-//			criteria2.andStatusEqualTo("1");
-//			contentList = contentMapper.selectByExample(example2);
-//			
-//			redisTemplate.boundHashOps("content").put(key, contentList);//存入缓存
-//			System.out.println("从数据库中查询数据放入缓存");
-//			
-//		}else{
-//			System.out.println("从缓存中提取数据");
-//		}	
-//		
-//		return contentList;
-		return null;
+		// 查询广告列表
+		TbContentExample example2 = new TbContentExample();
+		Criteria criteria2 = example2.createCriteria();
+		criteria2.andCategoryIdEqualTo(categoryList.get(0).getId());
+		List<TbContent> contentList = contentMapper.selectByExample(example2);
+		
+		return contentList;
 	}
 	
 

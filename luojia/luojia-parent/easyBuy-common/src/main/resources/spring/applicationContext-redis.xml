@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<beans xmlns="http://www.springframework.org/schema/beans" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" 
+  xmlns:context="http://www.springframework.org/schema/context" 
+  xmlns:mvc="http://www.springframework.org/schema/mvc" 
+  xmlns:cache="http://www.springframework.org/schema/cache"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans   
+            http://www.springframework.org/schema/beans/spring-beans.xsd   
+            http://www.springframework.org/schema/context   
+            http://www.springframework.org/schema/context/spring-context.xsd   
+            http://www.springframework.org/schema/mvc   
+            http://www.springframework.org/schema/mvc/spring-mvc.xsd 
+            http://www.springframework.org/schema/cache  
+            http://www.springframework.org/schema/cache/spring-cache.xsd">  
+  
+   <context:property-placeholder location="classpath*:properties/*.properties" />   
+  
+   <!-- redis 相关配置 --> 
+   <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">  
+   	 <!-- 最大的空闲连接数 -->
+     <property name="maxIdle" value="${redis.maxIdle}" />   
+     <!-- 最长等待时间（毫秒） -->
+     <property name="maxWaitMillis" value="${redis.maxWait}" />  
+     <!-- 从连接池中提取连接对象要进行验证，保证每一个都可用 -->
+     <property name="testOnBorrow" value="${redis.testOnBorrow}" />  
+   </bean>  
+  
+   <bean id="JedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" 
+       p:host-name="${redis.host}" p:port="${redis.port}" p:password="${redis.pass}" p:pool-config-ref="poolConfig"/>  
+   
+    <bean id="stringRedisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
+		<property name="connectionFactory" ref="JedisConnectionFactory" />
+	</bean>
+   
+   <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">  
+    	<property name="connectionFactory" ref="JedisConnectionFactory" />  
+   </bean>  
+      
+</beans>  
