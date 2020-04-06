@@ -21,6 +21,15 @@ public class Goods implements Serializable {
 	private TbGoodsDesc goodsDesc;
 	private List<TbItem> itemList;
 	private List<Map> skuList;// SKU商品列表
+	private Map map;		// 扩展属性
+
+	public Map getMap() {
+		return map;
+	}
+
+	public void setMap(Map map) {
+		this.map = map;
+	}
 
 	public List<Map> getSkuList() {
 		return skuList;
