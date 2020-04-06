@@ -134,22 +134,39 @@ public class ContentServiceImpl implements ContentService {
 		
 	@Override
 	public List<TbContent> findByCategoryKey(String key) {
-		TbContentCategoryExample example = new TbContentCategoryExample();
-		com.easybuy.pojo.TbContentCategoryExample.Criteria criteria = example.createCriteria();
-		criteria.andContentKeyEqualTo(key);
-		// 返回分类列表
-		List<TbContentCategory> categoryList = contentCategoryMapper.selectByExample(example);
-		if(categoryList.size() == 0) {
-			return new ArrayList();
+		
+		List<TbContent> contentList = (List<TbContent>) redisTemplate.boundHashOps("content").get(key);
+		if(contentList==null) {
+			// 如果缓存中没有则到数据库中查询
+			TbContentCategoryExample example = new TbContentCategoryExample();
+			com.easybuy.pojo.TbContentCategoryExample.Criteria criteria = example.createCriteria();
+			criteria.andContentKeyEqualTo(key);
+			criteria.andStatusEqualTo("1");// 分类状态为有效
+			// 返回分类列表
+			List<TbContentCategory> categoryList = contentCategoryMapper.selectByExample(example);
+			if(categoryList.size() == 0) {
+				return new ArrayList();
+			}
+			
+			// 查询广告列表
+			TbContentExample example2 = new TbContentExample();
+			Criteria criteria2 = example2.createCriteria();
+			criteria2.andCategoryIdEqualTo(categoryList.get(0).getId());
+			criteria2.andStatusEqualTo("1");// 广告状态为1->有效
+			contentList = contentMapper.selectByExample(example2);
+			
+			// 将结果存入缓存
+			redisTemplate.boundHashOps("content").put(key, contentList);
+			System.out.println("写入缓存中...");
+			
+			return contentList;
+			
+		}else {
+			System.out.println("从缓存中获取...");
+			return null;
 		}
 		
-		// 查询广告列表
-		TbContentExample example2 = new TbContentExample();
-		Criteria criteria2 = example2.createCriteria();
-		criteria2.andCategoryIdEqualTo(categoryList.get(0).getId());
-		List<TbContent> contentList = contentMapper.selectByExample(example2);
 		
-		return contentList;
 	}
 	
 
