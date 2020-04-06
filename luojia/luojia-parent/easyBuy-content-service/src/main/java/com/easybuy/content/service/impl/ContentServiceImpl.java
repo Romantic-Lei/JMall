@@ -159,13 +159,11 @@ public class ContentServiceImpl implements ContentService {
 			redisTemplate.boundHashOps("content").put(key, contentList);
 			System.out.println("写入缓存中...");
 			
-			return contentList;
-			
 		}else {
 			System.out.println("从缓存中获取...");
-			return null;
 		}
 		
+		return contentList;
 		
 	}
 	

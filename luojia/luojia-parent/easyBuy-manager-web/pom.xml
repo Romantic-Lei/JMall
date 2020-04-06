@@ -124,6 +124,12 @@
 			<artifactId>easyBuy-content-interface</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		
+		<!-- 网页静态化 -->
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+		</dependency>	
 	</dependencies>
 
 

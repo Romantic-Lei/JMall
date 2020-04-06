@@ -41,7 +41,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 				// springsecurity 会自动将用户名和密码拿去比对看是否正确
 				return new User(username, seller.getPassword(), authorities);
 			}
-			// 为通过审核
+			// 未通过审核
 			return null;
 		}else {
 			// 商家不存在
