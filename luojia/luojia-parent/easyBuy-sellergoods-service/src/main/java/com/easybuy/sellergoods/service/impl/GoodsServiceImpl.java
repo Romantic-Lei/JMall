@@ -5,7 +5,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,6 +61,10 @@ public class GoodsServiceImpl implements GoodsService {
 	private TbBrandMapper brandMapper;
 	@Autowired
 	private TbSellerMapper sellerMapper;
+	@Autowired
+	private JmsTemplate jmsTemplate;
+	@Autowired
+	private Destination topicTextDestination;
 
 	/**
 	 * 查询全部
@@ -431,6 +442,17 @@ public class GoodsServiceImpl implements GoodsService {
 			TbGoods tbGoods = goodsMapper.selectByPrimaryKey(id);
 			tbGoods.setAuditStatus(status);  // 更新状态
 			goodsMapper.updateByPrimaryKey(tbGoods);
+			
+			// 状态为1 才发送消息
+			if(status.equals("1")) {
+				jmsTemplate.send(topicTextDestination, new MessageCreator() {
+					
+					@Override
+					public Message createMessage(Session session) throws JMSException {
+						return session.createTextMessage(id.toString());
+					}
+				});
+			}
 			
 		}
 	}
