@@ -18,6 +18,7 @@
 		<module>easyBuy-content-service</module>
 		<module>easyBuy-content-interface</module>
 		<module>easyBuy-portal-web</module>
+		<module>easyBuy-itempage-listener</module>
 	</modules>
 	<!-- 集中定义依赖版本号 -->
 	<properties>
