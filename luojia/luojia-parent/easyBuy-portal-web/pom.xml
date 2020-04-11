@@ -111,7 +111,12 @@
 			<artifactId>pagehelper</artifactId>
 			<version>3.4.2-fix</version>
 		</dependency>
-	</dependencies>
+		<dependency>
+			<groupId>com.luojia</groupId>
+			<artifactId>easyBuy-user-interface</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+  </dependencies>
 	<build>
 		<plugins>
 			<plugin>

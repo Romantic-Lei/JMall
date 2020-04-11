@@ -477,3 +477,17 @@ luojia/luojia-parent/easyBuy-sms/.settings/org.eclipse.m2e.core.prefs
 luojia/luojia-parent/easyBuy-sms/.settings/org.eclipse.jdt.core.prefs
 luojia/luojia-parent/easyBuy-sms/.settings/org.eclipse.core.resources.prefs
 luojia/luojia-parent/easyBuy-content-interface/.settings/org.eclipse.wst.validation.prefs
+luojia/luojia-parent/easyBuy-user-interface/.project
+luojia/luojia-parent/easyBuy-user-interface/.gitignore
+luojia/luojia-parent/easyBuy-user-interface/.classpath
+luojia/luojia-parent/easyBuy-user-interface/.settings/org.eclipse.m2e.core.prefs
+luojia/luojia-parent/easyBuy-user-interface/.settings/org.eclipse.jdt.core.prefs
+luojia/luojia-parent/easyBuy-user-interface/.settings/org.eclipse.core.resources.prefs
+luojia/luojia-parent/easyBuy-user-interface/.settings/org.eclipse.wst.common.component
+luojia/luojia-parent/easyBuy-user-service/.project
+luojia/luojia-parent/easyBuy-user-service/.gitignore
+luojia/luojia-parent/easyBuy-user-service/.classpath
+luojia/luojia-parent/easyBuy-user-interface/.settings/org.eclipse.wst.common.project.facet.core.xml
+luojia/luojia-parent/easyBuy-user-service/.settings/org.eclipse.m2e.core.prefs
+luojia/luojia-parent/easyBuy-user-service/.settings/org.eclipse.jdt.core.prefs
+luojia/luojia-parent/easyBuy-user-service/.settings/org.eclipse.core.resources.prefs
