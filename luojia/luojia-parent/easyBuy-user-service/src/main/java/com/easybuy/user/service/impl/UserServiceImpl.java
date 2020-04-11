@@ -162,7 +162,7 @@ public class UserServiceImpl implements UserService {
 	private Destination smsDestination;
 		
 	@Override
-	public void createSmsCode(final String phone) {
+	public void createSmsCode(String phone) {
 		//1.生成随机数6位
 		final String smscode= (long) (Math.random()*1000000)+"";
 		System.out.println("短信验证码："+smscode);
@@ -179,7 +179,7 @@ public class UserServiceImpl implements UserService {
 				
 				MapMessage mapMessage = session.createMapMessage();
 				mapMessage.setString("mobile", phone);
-				mapMessage.setString("sign_name", "黑马");
+				mapMessage.setString("sign_name", "ebSms");
 				mapMessage.setString("template_code", "SMS_85735065");
 				
 				Map map=new HashMap<>();

@@ -9,6 +9,18 @@
 	</parent>
 	<artifactId>easyBuy-sms</artifactId>
 
+	<dependencyManagement>
+		<!-- 加入springboot 版本父依赖 -->
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>2.1.4.RELEASE</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
