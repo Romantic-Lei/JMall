@@ -3,6 +3,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.jms.Destination;
 import javax.jms.JMSException;
@@ -164,10 +165,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void createSmsCode(String phone) {
 		//1.生成随机数6位
-		final String smscode= (long) (Math.random()*1000000)+"";
+		String smscode= (long) (Math.random()*1000000)+"";
 		System.out.println("短信验证码："+smscode);
 		//2.存入redis
-		redisTemplate.boundHashOps("smscode").put(phone, smscode);
+		redisTemplate.boundHashOps("smscode" + phone).put(phone, smscode);
+		redisTemplate.expire("smscode" + phone, 180, TimeUnit.SECONDS);
 		
 		//3.发送给activeMQ
 		
