@@ -186,7 +186,7 @@ public class UserServiceImpl implements UserService {
 				
 				Map map=new HashMap<>();
 				map.put("number", smscode);
-				
+				// JSON.toJSONString(map) 将map转成json串
 				mapMessage.setString("param", JSON.toJSONString(map));
 				return mapMessage;
 			}

@@ -1,4 +1,7 @@
+
+
 # JMall  珞珈商城
+
 ---
 
 ### ssm整合dubbo
@@ -120,17 +123,7 @@ public class ItemDeleteMessageListener implements MessageListener {
 
 ​	当我们在查询时，由于查询的是缓存，所以商品删除后一段时间，我们依旧可以查询到商品信息，但是不论我们商品是否删除，查询时剩余过期时间不会更新，只会减少。
 
-​	目前redis只支持设置一级key的过期时间，所以在hash类型中，只要某一个key在更新，或者增加了二级key那么缓存过期时间又会被刷新，如果不断有二级key新增，那么所有的key都不会被删除。
 
-```java
-在生成短信验证码的时候，可以设计一级key不同才能有效的设置过期时间。或者直接使用String类型来保存验证码
-//1.生成随机数6位
-String smscode= (long) (Math.random()*1000000)+"";
-System.out.println("短信验证码："+smscode);
-//2.存入redis
-redisTemplate.boundHashOps("smscode" + phone).put(phone, smscode);
-redisTemplate.expire("smscode" + phone, 180, TimeUnit.SECONDS);
-```
 
 
 
@@ -164,6 +157,8 @@ private Destination topicDeleteDestination;
 
 
 因为在我们的Destination中，我们定义了不同的广播名，如果使用相同的广播名，我们增加数据到索引库时会被增加和删除索引库监听到，同理，删除时也会被增加和删除索引库监听到。
+
+
 
 ### 页面展示
 
