@@ -36,6 +36,135 @@ SpringMVC在整合dubbo时，需要在服务层暴露需要提供服务的接口
 
 
 
+###spring-security安全管理
+
+在业务流程中，常常不同的登陆者对应着不同的管理权限，而springSecurity能很好的满足这一点，在使用springSecurity时需要导入对应的maven依赖
+
+```markdown
+<!-- 身份验证 -->
+<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-web</artifactId>
+    <version>4.1.0.RELEASE</version>
+</dependency>
+<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-config</artifactId>
+    <version>4.1.0.RELEASE</version>
+</dependency>
+```
+
+web.xml配置：
+
+```xml
+<filter>
+    <filter-name>springSecurityFilterChain</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+</filter>
+<filter-mapping>
+    <filter-name>springSecurityFilterChain</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>
+```
+
+在spring-security.xml文件中，配置用户的权限，配置登录页，登录成功跳转页，登录失败跳转页，登录成功默认跳转形式
+
+```xml
+<!-- 页面的拦截规则  use-expressions:是否启用SPEL表达式，默认是true -->
+<http use-expressions="false">
+    <!-- 当前用户必须有ROLE_ADMIN的角色才可以访问根目录及所属子目录的资源 -->
+    <!-- 如果use-expressions="true"，那么下面access="hasRole('ROLE_SELLER')" -->
+    <intercept-url pattern="/**" access="ROLE_SELLER"/>
+    <!-- 开启表单登录功能 -->
+    <!-- 
+   login-page：拦截登录页
+   default-target-url：登录成功跳转页
+   authentication-failure-url：登录验证失败跳转页
+   always-use-default-target：登录成功访问默认登陆成功页，不会跳转到输入的请求页面
+   -->
+    <form-login login-page="/shoplogin.html" default-target-url="/admin/index.html" authentication-failure-url="/shoplogin.html" always-use-default-target="true"/>
+    <csrf disabled="true"/>
+    <headers>
+        <!-- 不拦截静态帧框架 -->
+        <frame-options policy="SAMEORIGIN"/>
+    </headers>
+    <logout/>
+</http>
+```
+
+认证配置
+
+```xml
+<!-- 认证管理器 -->
+<authentication-manager>
+    <authentication-provider user-service-ref="userDetailService">
+        <password-encoder ref="passwordEncoder"/>
+    </authentication-provider>
+</authentication-manager>
+
+<!-- 认证类 -->
+<bean:bean id="userDetailService" class="com.easybuy.service.UserDetailServiceImpl">
+    <bean:property name="sellerService" ref="sellerService"></bean:property>
+</bean:bean>
+
+<!-- 引用dubbo 服务 -->
+	<dubbo:application name="easybuy-shop-web" />
+	<dubbo:registry address="zookeeper://192.168.1.7:2181"/>
+	<dubbo:reference id="sellerService" interface="com.easybuy.sellergoods.service.SellerService" timeout="300000"></dubbo:reference>
+	
+<!-- bcrypt加密 -->
+<bean:bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean:bean>
+```
+
+用户角色管理：
+
+```java
+public class UserDetailServiceImpl implements UserDetailsService {
+
+	private SellerService sellerService;
+	
+	public void setSellerService(SellerService sellerService) {
+		this.sellerService = sellerService;
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		
+		// 构建角色列表
+		Collection<GrantedAuthority> authorities = new ArrayList();
+		authorities.add(new SimpleGrantedAuthority("ROLE_SELLER"));
+		
+		TbSeller seller = sellerService.findOne(username);
+		if(seller != null) {
+			// 商家状态必须是已审核通过才让登陆
+			if(seller.getStatus().equals("1")) {
+				// springsecurity 会自动将用户名和密码拿去比对看是否正确
+				return new User(username, seller.getPassword(), authorities);
+			}
+			// 未通过审核
+			return null;
+		}else {
+			// 商家不存在
+			return null;
+		}
+	}
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ###缓存过期
 
 ​	目前redis只支持设置一级key的过期时间，所以在hash类型中，只要某一个key在更新，或者增加了二级key那么缓存过期时间又会被刷新，如果不断有二级key新增，那么所有的key都不会被删除。
