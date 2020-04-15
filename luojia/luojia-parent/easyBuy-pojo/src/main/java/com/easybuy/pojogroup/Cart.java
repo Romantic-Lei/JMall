@@ -1,10 +1,11 @@
 package com.easybuy.pojogroup;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.easybuy.pojo.TbOrderItem;
 
-public class Cart {
+public class Cart implements Serializable {
 
 	private String sellerId; // 商家id
 	private String sellerName; // 商家名称
