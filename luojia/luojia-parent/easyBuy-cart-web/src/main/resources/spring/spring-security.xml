@@ -9,9 +9,11 @@
 	<http pattern="/img/**" security="none"></http>
 	<http pattern="/js/**" security="none"></http>
 	<http pattern="/plugins/**" security="none"></http> 
+	<http pattern="/cart.html" security="none"></http> 
 	 
-	<http entry-point-ref="casProcessingFilterEntryPoint">      
-        <intercept-url pattern="/**" access="hasRole('ROLE_USER')"/>   
+	<http use-expressions="false" entry-point-ref="casProcessingFilterEntryPoint">      
+		<intercept-url pattern="/cart/*.do" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/**" access="ROLE_USER"/>   
         <csrf disabled="true"/>
         <custom-filter position="CAS_FILTER" ref="casAuthenticationFilter" />      
         <custom-filter ref="requestSingleLogoutFilter" before="LOGOUT_FILTER"/>  
@@ -68,7 +70,7 @@
     </beans:bean>  
 	<beans:bean id="serviceProperties" class="org.springframework.security.cas.ServiceProperties">  
         <!--[login/cas]是Spring Security 4.0后修改的地址、跟3.X版本完全不同、请勿修改-->  
-        <beans:property name="service" value="http://localhost:9104/login/cas"/>
+        <beans:property name="service" value="http://localhost:9105/login/cas"/>
         <beans:property name="sendRenew" value="false"/>  
     </beans:bean>  
 </beans:beans>

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,7 +37,7 @@ public class CartController {
 		response.setHeader("Access-Control-Allow-Origin", "http://localhost:9100");
 		// 如果请求包含cookie，我们需要加上这样一句话
 		response.setHeader("Access-Control-Allow-Credentials", "true");
-		
+
 		try {
 			List<Cart> cartList = findCartList(request);
 			// 添加商品到购物车
@@ -55,6 +56,11 @@ public class CartController {
 
 	@RequestMapping("/findCartList")
 	public List<Cart> findCartList(HttpServletRequest request) {
+
+		// 获取当前登录人,未登录时，用户名为anonymousUser
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		System.out.println(username);
+
 		// 在cookie中提取购物车列表json字符串
 		String cartListJson = util.CookieUtil.getCookieValue(request, "cartList");
 
