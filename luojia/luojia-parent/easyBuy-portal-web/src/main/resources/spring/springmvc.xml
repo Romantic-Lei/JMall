@@ -33,7 +33,7 @@
 
 	<!-- 引用dubbo 服务 -->
 	<dubbo:application name="easybuy-portal-web" />
-	<dubbo:registry address="zookeeper://192.168.1.7:2181"/>
+	<dubbo:registry address="zookeeper://192.168.1.8:2181"/>
 	<dubbo:annotation package="com.easybuy.portal.controller" />  	
 
 </beans>

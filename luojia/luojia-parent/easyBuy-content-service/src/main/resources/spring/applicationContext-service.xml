@@ -11,7 +11,7 @@
     <dubbo:protocol name="dubbo" port="20882"></dubbo:protocol>
     
 	<dubbo:application name="easybuy-content-service"/>  
-    <dubbo:registry address="zookeeper://192.168.1.7:2181"/> 
+    <dubbo:registry address="zookeeper://192.168.1.8:2181"/> 
     <dubbo:provider timeout="300000" retries="0"/>
     <dubbo:annotation package="com.easybuy.content.service.impl"/>  
    
