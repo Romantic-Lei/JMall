@@ -32,6 +32,11 @@ public class CartController {
 	public Result addGoodToCartList(Long itemId, Integer num, HttpServletRequest request,
 			HttpServletResponse response) {
 
+		// 第二个参数是需要跨域请求的地址，如果购物车不使用cookie的话， 第二个参数可以是*号，* 表示该资源谁都可以用
+		response.setHeader("Access-Control-Allow-Origin", "http://localhost:9100");
+		// 如果请求包含cookie，我们需要加上这样一句话
+		response.setHeader("Access-Control-Allow-Credentials", "true");
+		
 		try {
 			List<Cart> cartList = findCartList(request);
 			// 添加商品到购物车

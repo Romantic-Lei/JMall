@@ -20,7 +20,7 @@
     <script>
         var skuList=[
            <#list itemList as item>
-             {title:'${item.title}',price:'${item.price}',status:'${item.status!'0'}',isDefault:'${isDefault!'0'}'},
+             {id:'${item.id}',title:'${item.title}',price:'${item.price}',status:'${item.status!'0'}',isDefault:'${isDefault!'0'}'},
            </#list>
         ];
     

@@ -153,11 +153,39 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
 
 
+### 跨域请求
 
+#####JSONP：
 
+JSON是一种轻量级的数据传输格式语言。jsonp就是动态创建script，与ajax无关。是一种**非官方跨域**数据交互协议。**只能发送get请求**，在使用时需要修改客户端代码，客户端传输大文本时，jsonp就不那么适用了。
 
+#####CORS：
 
+CORS：全称"跨域资源共享"（Cross-origin resource sharing）。CORS 需要浏览器和服务器同时支持。目前，所有浏览器都支持该功能，IE 浏览器不能低于 IE10。
 
+它允许浏览器向跨源服务器，发出 XMLHttpRequest 请求，从而克服了 AJAX 只能同源 使用的限制。整个 CORS 通信过程，都是浏览器自动完成，不需要用户参与。对于开发者来 说，CORS 通信与同源的 AJAX 通信没有差别，代码完全一样。浏览器一旦发现 AJAX 请求跨 源，就会自动添加一些附加的头信息，有时还会多出一次附加的请求，但用户不会有感觉。 因此，实现 CORS 通信的关键是服务器。只要服务器实现了 CORS 接口，就可以跨源通信。
+
+**Access-Control-Allow-Origin** 
+
+Access-Control-Allow-Origin 是 **HTML5** 中定义的一种解决资源跨域的策略。 
+
+他是通过服务器端返回带有 Access-Control-Allow-Origin 标识的 Response header，用来 解决资源的跨域权限问题。 
+
+```java
+// 第二个参数是需要跨域请求的地址，如果购物车不使用cookie的话， 第二个参数可以是*号,* 表示该资源谁都可以用
+response.setHeader("Access-Control-Allow-Origin", "http://localhost:9100");
+// 如果请求包含cookie，我们需要加上这样一句话
+response.setHeader("Access-Control-Allow-Credentials", "true");
+```
+
+在对应的js中，加上一句话就OK
+
+//添加商品到购物车 
+$scope.addGoodsToCartList=function(){ $http.get('http://localhost:9105/cart/addGoodsToCartList.do?itemId=' + $scope.sku.id +'&num='+$scope.num,**{'withCredentials':true})**.success( function(response){
+
+​	......
+
+}
 
 
 
