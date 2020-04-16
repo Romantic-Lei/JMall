@@ -28,7 +28,7 @@ public class CartController {
 	 * @param num
 	 * @return
 	 */
-	@RequestMapping("/addGoodToCartList")
+	@RequestMapping("/addGoodsToCartList")
 	public Result addGoodToCartList(Long itemId, Integer num, HttpServletRequest request,
 			HttpServletResponse response) {
 
