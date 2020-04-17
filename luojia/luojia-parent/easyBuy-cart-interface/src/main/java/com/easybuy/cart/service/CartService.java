@@ -21,4 +21,11 @@ public interface CartService {
 	 */
 	public List<Cart> addGoodsToCartList(List<Cart> cartList, Long itemId, Integer num);
 	
+	/**
+	 * 根据当前登录人登录账号提取购物车信息
+	 * @param username
+	 * @return
+	 */
+	public List<Cart> findCartListFromRedis(String username);
+	
 }

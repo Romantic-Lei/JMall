@@ -59,16 +59,20 @@ public class CartController {
 
 		// 获取当前登录人,未登录时，用户名为anonymousUser
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		System.out.println(username);
 
-		// 在cookie中提取购物车列表json字符串
-		String cartListJson = util.CookieUtil.getCookieValue(request, "cartList");
+		if ("anonymousUser".equals(username)) {
+			// 如果未登录，爸商品存放于购物车
+			// 在cookie中提取购物车列表json字符串
+			String cartListJson = util.CookieUtil.getCookieValue(request, "cartList");
 
-		if (cartListJson == null || cartListJson.equals("")) {
-			cartListJson = "[]";
+			if (cartListJson == null || cartListJson.equals("")) {
+				cartListJson = "[]";
+			}
+			// 获取购物车列表
+			return JSON.parseArray(cartListJson, Cart.class);
+		} else {
+			return cartService.findCartListFromRedis(username);
 		}
-		// 获取购物车列表
-		return JSON.parseArray(cartListJson, Cart.class);
 	}
 
 }

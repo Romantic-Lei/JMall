@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.easybuy.cart.service.CartService;
@@ -25,6 +26,8 @@ public class CartServiceImpl implements CartService {
 
 	@Autowired
 	private TbItemMapper itemMapper;
+	@Autowired
+	private RedisTemplate<String, Object> redisTemplate;
 
 	@Override
 	public List<Cart> addGoodsToCartList(List<Cart> cartList, Long itemId, Integer num) {
@@ -146,6 +149,18 @@ public class CartServiceImpl implements CartService {
 		orderItem.setPrice(item.getPrice());
 
 		return orderItem;
+	}
+
+	@Override
+	public List<Cart> findCartListFromRedis(String username) {
+		
+		List<Cart> cartList = (List<Cart>) redisTemplate.boundHashOps("cartList").get(username);
+		
+		if(cartList == null) {
+			cartList = new ArrayList();
+		}
+		
+		return cartList;
 	}
 
 }
