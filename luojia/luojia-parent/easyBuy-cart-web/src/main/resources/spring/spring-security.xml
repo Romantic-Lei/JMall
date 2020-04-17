@@ -12,7 +12,8 @@
 	<http pattern="/cart.html" security="none"></http> 
 	 
 	<http use-expressions="false" entry-point-ref="casProcessingFilterEntryPoint">      
-		<intercept-url pattern="/cart/*.do" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/cart/addGoodsToCartList.do" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/cart/findCartList.do" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/**" access="ROLE_USER"/>   
         <csrf disabled="true"/>
         <custom-filter position="CAS_FILTER" ref="casAuthenticationFilter" />      

@@ -87,8 +87,8 @@ public class CartController {
 		}
 	}
 
-	@RequestMapping("/findCartList")
-	public List<Cart> mergeCartList(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping("/mergeCartList")
+	public void mergeCartList(HttpServletRequest request, HttpServletResponse response) {
 		// 获取当前登录人,未登录时，用户名为anonymousUser
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -113,6 +113,13 @@ public class CartController {
 
 		// 5.清空cookie中购物车
 		util.CookieUtil.setCookie(request, response, "cartList", "[]");
+
+		// 页面重定向
+		try {
+			response.sendRedirect("/cart.html");
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 
 	}
 }
