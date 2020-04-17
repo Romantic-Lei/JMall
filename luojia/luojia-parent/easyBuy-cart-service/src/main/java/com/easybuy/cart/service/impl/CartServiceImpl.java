@@ -163,4 +163,11 @@ public class CartServiceImpl implements CartService {
 		return cartList;
 	}
 
+	@Override
+	public void saveCartListToRedis(String username, List<Cart> cartList) {
+		
+		redisTemplate.boundHashOps("cartList").put(username, cartList);
+		
+	}
+
 }

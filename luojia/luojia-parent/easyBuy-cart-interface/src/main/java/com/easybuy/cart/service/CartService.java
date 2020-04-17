@@ -28,4 +28,11 @@ public interface CartService {
 	 */
 	public List<Cart> findCartListFromRedis(String username);
 	
+	/**
+	 * 将购物车存入redis
+	 * @param username
+	 * @param cartList
+	 */
+	public void saveCartListToRedis(String username, List<Cart> cartList);
+	
 }
