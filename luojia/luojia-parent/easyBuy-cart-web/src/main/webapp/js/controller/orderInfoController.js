@@ -1,9 +1,24 @@
-app.controller('orderInfoController', function($scope, addressService) {
+app.controller('orderInfoController', function($scope, addressService, cartService) {
 
 	// 查询当前用户地址列表
 	$scope.findAddressList = function() {
-		addressService.findListByLoginUser.success(function(response) {
+		addressService.findListByLoginUser().success(
+				function(response) {
+					 
 			$scope.addressList = response;
+
+			// 选择默认地址
+			for (var i = 0; i < $scope.addressList.length; i++) {
+				if ($scope.addressList[i].isDefault == '1') {
+					$scope.address = $scope.addressList[i];
+				}
+			}
+
+			// 如果没有找到默认地址，则第一个地址被选中
+			if ($scope.address == null && $scope.addressList.length > 0) {
+				$scope.address = $scope.addressList[0];
+			}
+
 		});
 	}
 
@@ -13,12 +28,27 @@ app.controller('orderInfoController', function($scope, addressService) {
 	}
 
 	// 判断某地址是否为当前地址
-	$scope.isSelectAddress = function(address) {
+	$scope.isSelectedAddress = function(address) {
 		if ($scope.address == address) {
 			return true;
 		} else {
 			return false;
 		}
+	}
+
+	$scope.order = {
+		paymentType : '1'
+	};// 订单对象
+	// 选择支付类型
+	$scope.selectPayType = function(type) {
+		$scope.order.paymentType = type;
+	}
+
+	// 添加商品到购物车
+	$scope.findCartList = function() {
+		cartService.findCartList().success(function(response) {
+			$scope.cartList = response;
+		});
 	}
 
 });

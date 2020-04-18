@@ -3,10 +3,12 @@ import java.util.List;
 
 import com.easybuy.entity.PageResult;
 import com.easybuy.pojo.TbAddress;
+
 /**
  * 服务层接口
- * @author Administrator
- *
+ * @author Romantic
+ * @CreateDate 2020年4月18日
+ * @Description
  */
 public interface AddressService {
 

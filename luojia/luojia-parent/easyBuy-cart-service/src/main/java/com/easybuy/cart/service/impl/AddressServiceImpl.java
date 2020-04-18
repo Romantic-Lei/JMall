@@ -9,9 +9,9 @@ import com.easybuy.entity.PageResult;
 import com.easybuy.mapper.TbAddressMapper;
 import com.easybuy.pojo.TbAddress;
 import com.easybuy.pojo.TbAddressExample;
+import com.easybuy.pojo.TbAddressExample.Criteria;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.easybuy.pojo.TbAddressExample.Criteria;
 
 /**
  * 服务实现层
