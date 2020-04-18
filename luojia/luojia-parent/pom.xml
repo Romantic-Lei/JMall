@@ -25,6 +25,8 @@
 		<module>easyBuy-cart-interface</module>
 		<module>easyBuy-cart-service</module>
 		<module>easyBuy-cart-web</module>
+		<module>easyBuy-order-interface</module>
+		<module>easyBuy-order-service</module>
 	</modules>
 	<!-- 集中定义依赖版本号 -->
 	<properties>
