@@ -123,6 +123,9 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.easybuy.pojo.TbOrder" >
+    <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="orderId">
+		SELECT LAST_INSERT_ID() AS orderId
+	</selectKey>
     insert into tb_order (order_id, payment, payment_type, 
       post_fee, status, create_time, 
       update_time, payment_time, consign_time, 
