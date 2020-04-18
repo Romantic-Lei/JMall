@@ -118,7 +118,7 @@ public class CartController {
 		try {
 			response.sendRedirect("/cart.html");
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 		}
 
 	}
