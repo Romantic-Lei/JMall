@@ -67,5 +67,15 @@ app.controller('orderInfoController', function($scope, addressService, cartServi
 			}				
 		}	
 	}
+	
+	// 提交订单
+	$scope.submitOrder=function(){
+		console.log($scope.order);
+		cartService.submitOrder($scope.order).success(
+			function(response){
+				alert(response.message);
+			}
+		);
+	}
 
 });
