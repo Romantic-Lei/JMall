@@ -70,10 +70,21 @@ app.controller('orderInfoController', function($scope, addressService, cartServi
 	
 	// 提交订单
 	$scope.submitOrder=function(){
-		console.log($scope.order);
 		cartService.submitOrder($scope.order).success(
 			function(response){
 				alert(response.message);
+			}
+		);
+	}
+	
+	// 增加地址
+	$scope.addAddress=function(){
+		addressService.add($scope.address_entity).success(
+			function(response){
+				alert(response.message);
+				if(response.success){
+					$scope.findAddressList();
+				}
 			}
 		);
 	}
