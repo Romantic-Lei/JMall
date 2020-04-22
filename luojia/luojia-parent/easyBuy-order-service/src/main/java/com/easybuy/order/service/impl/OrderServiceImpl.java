@@ -1,5 +1,7 @@
 package com.easybuy.order.service.impl;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,10 +12,12 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.easybuy.entity.PageResult;
 import com.easybuy.mapper.TbOrderItemMapper;
 import com.easybuy.mapper.TbOrderMapper;
+import com.easybuy.mapper.TbPayLogMapper;
 import com.easybuy.order.service.OrderService;
 import com.easybuy.pojo.TbOrder;
 import com.easybuy.pojo.TbOrderExample;
 import com.easybuy.pojo.TbOrderItem;
+import com.easybuy.pojo.TbPayLog;
 import com.easybuy.pojogroup.Cart;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -30,6 +34,8 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	private TbOrderMapper orderMapper;
+	@Autowired
+	private TbPayLogMapper payLogMapper;
 	
 	/**
 	 * 查询全部
@@ -65,7 +71,8 @@ public class OrderServiceImpl implements OrderService {
 		List<Cart> cartList= (List<Cart>) redisTemplate.boundHashOps("cartList").get(order.getUserId());
 				
 		//循环购物车列表，循环向订单表插入数据
-		
+		double total_money = 0.0;
+		List orderIdList = new ArrayList();
 		for(Cart cart:cartList){
 			TbOrder tborder=new TbOrder();
 			tborder.setPaymentType(order.getPaymentType());//支付类型
@@ -79,6 +86,7 @@ public class OrderServiceImpl implements OrderService {
 			tborder.setSellerId(cart.getSellerId());//商家ID
 			
 			orderMapper.insert(tborder);//保存到订单主表
+			orderIdList.add(order.getOrderId() + "");
 			
 			double money=0;
 			for(TbOrderItem orderItem:cart.getOrderItemList()){
@@ -88,12 +96,37 @@ public class OrderServiceImpl implements OrderService {
 				orderItem.setSellerId(cart.getSellerId());//商家ID
 				orderItemMapper.insert(orderItem);//保存到订单明细表
 			}
+			
+			total_money+=money;// 金额累加
+			
 			tborder.setPayment(new BigDecimal(money));//合计金额 
 			
 			orderMapper.updateByPrimaryKey(tborder);//更新
 		}
 		//清除购物车中的数据
 		redisTemplate.boundHashOps("cartList").delete(order.getUserId());
+		
+		// 如果是支付宝微信支付，那么就产生支付日志
+		if("1".equals(order.getPaymentType())) {
+			// 向支付日志中插入记录
+			TbPayLog payLog = new TbPayLog();
+			payLog.setCreateTime(new Date());
+			payLog.setOrderList(""); // 订单号列表，逗号分隔
+			
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddhhmmess");
+			String outTradNo = simpleDateFormat.format(new Date()) + Math.random()*10000000000L;
+			
+			String orderIds = orderIdList.toString().replace("[", "").replace("]", "").replace(" ", "");
+			payLog.setOutTradeNo(orderIds); // 订单号
+			
+			payLog.setPayType("1"); // 1支付宝， 2微信，3网银
+			payLog.setTotalFee((long)(total_money*100)); // 支付金额
+			payLog.setTradeState("0"); // 订单状态
+			payLog.setUserId(order.getUserId()); // 用户id
+			
+			payLogMapper.insert(payLog);
+		}
+		
 	}
 
 	
