@@ -117,7 +117,7 @@ public class OrderServiceImpl implements OrderService {
 			String orderIds = orderIdList.toString().replace("[", "").replace("]", "").replace(" ", "");
 			payLog.setOrderList(orderIds); // 订单号列表，逗号分隔
 
-			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 			String outTradNo = simpleDateFormat.format(new Date()) + (long)(Math.random() * 10000000000L);
 
 			payLog.setOutTradeNo(outTradNo); // 订单号
