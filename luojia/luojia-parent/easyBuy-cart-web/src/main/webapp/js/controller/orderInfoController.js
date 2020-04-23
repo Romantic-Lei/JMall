@@ -73,6 +73,10 @@ app.controller('orderInfoController', function($scope, addressService, cartServi
 		cartService.submitOrder($scope.order).success(
 			function(response){
 				alert(response.message);
+				if(response.success && $scope.order.paymentType=='1'){
+					// 提交成功，并且为支付宝支付
+					location.href='pay.html';// 跳转为扫码页面
+				}
 			}
 		);
 	}
