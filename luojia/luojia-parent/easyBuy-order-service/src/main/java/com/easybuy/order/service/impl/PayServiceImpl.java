@@ -1,6 +1,7 @@
 package com.easybuy.order.service.impl;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
@@ -10,10 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradePagePayRequest;
+import com.alipay.api.response.AlipayTradePagePayResponse;
 import com.easybuy.order.service.PayService;
 import com.easybuy.pojo.TbPayLog;
 
@@ -26,15 +29,17 @@ import config.PayConfig;
  * @CreateDate 2020年4月23日
  * @Description
  */
+@Service
 public class PayServiceImpl implements PayService {
 
 	@Autowired
 	private RedisTemplate<String, Object> redisTemplate;
 	
 	@Override
-	public Map createNative(String userId, HttpServletResponse response) throws IOException {
+	public Map createNative(String userId) throws IOException {
 		
 		TbPayLog payLog = (TbPayLog) redisTemplate.boundHashOps("payLog").get(userId);
+		Map map = new HashMap();
 		
 		// 实例化客户端,填入所需参数
 		AlipayClient alipayClient = new DefaultAlipayClient(PayConfig.GATEWAY_URL, PayConfig.APP_ID, PayConfig.APP_PRIVATE_KEY, 
@@ -58,14 +63,22 @@ public class PayServiceImpl implements PayService {
 				+ "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
 		String form = "";
 		try {
-			form = alipayClient.pageExecute(request).getBody(); // 调用SDK生成表单
+			AlipayTradePagePayResponse response = alipayClient.pageExecute(request);
+			
+			if(response.isSuccess()) {
+				form = alipayClient.pageExecute(request).getBody(); // 调用SDK生成表单
+				map.put("form", form);
+			} 
+			
 		} catch (AlipayApiException e) {
 			e.printStackTrace();
 		}
-		response.setContentType("text/html;charset=" + PayConfig.CHARSET);
-		response.getWriter().write(form);// 直接将完整的表单html输出到页面
-		response.getWriter().flush();
-		response.getWriter().close();
+		
+		return map;
+//		response.setContentType("text/html;charset=" + PayConfig.CHARSET);
+//		response.getWriter().write(form);// 直接将完整的表单html输出到页面
+//		response.getWriter().flush();
+//		response.getWriter().close();
 	}
 
 }

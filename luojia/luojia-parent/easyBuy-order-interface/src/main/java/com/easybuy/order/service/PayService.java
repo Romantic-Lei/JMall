@@ -14,6 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 public interface PayService {
 	
 	// 生成二维码
-	public Map createNative(String userId, HttpServletResponse response) throws IOException;
+	public Map createNative(String userId) throws IOException;
 
 }
