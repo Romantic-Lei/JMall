@@ -36,7 +36,7 @@ public class PayServiceImpl implements PayService {
 	private RedisTemplate<String, Object> redisTemplate;
 	
 	@Override
-	public Map createNative(String userId) throws IOException {
+	public Map createNative(String userId) {
 		
 		TbPayLog payLog = (TbPayLog) redisTemplate.boundHashOps("payLog").get(userId);
 		Map map = new HashMap();
@@ -68,7 +68,12 @@ public class PayServiceImpl implements PayService {
 			if(response.isSuccess()) {
 				form = alipayClient.pageExecute(request).getBody(); // 调用SDK生成表单
 				map.put("form", form);
-			} 
+			} else {
+				map.put("form", null);
+			}
+			
+			map.put("out_trade_no", out_trade_no);// 订单号
+			map.put("total_amount", total_amount);// 订单号
 			
 		} catch (AlipayApiException e) {
 			e.printStackTrace();
