@@ -129,7 +129,7 @@ public class OrderServiceImpl implements OrderService {
 
 			payLogMapper.insert(payLog);
 			
-			redisTemplate.boundHashOps("payLog").put(order.getUserId(), order);
+			redisTemplate.boundHashOps("payLog").put(order.getUserId(), payLog);//存入缓存
 			
 			
 		}
