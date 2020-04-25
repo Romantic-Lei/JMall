@@ -28,17 +28,17 @@ public class PayController {
 	private PayService payService;
 	
 	@RequestMapping("/createNative")
-	public Map createNative(HttpServletResponse response) throws IOException {
+	public void createNative(HttpServletResponse response) throws IOException {
 		String userId = SecurityContextHolder.getContext().getAuthentication().getName();
 		Map map = payService.createNative(userId);
 		String form = (String) map.get("form");
 		
-//		response.setContentType("text/html;charset=" + PayConfig.CHARSET);
-//		response.getWriter().write(form);// 直接将完整的表单html输出到页面
-//		response.getWriter().flush();
-//		response.getWriter().close();
+		response.setContentType("text/html;charset=" + PayConfig.CHARSET);
+		response.getWriter().write(form);// 直接将完整的表单html输出到页面
+		response.getWriter().flush();
+		response.getWriter().close();
 		
-		return map;
+//		return map;
 	}
 	
 }

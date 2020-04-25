@@ -18,7 +18,7 @@ public class PayConfig {
 	// 支付宝公钥
 	public static String ALIPAY_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqv0Bo8tieSc5F+plqUvZunA/IgxVpm4AGZOtixB6C2bRicNpcOA5l9pjrI4Sa0ZVIfMwh5RDkT/GdfyZhUFjukxV5AS9oU3Lp/rxLm25CLtbpj3ooVke53L/chs0CO4hqF+q0fsU+KeAC6z5LTaiq4Rs2bqr2l46Yn1x+QEdlmCIQe1MhnySZFZziqnB6cmRboxmzqW+G+hOxjmsyws/d5rncoD7HSv/BBlGNNywCr25vYWWlLHwntziYuYWDdLhMExnQP2kpWkNvcZEVEyN+gPjW9ThBm9cEohQpxk3bda0za3fHpl2nEdVoKkIZl4PkrIbRKZZmky2v5YqohX3XwIDAQAB";
 	// 沙箱接口路径
-	public static String GATEWAY_URL = "https://openapi.alipay.com/gateway.do";
+	public static String GATEWAY_URL = " https://openapi.alipaydev.com/gateway.do";
 	public static  String FORMAT = "JSON";
 	// 签名方式
 	public static String SIGN_TYPE = "RSA2";

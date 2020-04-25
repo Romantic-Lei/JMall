@@ -35,6 +35,7 @@ public class PayServiceImpl implements PayService {
 	@Autowired
 	private RedisTemplate<String, Object> redisTemplate;
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public Map createNative(String userId) {
 		
@@ -58,6 +59,7 @@ public class PayServiceImpl implements PayService {
 		String subject = "易购商品支付";
 		// 商品描述，可空
 		String body = "易购商品支付";
+//		request.setBizContent("{\"codeType\":\"TEMP\", \"expireSecond\":1800, \"codeInfo\":{ \"scene\":{ \"sceneId\":\"123456\" },\"gotoUrl\":\"url\" }, \"showLogo\":\"Y\" }");
 		request.setBizContent("{\"out_trade_no\":\"" + out_trade_no + "\"," + "\"total_amount\":\"" + total_amount
 				+ "\"," + "\"subject\":\"" + subject + "\"," + "\"body\":\"" + body + "\","
 				+ "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
@@ -67,6 +69,8 @@ public class PayServiceImpl implements PayService {
 			
 			if(response.isSuccess()) {
 				form = alipayClient.pageExecute(request).getBody(); // 调用SDK生成表单
+				AlipayTradePagePayResponse pageExecute = alipayClient.pageExecute(request); // 调用SDK生成表单
+//				AlipayTradePagePayResponse execute = alipayClient.execute(request); // 调用SDK生成表单
 				map.put("form", form);
 			} else {
 				map.put("form", null);
@@ -80,10 +84,6 @@ public class PayServiceImpl implements PayService {
 		}
 		
 		return map;
-//		response.setContentType("text/html;charset=" + PayConfig.CHARSET);
-//		response.getWriter().write(form);// 直接将完整的表单html输出到页面
-//		response.getWriter().flush();
-//		response.getWriter().close();
 	}
 
 }

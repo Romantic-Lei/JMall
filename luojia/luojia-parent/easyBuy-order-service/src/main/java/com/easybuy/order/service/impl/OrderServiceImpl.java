@@ -123,7 +123,7 @@ public class OrderServiceImpl implements OrderService {
 			payLog.setOutTradeNo(outTradNo); // 订单号
 
 			payLog.setPayType("1"); // 1支付宝， 2微信，3网银
-			payLog.setTotalFee((long) (total_money * 100)); // 支付金额
+			payLog.setTotalFee((long) (total_money)); // 支付金额
 			payLog.setTradeState("0"); // 订单状态
 			payLog.setUserId(order.getUserId()); // 用户id
 
