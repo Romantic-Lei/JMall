@@ -15,5 +15,8 @@ public interface PayService {
 	
 	// 生成二维码
 	public Map createNative(String userId);
+	
+	// 检测订单支付状态
+//	public Map queryPayStatus(String out_trade_no);
 
 }
