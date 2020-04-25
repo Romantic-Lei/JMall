@@ -18,5 +18,8 @@ public interface PayService {
 	
 	// 检测订单支付状态
 //	public Map queryPayStatus(String out_trade_no);
+	
+	// 更改支付状态
+	public void updateOrderStatus(String out_trade_no, String transaction_id);
 
 }

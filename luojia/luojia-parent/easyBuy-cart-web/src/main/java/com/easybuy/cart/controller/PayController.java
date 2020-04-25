@@ -84,7 +84,7 @@ public class PayController {
 	        System.out.println("付款金额="+total_amount);
 	        
 	        //支付成功，修复支付状态
-//	        payService.updateById(Integer.valueOf(out_trade_no));
+	        payService.updateOrderStatus(out_trade_no, trade_no);
 	        response.sendRedirect("/paysuccess.html");//跳转付款成功页面
 	    }else{
 	    	response.sendRedirect("/payfail.html");//跳转付款失败页面

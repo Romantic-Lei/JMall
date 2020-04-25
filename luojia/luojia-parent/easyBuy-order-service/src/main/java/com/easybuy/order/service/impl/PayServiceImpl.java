@@ -1,6 +1,7 @@
 package com.easybuy.order.service.impl;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -17,7 +18,10 @@ import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.alipay.api.response.AlipayTradePagePayResponse;
+import com.easybuy.mapper.TbOrderMapper;
+import com.easybuy.mapper.TbPayLogMapper;
 import com.easybuy.order.service.PayService;
+import com.easybuy.pojo.TbOrder;
 import com.easybuy.pojo.TbPayLog;
 
 import config.PayConfig;
@@ -34,6 +38,10 @@ public class PayServiceImpl implements PayService {
 
 	@Autowired
 	private RedisTemplate<String, Object> redisTemplate;
+	@Autowired
+	private TbPayLogMapper payLogMapper;
+	@Autowired
+	private TbOrderMapper orderMapper;
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -59,7 +67,6 @@ public class PayServiceImpl implements PayService {
 		String subject = "易购商品支付";
 		// 商品描述，可空
 		String body = "易购商品支付";
-//		request.setBizContent("{\"codeType\":\"TEMP\", \"expireSecond\":1800, \"codeInfo\":{ \"scene\":{ \"sceneId\":\"123456\" },\"gotoUrl\":\"url\" }, \"showLogo\":\"Y\" }");
 		request.setBizContent("{\"out_trade_no\":\"" + out_trade_no + "\"," + "\"total_amount\":\"" + total_amount
 				+ "\"," + "\"subject\":\"" + subject + "\"," + "\"body\":\"" + body + "\","
 				+ "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
@@ -69,8 +76,6 @@ public class PayServiceImpl implements PayService {
 			
 			if(response.isSuccess()) {
 				form = alipayClient.pageExecute(request).getBody(); // 调用SDK生成表单
-				AlipayTradePagePayResponse pageExecute = alipayClient.pageExecute(request); // 调用SDK生成表单
-//				AlipayTradePagePayResponse execute = alipayClient.execute(request); // 调用SDK生成表单
 				map.put("form", form);
 			} else {
 				map.put("form", null);
@@ -84,6 +89,27 @@ public class PayServiceImpl implements PayService {
 		}
 		
 		return map;
+	}
+
+	@Override
+	public void updateOrderStatus(String out_trade_no, String transaction_id) {
+		
+		TbPayLog payLog = payLogMapper.selectByPrimaryKey(out_trade_no);
+		payLog.setTransactionId(transaction_id);// 交易流水号
+		payLog.setPayTime(new Date());// 支付时间
+		payLog.setTradeState("1");// 交易状态  -> 已支付
+		String orderList = payLog.getOrderList();// 获取本次支付订单id
+		
+		String[] ids = orderList.split(",");
+		
+		for (int i = 0; i < ids.length; i++) {
+			TbOrder order = orderMapper.selectByPrimaryKey(Long.valueOf(ids[i]));
+			order.setStatus("2");// 已支付
+			orderMapper.updateByPrimaryKey(order);
+		}
+		
+		payLogMapper.updateByPrimaryKey(payLog);
+		
 	}
 
 }
