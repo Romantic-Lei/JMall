@@ -566,3 +566,9 @@ luojia/luojia-parent/easyBuy-solr-util/.gitignore
 luojia/luojia-parent/easyBuy-solr-util/.settings/org.eclipse.m2e.core.prefs
 luojia/luojia-parent/easyBuy-solr-util/.settings/org.eclipse.jdt.core.prefs
 luojia/luojia-parent/easyBuy-solr-util/.settings/org.eclipse.core.resources.prefs
+luojia/luojia-parent/easyBuy-search-interface/.classpath
+luojia/luojia-parent/easyBuy-search-interface/.project
+luojia/luojia-parent/easyBuy-search-interface/.gitignore
+luojia/luojia-parent/easyBuy-search-interface/.settings/org.eclipse.m2e.core.prefs
+luojia/luojia-parent/easyBuy-search-interface/.settings/org.eclipse.jdt.core.prefs
+luojia/luojia-parent/easyBuy-search-interface/.settings/org.eclipse.core.resources.prefs

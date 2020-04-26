@@ -28,6 +28,7 @@
 		<module>easyBuy-order-interface</module>
 		<module>easyBuy-order-service</module>
 		<module>easyBuy-solr-util</module>
+		<module>easyBuy-search-interface</module>
 	</modules>
 	<!-- 集中定义依赖版本号 -->
 	<properties>
