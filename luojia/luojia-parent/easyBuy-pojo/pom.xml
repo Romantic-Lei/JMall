@@ -6,4 +6,10 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>easyBuy-pojo</artifactId>
+  <dependencies>
+  	<dependency>
+  		<groupId>org.apache.solr</groupId>
+  		<artifactId>solr-solrj</artifactId>
+  	</dependency>
+  </dependencies>
 </project>

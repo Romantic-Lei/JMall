@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.stereotype.Component;
 
 import com.easybuy.mapper.TbItemMapper;
@@ -17,6 +18,8 @@ public class SolrUtil {
 	
 	@Autowired
 	private TbItemMapper itemMapper;
+	@Autowired
+	private SolrTemplate solrTemplate;
 
 	public static void main(String[] args) {
 		
@@ -36,6 +39,13 @@ public class SolrUtil {
 		for (TbItem item : list) {
 			System.out.println(item.getTitle());
 		}
+		
+		System.out.println("开始导入数据");
+		
+		solrTemplate.saveBeans(list);
+		solrTemplate.commit();
+		
+		System.out.println("导入数据完成");
 		
 	}
 	
