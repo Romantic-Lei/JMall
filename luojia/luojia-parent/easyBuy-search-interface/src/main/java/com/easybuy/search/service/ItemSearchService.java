@@ -9,7 +9,7 @@ import java.util.Map;
  * @CreateDate 2020年4月26日
  * @Description
  */
-public interface ItemServiceService {
+public interface ItemSearchService {
 
 	public Map<String, Object> search(Map<String, Object> searchMap);
 	
