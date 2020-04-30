@@ -4,15 +4,17 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:solr="http://www.springframework.org/schema/data/solr"
 	xsi:schemaLocation="http://www.springframework.org/schema/data/solr 
-  		http://www.springframework.org/schema/data/solr/spring-solr-2.0.xsd
+  		http://www.springframework.org/schema/data/solr/spring-solr.xsd
 		http://www.springframework.org/schema/beans 
 		http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context 
 		http://www.springframework.org/schema/context/spring-context.xsd">
 	
 	<!-- solr服务器地址 -->
-	<solr:solr-client id="solrServer" url="http://127.0.0.1:8080/solr" />
-	
+	<solr:solr-server id="solrServer" url="http://127.0.0.1:8080/solr" />
+<!-- 	<bean id="httpSolrClient" class="org.apache.solr.client.solrj.impl.HttpSolrClient">   -->
+<!--     	<constructor-arg name="baseURL" value="http://127.0.0.1:8080/solr"/>   -->
+<!--     </bean>  -->
    
 	<!-- solr模板，使用solr模板可对索引库进行CRUD的操作 -->
 	<bean id="solrTemplate" class="org.springframework.data.solr.core.SolrTemplate">
