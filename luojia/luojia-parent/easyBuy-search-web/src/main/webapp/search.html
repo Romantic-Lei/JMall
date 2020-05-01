@@ -149,21 +149,14 @@
 			<div class="bread">
 				<ul class="fl sui-breadcrumb">
 					<li>
-						{{searchMap}}
 					</li>					
 				</ul>
 				<ul class="tags-choose">
-					<li class="tag">商品分类:{{searchMap.category}}<i class="sui-icon icon-tb-close"></i></li>
-					<li class="tag">品牌:{{searchMap.brand}}<i class="sui-icon icon-tb-close"></i></li>
+					<li class="tag" ng-if="searchMap.category != '' ">商品分类:{{searchMap.category}}<i class="sui-icon icon-tb-close" ng-click="removeSearchItem('category');"></i></li>
+					<li class="tag" ng-if="searchMap.brand != '' ">品牌:{{searchMap.brand}}<i class="sui-icon icon-tb-close" ng-click="removeSearchItem('brand');"></i></li>
 					
-					<li class="tag" ng-repeat="(key, value) in searchMap.spec">{{key}}:{{value}}<i class="sui-icon icon-tb-close"></i></li>
+					<li class="tag" ng-repeat="(key, value) in searchMap.spec">{{key}}:{{value}}<i class="sui-icon icon-tb-close" ng-click="removeSearchItem(key);"></i></li>
 				</ul>
-				<form class="fl sui-form form-dark">
-					<div class="input-control control-right">
-						<input type="text" />
-						<i class="sui-icon icon-touch-magnifier"></i>
-					</div>
-				</form>
 				<div class="clearfix"></div>
 			</div>
 			<!--selector-->
