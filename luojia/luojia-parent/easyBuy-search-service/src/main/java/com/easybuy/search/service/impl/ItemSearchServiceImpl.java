@@ -18,7 +18,13 @@ import org.springframework.data.solr.core.query.result.GroupResult;
 import org.springframework.data.solr.core.query.result.ScoredPage;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.alibaba.fastjson.JSON;
+import com.easybuy.mapper.TbItemCatMapper;
+import com.easybuy.mapper.TbTypeTemplateMapper;
 import com.easybuy.pojo.TbItem;
+import com.easybuy.pojo.TbItemCat;
+import com.easybuy.pojo.TbItemCatExample;
+import com.easybuy.pojo.TbTypeTemplate;
 import com.easybuy.search.service.ItemSearchService;
 
 /**
@@ -33,6 +39,10 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 
 	@Autowired
 	private SolrTemplate solrTemplate;
+	@Autowired
+	private TbItemCatMapper itemCatMapper;
+	@Autowired
+	private TbTypeTemplateMapper typeTemplateMapper;
 
 	@Override
 	public Map<String, Object> search(Map<String, Object> searchMap) {
@@ -62,7 +72,42 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 
 		resultMap.put("categoryList", categoryList);
 
+		// 3.根据查询的商品第一个分类查询品牌列表
+		if (categoryList.size() > 0) {
+			String category = categoryList.get(0); // 分类列表
+			Map<String, Object> map = searchTemplateByCategory(category);
+			resultMap.put("brandList", map.get("brandList"));
+		}
+
 		return resultMap;
+	}
+
+	/**
+	 * 根据商品分类查询模板
+	 * 
+	 * @param category
+	 * @return
+	 */
+	private Map<String, Object> searchTemplateByCategory(String category) {
+		Map<String, Object> map = new HashMap<>();
+		// 根据分类名称去tb_item_cat表中查询模板id
+		
+		TbItemCatExample example = new TbItemCatExample();
+		com.easybuy.pojo.TbItemCatExample.Criteria criteria = example.createCriteria();
+		criteria.andNameEqualTo(category);
+		List<TbItemCat> itemCatList = itemCatMapper.selectByExample(example);
+		
+		// 根据模板id查询模板对象
+		if(itemCatList.size() > 0) {
+			TbItemCat itemCat = itemCatList.get(0);
+			TbTypeTemplate typeTemplate = typeTemplateMapper.selectByPrimaryKey(itemCat.getTypeId());
+			
+			List<Map> brandList = JSON.parseArray(typeTemplate.getBrandIds(), Map.class);
+			map.put("brandList", brandList);
+			
+		}
+
+		return map;
 	}
 
 }
