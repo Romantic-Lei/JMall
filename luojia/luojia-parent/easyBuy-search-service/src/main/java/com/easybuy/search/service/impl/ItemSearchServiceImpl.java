@@ -20,10 +20,13 @@ import org.springframework.data.solr.core.query.result.ScoredPage;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
 import com.easybuy.mapper.TbItemCatMapper;
+import com.easybuy.mapper.TbSpecificationOptionMapper;
 import com.easybuy.mapper.TbTypeTemplateMapper;
 import com.easybuy.pojo.TbItem;
 import com.easybuy.pojo.TbItemCat;
 import com.easybuy.pojo.TbItemCatExample;
+import com.easybuy.pojo.TbSpecificationOption;
+import com.easybuy.pojo.TbSpecificationOptionExample;
 import com.easybuy.pojo.TbTypeTemplate;
 import com.easybuy.search.service.ItemSearchService;
 
@@ -43,6 +46,8 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 	private TbItemCatMapper itemCatMapper;
 	@Autowired
 	private TbTypeTemplateMapper typeTemplateMapper;
+	@Autowired
+	private TbSpecificationOptionMapper specificationOptionMapper;
 
 	@Override
 	public Map<String, Object> search(Map<String, Object> searchMap) {
@@ -77,6 +82,10 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 			String category = categoryList.get(0); // 分类列表
 			Map<String, Object> map = searchTemplateByCategory(category);
 			resultMap.put("brandList", map.get("brandList"));
+			
+			// 4.根据第一个商品分类查询规格
+			resultMap.put("specMap", map.get("specMap"));
+			
 		}
 
 		return resultMap;
@@ -90,21 +99,38 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 	 */
 	private Map<String, Object> searchTemplateByCategory(String category) {
 		Map<String, Object> map = new HashMap<>();
-		// 根据分类名称去tb_item_cat表中查询模板id
-		
+		// 1.根据分类名称去tb_item_cat表中查询模板id		
 		TbItemCatExample example = new TbItemCatExample();
 		com.easybuy.pojo.TbItemCatExample.Criteria criteria = example.createCriteria();
 		criteria.andNameEqualTo(category);
 		List<TbItemCat> itemCatList = itemCatMapper.selectByExample(example);
 		
-		// 根据模板id查询模板对象
+		// 2.根据模板id查询模板对象
 		if(itemCatList.size() > 0) {
 			TbItemCat itemCat = itemCatList.get(0);
 			TbTypeTemplate typeTemplate = typeTemplateMapper.selectByPrimaryKey(itemCat.getTypeId());
 			
+			// 3.得到品牌列表
 			List<Map> brandList = JSON.parseArray(typeTemplate.getBrandIds(), Map.class);
 			map.put("brandList", brandList);
 			
+			// 4.得到规格列表
+			List<Map> specList = JSON.parseArray(typeTemplate.getSpecIds(), Map.class);
+			Map specMap = new HashMap<>();
+			
+			for (Map spec : specList) {
+				// 根据规格ID查询规格选项列表
+				
+				TbSpecificationOptionExample example1 = new TbSpecificationOptionExample();
+				com.easybuy.pojo.TbSpecificationOptionExample.Criteria criteria2 = example1.createCriteria();
+				Integer specId = (Integer) spec.get("id");
+				
+				criteria2.andSpecIdEqualTo(Long.parseLong(specId + ""));
+				
+				List<TbSpecificationOption> optionList = specificationOptionMapper.selectByExample(example1);
+				specMap.put(spec.get("text"), optionList);
+			}
+			map.put("specMap", specMap);
 		}
 
 		return map;
