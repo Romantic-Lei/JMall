@@ -14,7 +14,7 @@ public class TbItem implements Serializable {
 	@Field("item_title")
     private String title;
 
-	@Field("item_sellPoint")
+	@Field("item_sell_point")
     private String sellPoint;
 
 	@Field("item_price")
