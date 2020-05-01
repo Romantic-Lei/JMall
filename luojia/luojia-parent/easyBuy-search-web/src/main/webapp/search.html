@@ -168,8 +168,12 @@
 			<!--selector-->
 			<div class="clearfix selector">
 				<div class="type-wrap">
-					<div class="fl key">手机、数码、配件</div>
-					<div class="fl value"></div>
+					<div class="fl key">商品分类</div>
+					<div class="fl value">
+						<span ng-repeat="category in resultMap.categoryList">
+							<a href="#">{{category}}</a>
+						</span>
+					</div>
 					<div class="fl ext"></div>
 				</div>
 				<div class="type-wrap logo">
@@ -352,8 +356,8 @@
 					</div>
 				</div>
 				<div class="goods-list">
-					<ul class="yui3-g" ng-repeat="item in searchMap.rows">
-						<li class="yui3-u-1-5">
+					<ul class="yui3-g">
+						<li class="yui3-u-1-5" ng-repeat="item in resultMap.rows">
 							<div class="list-wrap">
 								<div class="p-img">
 									<a href="http://item.easybuy.com/{{item.goodsId}}.html" target="_blank"><img src="{{item.image}}" /></a>
@@ -773,7 +777,7 @@
 		</div>
 	</script>
 	<!--侧栏面板结束-->
-		<script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="plugins/jquery/jquery.min.js"></script>
 		<script type="text/javascript">
 			$(function() {
 				$("#service").hover(function() {
@@ -791,8 +795,8 @@
 		</script>
 		<script type="text/javascript" src="js/model/cartModel.js"></script>
 		<script type="text/javascript" src="js/czFunction.js"></script>
-		<script type="text/javascript" src="js/plugins/jquery.easing/jquery.easing.min.js"></script>
-		<script type="text/javascript" src="js/plugins/sui/sui.min.js"></script>
+		<script type="text/javascript" src="plugins/jquery.easing/jquery.easing.min.js"></script>
+		<script type="text/javascript" src="plugins/sui/sui.min.js"></script>
 		<script type="text/javascript" src="js/widget/cartPanelView.js"></script>
 	</body>
 
