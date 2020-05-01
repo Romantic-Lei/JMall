@@ -11,6 +11,7 @@ import javax.jms.Message;
 import javax.jms.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.transaction.annotation.Propagation;
@@ -65,6 +66,8 @@ public class GoodsServiceImpl implements GoodsService {
 	private JmsTemplate jmsTemplate;
 	@Autowired
 	private Destination topicTextDestination;
+	@Autowired
+	private SolrTemplate solrTemplate;
 
 	/**
 	 * 查询全部
@@ -452,6 +455,17 @@ public class GoodsServiceImpl implements GoodsService {
 						return session.createTextMessage(id.toString());
 					}
 				});
+				
+				// 更新到索引库
+				TbItemExample example = new TbItemExample();
+				com.easybuy.pojo.TbItemExample.Criteria criteria = example.createCriteria();
+				criteria.andGoodsIdEqualTo(id);// 条件是商品ID
+				criteria.andStatusEqualTo("1");// 条件是商品状态
+				List<TbItem> itemList = itemMapper.selectByExample(example);
+				
+				solrTemplate.saveBeans(itemList);
+				solrTemplate.commit();
+				
 			}
 			
 		}
