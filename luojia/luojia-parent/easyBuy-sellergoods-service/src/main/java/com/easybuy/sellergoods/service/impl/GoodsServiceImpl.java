@@ -1,6 +1,7 @@
 package com.easybuy.sellergoods.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -201,29 +202,29 @@ public class GoodsServiceImpl implements GoodsService {
 
 		// 保存商品扩展表数据
 		GoodsDescMapper.updateByPrimaryKey(goods.getGoodsDesc());
-		
+
 		if ("1".equals(goods.getGoods().getIsEnableSpec())) {// 如果启用规格
-			
+
 			List<Map> skuList = goods.getSkuList();
 			// 得到规格数据，根据规格查询item表，如果有则修改，如果没有则新增
-			for(Map map : skuList) {
-				Map<String,String> specMap = (Map) map.get("spec");
+			for (Map map : skuList) {
+				Map<String, String> specMap = (Map) map.get("spec");
 				// 根据规格和商品查询item
 				TbItem item = getItemBySpecMap(specMap, goods.getGoods().getId());
-				if(item == null) {
+				if (item == null) {
 					item = new TbItem();
 					// 构建标题 SPU名称+规格选项值
 					String title = goods.getGoods().getGoodsName();// SPU名称
 					for (String key : specMap.keySet()) {
 						title += " " + specMap.get(key);
 					}
-					
+
 					item.setTitle(title);// 标题
-					if(map.get("price") instanceof String) {
+					if (map.get("price") instanceof String) {
 						item.setPrice(new BigDecimal((String) map.get("price")));// 价格
 					}
-					
-					if(map.get("price") instanceof BigDecimal) {
+
+					if (map.get("price") instanceof BigDecimal) {
 						item.setPrice((BigDecimal) map.get("price"));// 价格
 					}
 
@@ -266,13 +267,13 @@ public class GoodsServiceImpl implements GoodsService {
 					}
 
 					itemMapper.insert(item);
-				}else {
+				} else {
 					// 如果存在item，修改
-					if(map.get("price") instanceof String) {
+					if (map.get("price") instanceof String) {
 						item.setPrice(new BigDecimal((String) map.get("price")));// 价格
 					}
-					
-					if(map.get("price") instanceof BigDecimal) {
+
+					if (map.get("price") instanceof BigDecimal) {
 						item.setPrice((BigDecimal) map.get("price"));// 价格
 					}
 
@@ -288,22 +289,22 @@ public class GoodsServiceImpl implements GoodsService {
 					item.setStatus((String) map.get("status"));// 状态
 					item.setIsDefault((String) map.get("isDefault"));// 是否默认
 					item.setUpdateTime(new Date()); // 更新日期
-					
-					itemMapper.updateByPrimaryKey(item); //保存修改
+
+					itemMapper.updateByPrimaryKey(item); // 保存修改
 				}
-				
+
 			}
-			
-		}else {
+
+		} else {
 			// 不启用规格
-			
+
 			// 关键在于查询有没有单一sku标准
 			TbItemExample example = new TbItemExample();
 			com.easybuy.pojo.TbItemExample.Criteria criteria = example.createCriteria();
 			criteria.andTitleEqualTo(goods.getGoods().getGoodsName());// 条件：商品名称
-			
+
 			List<TbItem> itemList = itemMapper.selectByExample(example);
-			if(itemList.size()>0) {
+			if (itemList.size() > 0) {
 				// 原数据是存在的
 				TbItem item = itemList.get(0);
 				item.setTitle(goods.getGoods().getGoodsName());// 商品名称
@@ -313,8 +314,8 @@ public class GoodsServiceImpl implements GoodsService {
 				item.setIsDefault("1");// 设置为默认
 				item.setUpdateTime(new Date()); // 更新日期
 				itemMapper.updateByPrimaryKey(item);// 修改
-				
-			}else {
+
+			} else {
 				// 没有就插入
 				TbItem item = new TbItem();
 				item.setTitle(goods.getGoods().getGoodsName());// 商品名称
@@ -324,10 +325,10 @@ public class GoodsServiceImpl implements GoodsService {
 				item.setIsDefault("1");// 设置为默认
 				item.setSellerId(goods.getGoods().getSellerId());// 商家ID
 				item.setGoodsId(goods.getGoods().getId());// 商品ID
-				
+
 				itemMapper.insert(item);
 			}
-			
+
 			itemMapper.selectByExample(example);
 		}
 
@@ -411,63 +412,79 @@ public class GoodsServiceImpl implements GoodsService {
 		Page<TbGoods> page = (Page<TbGoods>) goodsMapper.selectByExample(example);
 		return new PageResult(page.getTotal(), page.getResult());
 	}
-	
+
 	/**
 	 * 根据规格查询item表
+	 * 
 	 * @param specMap
 	 * @param goodsId
 	 * @return
 	 */
-	private TbItem getItemBySpecMap(Map<String,String> specMap, Long goodsId) {
-		
+	private TbItem getItemBySpecMap(Map<String, String> specMap, Long goodsId) {
+
 		TbItemExample example = new TbItemExample();
 		com.easybuy.pojo.TbItemExample.Criteria criteria = example.createCriteria();
 		criteria.andGoodsIdEqualTo(goodsId);// 条件是商品ID
-		
-		for(String specKey : specMap.keySet()) {
+
+		for (String specKey : specMap.keySet()) {
 			criteria.andTitleLike("% " + specMap.get(specKey) + "%");
-			
+
 		}
-		
-		
-		List<TbItem> itemList = itemMapper.selectByExample(example );
-		if(itemList.size() > 0) {
+
+		List<TbItem> itemList = itemMapper.selectByExample(example);
+		if (itemList.size() > 0) {
 			return itemList.get(0);
 		}
-		
+
 		return null;
 	}
 
 	@Override
 	public void updateStatus(Long[] ids, String status) {
-		
+
 		for (Long id : ids) {
 			TbGoods tbGoods = goodsMapper.selectByPrimaryKey(id);
-			tbGoods.setAuditStatus(status);  // 更新状态
+			tbGoods.setAuditStatus(status); // 更新状态
 			goodsMapper.updateByPrimaryKey(tbGoods);
-			
+
 			// 状态为1 才发送消息
-			if(status.equals("1")) {
+			if (status.equals("1")) {
 				jmsTemplate.send(topicTextDestination, new MessageCreator() {
-					
+
 					@Override
 					public Message createMessage(Session session) throws JMSException {
 						return session.createTextMessage(id.toString());
 					}
 				});
-				
+
 				// 更新到索引库
 				TbItemExample example = new TbItemExample();
 				com.easybuy.pojo.TbItemExample.Criteria criteria = example.createCriteria();
 				criteria.andGoodsIdEqualTo(id);// 条件是商品ID
 				criteria.andStatusEqualTo("1");// 条件是商品状态
 				List<TbItem> itemList = itemMapper.selectByExample(example);
-				
+
 				solrTemplate.saveBeans(itemList);
 				solrTemplate.commit();
+
+			} else {
+				TbItemExample example = new TbItemExample();
+				com.easybuy.pojo.TbItemExample.Criteria criteria = example.createCriteria();
+				criteria.andGoodsIdEqualTo(id);// 条件是商品ID
+				List<TbItem> itemList = itemMapper.selectByExample(example);
 				
+				if(itemList.size() > 0) {
+					List<String> item_ids = new ArrayList();
+					for (TbItem item : itemList) {
+						item_ids.add(item.getId() + "");
+					}
+					
+					// 根据id删除索引库
+					solrTemplate.deleteById(item_ids);
+					solrTemplate.commit();
+				}
 			}
-			
+
 		}
 	}
 
