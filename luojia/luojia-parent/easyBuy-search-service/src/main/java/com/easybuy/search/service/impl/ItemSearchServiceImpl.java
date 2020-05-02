@@ -74,6 +74,16 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 			query.addFilterQuery(filterQuery );
 		}
 		
+		// 1.4构建筛选条件，按规格筛选
+		Map<String, Object> sepcMap = (Map) searchMap.get("spec");
+		if(sepcMap != null) {
+			for (String key : sepcMap.keySet()) {
+				
+				FilterQuery filterQuery = new SimpleFacetQuery(new Criteria("item_spec_" + key).is(sepcMap.get(key)));
+				query.addFilterQuery(filterQuery );
+			}
+		}
+		
 		ScoredPage<TbItem> page = solrTemplate.queryForPage(query, TbItem.class);
 		resultMap.put("rows", page.getContent());
 

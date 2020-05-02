@@ -71,7 +71,7 @@ public class TbItem implements Serializable {
     @Field("item_spec_*")
     private Map<String, String> specMap;
 
-    public Map<String, String> getSpecMap() {
+	public Map<String, String> getSpecMap() {
 		return specMap;
 	}
 
