@@ -3,8 +3,12 @@ package com.easybuy.pojo;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Map;
+
+import javax.annotation.PreDestroy;
 
 import org.apache.solr.client.solrj.beans.Field;
+import org.springframework.data.solr.core.mapping.Dynamic;
 
 public class TbItem implements Serializable {
 	
@@ -62,8 +66,20 @@ public class TbItem implements Serializable {
 
     @Field("item_seller")
     private String seller;
+    
+    @Dynamic
+    @Field("item_spec_*")
+    private Map<String, String> mapSpec;
 
-    public Long getId() {
+    public Map<String, String> getMapSpec() {
+		return mapSpec;
+	}
+
+	public void setMapSpec(Map<String, String> mapSpec) {
+		this.mapSpec = mapSpec;
+	}
+
+	public Long getId() {
         return id;
     }
 
