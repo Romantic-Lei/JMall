@@ -463,7 +463,14 @@ public class GoodsServiceImpl implements GoodsService {
 				criteria.andGoodsIdEqualTo(id);// 条件是商品ID
 				criteria.andStatusEqualTo("1");// 条件是商品状态
 				List<TbItem> itemList = itemMapper.selectByExample(example);
-
+				for (TbItem item : itemList) {
+					
+					String specJsonString = item.getSpec();
+					Map specMap = JSON.parseObject(specJsonString);
+					
+					item.setSpecMap(specMap);
+					
+				}
 				solrTemplate.saveBeans(itemList);
 				solrTemplate.commit();
 
