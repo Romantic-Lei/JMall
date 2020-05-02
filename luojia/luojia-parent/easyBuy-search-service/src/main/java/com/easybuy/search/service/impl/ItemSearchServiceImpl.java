@@ -89,19 +89,26 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 
 		// 2.根据关键字查询分类列表（分组查询 类似sql的 group by）
 
-		GroupOptions groupOptions = new GroupOptions().addGroupByField("item_category");
-		query.setGroupOptions(groupOptions);
-		GroupPage<TbItem> groupPage = solrTemplate.queryForGroupPage(query, TbItem.class);
-		GroupResult<TbItem> groupResult = groupPage.getGroupResult("item_category");
-		Page<GroupEntry<TbItem>> groupEntries = groupResult.getGroupEntries();
-		List<GroupEntry<TbItem>> cataList = groupEntries.getContent();
-
 		List<String> categoryList = new ArrayList<String>();
-		for (GroupEntry<TbItem> entry : cataList) {
-			categoryList.add(entry.getGroupValue());
+		if(searchMap.get("category").equals("")) {
+			// 若果用户没有选择分类条件
+			GroupOptions groupOptions = new GroupOptions().addGroupByField("item_category");
+			query.setGroupOptions(groupOptions);
+			GroupPage<TbItem> groupPage = solrTemplate.queryForGroupPage(query, TbItem.class);
+			GroupResult<TbItem> groupResult = groupPage.getGroupResult("item_category");
+			Page<GroupEntry<TbItem>> groupEntries = groupResult.getGroupEntries();
+			List<GroupEntry<TbItem>> cataList = groupEntries.getContent();
+			
+			
+			for (GroupEntry<TbItem> entry : cataList) {
+				categoryList.add(entry.getGroupValue());
+			}
+			
+			resultMap.put("categoryList", categoryList);
+		}else {
+			// 将条件添加到列表
+			categoryList.add((String) searchMap.get("category"));
 		}
-
-		resultMap.put("categoryList", categoryList);
 
 		// 3.根据查询的商品第一个分类查询品牌列表
 		if (categoryList.size() > 0) {
