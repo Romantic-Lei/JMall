@@ -20,6 +20,7 @@ app.controller('searchController',function($scope,searchService){
 			// 点击的是规格
 			$scope.searchMap.spec[key]=value;
 		}
+		$scope.search();
 	}
 	
 	// 删除搜索项
@@ -31,6 +32,7 @@ app.controller('searchController',function($scope,searchService){
 			// 移除的是规格
 			delete $scope.searchMap.spec[key];
 		}
+		$scope.search();
 	}
 	
 	

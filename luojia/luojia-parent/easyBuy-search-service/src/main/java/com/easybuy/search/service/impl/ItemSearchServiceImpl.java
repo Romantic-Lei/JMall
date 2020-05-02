@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.Criteria;
+import org.springframework.data.solr.core.query.FilterQuery;
 import org.springframework.data.solr.core.query.GroupOptions;
 import org.springframework.data.solr.core.query.Query;
+import org.springframework.data.solr.core.query.SimpleFacetQuery;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.data.solr.core.query.result.GroupEntry;
 import org.springframework.data.solr.core.query.result.GroupPage;
@@ -55,10 +57,24 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 		Map<String, Object> resultMap = new HashMap<>();
 		Query query = new SimpleQuery();
 		// 1.根据关键字查询商品列表
+		// 1.1 构建查询条件，按关键字搜索
 		Criteria criteria = new Criteria("item_keywords").is(searchMap.get("keywords"));
 		query.addCriteria(criteria);
-		ScoredPage<TbItem> page = solrTemplate.queryForPage(query, TbItem.class);
 
+		
+		// 1.2 构建筛选条件，按分类搜索
+		if(searchMap.get("category") != null && !searchMap.get("category").equals("")) {
+			FilterQuery filterQuery = new SimpleFacetQuery(new Criteria("item_category").is(searchMap.get("category")));
+			query.addFilterQuery(filterQuery );
+		}
+		
+		// 1.3 构建筛选条件，按品牌搜索
+		if(searchMap.get("brand") != null && !searchMap.get("brand").equals("")) {
+			FilterQuery filterQuery = new SimpleFacetQuery(new Criteria("item_brand").is(searchMap.get("brand")));
+			query.addFilterQuery(filterQuery );
+		}
+		
+		ScoredPage<TbItem> page = solrTemplate.queryForPage(query, TbItem.class);
 		resultMap.put("rows", page.getContent());
 
 		// 2.根据关键字查询分类列表（分组查询 类似sql的 group by）
