@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.Criteria;
 import org.springframework.data.solr.core.query.FilterQuery;
@@ -50,6 +51,8 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 	private TbTypeTemplateMapper typeTemplateMapper;
 	@Autowired
 	private TbSpecificationOptionMapper specificationOptionMapper;
+	@Autowired
+	private RedisTemplate<String, Object> redisTemplate;
 
 	@Override
 	public Map<String, Object> search(Map<String, Object> searchMap) {
@@ -113,14 +116,13 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 		// 3.根据查询的商品第一个分类查询品牌列表
 		if (categoryList.size() > 0) {
 			String category = categoryList.get(0); // 分类列表
-			Map<String, Object> map = searchTemplateByCategory(category);
+			Map<String, Object> map = searchTemplateByCategoryFromRedis(category);
 			
 			if(searchMap.get("brand").equals("")) {
 				resultMap.put("brandList", map.get("brandList"));
 			}
 			
 			// 4.根据第一个商品分类查询规格
-			
 			// 判断规格结果中，如果规格名称在查询条件（resultMap）中已经存在,则移除
 			
 			Map spec_result = (Map) map.get("specMap");// 规格查询的结果
@@ -137,6 +139,25 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 		return resultMap;
 	}
 
+	/**
+	 * 根据商品分类查询模板（在缓存中提取）
+	 * @param category
+	 * @return
+	 */
+	private Map<String, Object> searchTemplateByCategoryFromRedis(String category) {
+		
+		// 首先在缓存中查询
+		Map<String, Object> result = (Map<String, Object>) redisTemplate.boundHashOps("searchTemplate").get(category);
+		if(result == null) {
+			// 如果缓存中没有，去数据库中查询
+			result = searchTemplateByCategory(category);
+			// 将数据装入缓存
+			redisTemplate.boundHashOps("searchTemplate").put(category, result);
+		}
+		
+		return result;
+	}
+	
 	/**
 	 * 根据商品分类查询模板
 	 * 
