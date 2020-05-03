@@ -161,7 +161,7 @@
 			</div>
 			<!--selector-->
 			<div class="clearfix selector">
-				<div class="type-wrap">
+				<div class="type-wrap" ng-if="resultMap.categoryList != null">
 					<div class="fl key">商品分类</div>
 					<div class="fl value">
 						<span ng-repeat="category in resultMap.categoryList">
@@ -170,7 +170,7 @@
 					</div>
 					<div class="fl ext"></div>
 				</div>
-				<div class="type-wrap logo">
+				<div class="type-wrap logo" ng-if="resultMap.brandList != null">
 					<div class="fl key brand">品牌</div>
 					<div class="value logos">
 						<ul class="logo-list">

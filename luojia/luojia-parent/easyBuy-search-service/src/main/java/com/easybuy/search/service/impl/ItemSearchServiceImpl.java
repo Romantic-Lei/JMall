@@ -114,10 +114,23 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 		if (categoryList.size() > 0) {
 			String category = categoryList.get(0); // 分类列表
 			Map<String, Object> map = searchTemplateByCategory(category);
-			resultMap.put("brandList", map.get("brandList"));
+			
+			if(searchMap.get("brand").equals("")) {
+				resultMap.put("brandList", map.get("brandList"));
+			}
 			
 			// 4.根据第一个商品分类查询规格
-			resultMap.put("specMap", map.get("specMap"));
+			
+			// 判断规格结果中，如果规格名称在查询条件（resultMap）中已经存在,则移除
+			
+			Map spec_result = (Map) map.get("specMap");// 规格查询的结果
+			Map<String, Object> spec_search = (Map) searchMap.get("spec");// 查询条件-规格
+			
+			for (String key : spec_search.keySet()) {
+				spec_result.remove(key);
+			}
+			
+			resultMap.put("specMap", spec_result);
 			
 		}
 
